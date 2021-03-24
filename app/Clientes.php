@@ -1,0 +1,26 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Remisiones;
+class Clientes extends Model
+{
+	use SoftDeletes;
+	public $timestamps = false;
+
+    protected $table = "clientes";
+     protected $fillable = [
+    	'Id_cliente','Nom_cliente', 'Dir_cliente','Ciudad', 'Tel_cliente', 'Cor_cliente',
+    ];
+    protected $primaryKey='Id_cliente';
+    protected $keyType = 'string';
+    protected $dates= ['delete_at'];
+
+    public function remisiones()
+{
+        return $this->belongsToMany(Remisiones::class, 'remisiones','Id_cliente','Id_remision');
+}
+}
