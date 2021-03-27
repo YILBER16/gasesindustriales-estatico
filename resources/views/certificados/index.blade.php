@@ -36,7 +36,6 @@ function validarNumero(e) {
             <thead >
               <tr class="">
                 <th>Id certificado</th>
-                <th>Id producción</th>
                 <th>Producto</th>
                 <th>Empleado</th>
                 <th>Capacidad</th>
@@ -44,41 +43,11 @@ function validarNumero(e) {
                 <th>Presion</th>
                 <th>Estado</th>
                 <th>Acciones</th>
-
+                <th>Exportar</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($certificados as $certificado)
-              <tr>
-                <td>
-                  {{$certificado->Id_certificado}}
-                </td>
-                <td>{{$certificado->Id_produccion}}</td>
-                <td>{{$certificado->producto->Nom_producto}}</td>
-                <td>{{$certificado->empleado->Nom_empleado}}</td>
-                <td>{{$certificado->Capacidad}}</td>
-                <td>{{$certificado->Pureza}}</td>
-                <td>{{$certificado->Presion}}</td>
-                <td>{{$certificado->Estado_certificado==0?"Abierta":"Cerrada"}}</td>
-                <td>
-                <form method="post" action="{{url('/certificados/'.$certificado->Id_certificado)}}">
-                    {{csrf_field() }}
-                    @if($certificado->Estado_certificado==0 )
-                     <a href="{{ url('/certificados/'.$certificado->Id_certificado).'/edit'}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                    
-                      @endif
-                       @if($certificado->Estado_certificado==1 )
-
-                       <a href="{{url('/certificados.pdfindi/'.$certificado->Id_certificado)}} " type="button" class="btn btn-danger btn-lg" ><i class="fas fa-file-pdf"></i> </a>
-@endif
-                  </form>
-                  
-
-                </td>
-              </tr>
-           
-              
-              @endforeach
+            
             </tbody>
           </table>
           
@@ -115,10 +84,68 @@ function validarNumero(e) {
    });
 </script>
 <script type="text/javascript">
-  $(document).ready(function() {
-
-    $('#miTabla').DataTable({
-        "responsive":true,
+ $(document).ready(function() {
+        $('#miTabla').DataTable({
+            
+            "serverSide":true,
+            "processing":true,
+            "responsive":true,
+          
+            "ajax": "{!!URL::to('certificados')!!}",
+                "columns":[
+                    
+                    {data:'Id_certificado'},
+                    {data:'producto.Nom_producto'},
+                    {data:'empleado.Nom_empleado'},
+                    {data:'Capacidad'},
+                    {data:'Pureza'},
+                    {data:'Presion'},
+                    {data:'Estado_certificado'},
+                    {data:'action'},
+                    {data:'action2'},
+                    
+                   
+                ],
+                columnDefs: [ {
+                 targets: 6,
+                 render: function ( data, type, row ) {
+                
+                     if (data == 0) {
+                         return "Abierta";
+                     }
+                     else
+                     
+                         return "Cerrada";
+                 }
+             },
+             {
+                 targets: 7,
+                 render: function ( data, type, row ) {
+                 console.log(row['Estado_certificado']);
+                     if (row['Estado_certificado'] == 1) {
+                         return "Cerrada";
+                     }
+                     else
+                     
+                         return data;
+                 }
+             },
+             {
+                 targets: 8,
+                 render: function ( data, type, row ) {
+                 console.log(row['Estado_certificado']);
+                     if (row['Estado_certificado'] == 1) {
+                         return data;
+                     }
+                     else
+                     
+                         return "No exportable";
+                 }
+             }
+             ],
+                'fnCreatedRow':function(nRow,aData,iDataIndex){
+                        $(nRow).attr('class','item'+aData.Id_certificado);
+                    },
           "language":{
         "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
@@ -258,8 +285,7 @@ function validarNumero(e) {
     "thousands": "."
 
     }
-    });
-
-} );
+});
+});
 </script>
 @endsection

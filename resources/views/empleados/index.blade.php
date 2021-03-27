@@ -1,5 +1,5 @@
-@extends('layouts.layout')
 @extends('welcome')
+@extends('layouts.layout')
 @section('titulo')
 <title>Empleados</title>
 @endsection

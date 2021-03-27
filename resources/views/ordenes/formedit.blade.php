@@ -39,7 +39,7 @@ function validarNumero(e) {
                         <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="form-group">
                               <label>Fecha de solicitud</label>
-                                <input id="Fecha_solicitud" name="Fecha_solicitud" type="date"value="{{isset($orden->Fecha_solicitud)?$orden->Fecha_solicitud:old('Fecha_solicitud')}}"  class="form-control {{$errors->has('Fecha_solicitud')?'is-invalid':''}}"maxlength="40">
+                                <input id="Fecha_solicitud" name="Fecha_solicitud" type="date"value="{{isset($orden->Fecha_solicitud)?$orden->Fecha_solicitud:old('Fecha_solicitud')}}"  class="form-control {{$errors->has('Fecha_solicitud')?'is-invalid':''}}"maxlength="40" readonly>
                                 
                                 {!! $errors->first('Fecha_solicitud','<div class="invalid-feedback">:message</div>') !!}
                             </div>
@@ -52,7 +52,7 @@ function validarNumero(e) {
                                <div class="form-group">
                                 <label>Nº de lote</label>
                                 <input id=" N_lote" name="  N_lote" type="text" 
-                                value="{{isset($orden-> N_lote)?$orden->N_lote:old('N_lote')}}" placeholder="No. Lote" class="form-control {{$errors->has('N_lote')?'is-invalid':''}}"maxlength="12">
+                                value="{{isset($orden-> N_lote)?$orden->N_lote:old('N_lote')}}" placeholder="No. Lote" class="form-control {{$errors->has('N_lote')?'is-invalid':''}}"maxlength="12" readonly>
                                
                                 {!! $errors->first('N_lote','<div class="invalid-feedback">:message</div>') !!}
                             </div>
@@ -62,7 +62,7 @@ function validarNumero(e) {
                         <div class="col-xs-6 col-sm-6 col-md-6">
                                <div class="form-group">
                                 <label>Cantidad de envases</label>
-                                <input id=" N_envases" name=" N_envases" type="number" value="{{isset($orden->N_envases)?$orden->N_envases:old('N_envases')}}" placeholder="cantidad de envases" class="form-control {{$errors->has('N_envases')?'is-invalid':''}}"maxlength="3">
+                                <input id=" N_envases" name=" N_envases" type="number" value="{{isset($orden->N_envases)?$orden->N_envases:old('N_envases')}}" placeholder="cantidad de envases" class="form-control {{$errors->has('N_envases')?'is-invalid':''}}"maxlength="3" readonly>
                                 
                                 {!! $errors->first('N_envases','<div class="invalid-feedback">:message</div>') !!}
                             </div>
@@ -74,7 +74,7 @@ function validarNumero(e) {
                                <div class="form-group">
                                 <label>Cantidad m3</label>
                                 <input id="Cantidad_m3" name="Cantidad_m3" type="text" 
-                                value="{{isset($orden->Cantidad_m3)?$orden->Cantidad_m3:old('Cantidad_m3')}}" placeholder="Cantidad de producto" class="form-control {{$errors->has('Cantidad_m3')?'is-invalid':''}}"maxlength="12">
+                                value="{{isset($orden->Cantidad_m3)?$orden->Cantidad_m3:old('Cantidad_m3')}}" placeholder="Cantidad de producto" class="form-control {{$errors->has('Cantidad_m3')?'is-invalid':''}}"maxlength="12" readonly>
                                
                                 {!! $errors->first('Cantidad_m3','<div class="invalid-feedback">:message</div>') !!}
                             </div>
@@ -85,7 +85,7 @@ function validarNumero(e) {
                                <div class="form-group">
                                 <label>Turno</label>
                                 <input id="Turno" name="Turno" type="text" 
-                                value="{{isset($orden->Turno)?$orden->Turno:old('Tiempo_produccion')}}" placeholder="Turno" class="form-control {{$errors->has('Turno')?'is-invalid':''}}"maxlength="12">
+                                value="{{isset($orden->Turno)?$orden->Turno:old('Tiempo_produccion')}}" placeholder="Turno" class="form-control {{$errors->has('Turno')?'is-invalid':''}}"maxlength="12" readonly>
                                
                                 {!! $errors->first('Turno','<div class="invalid-feedback">:message</div>') !!}
                             </div>
@@ -101,7 +101,7 @@ function validarNumero(e) {
                                <div class="form-group">
                                 <label>Fecha de vencimiento</label>
                                 <input id="Fecha_vencimiento" name="Fecha_vencimiento" type="text" placeholder="Fecha de vencimiento" onclick="ocultarError();" onfocus="(this.type='date')" onblur="(this.type='text')" 
-                                value="{{isset($orden->Fecha_vencimiento)?$orden->Fecha_vencimiento:old('Fecha_vencimiento')}}" class="form-control {{$errors->has('Fecha_vencimiento')?'is-invalid':''}}">
+                                value="{{isset($orden->Fecha_vencimiento)?$orden->Fecha_vencimiento:old('Fecha_vencimiento')}}" class="form-control {{$errors->has('Fecha_vencimiento')?'is-invalid':''}}" readonly>
                                
                                 {!! $errors->first('Fecha_vencimiento','<div class="invalid-feedback">:message</div>') !!}
                             </div>

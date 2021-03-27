@@ -166,43 +166,14 @@
                 <th>Cliente</th>
                 <th>Empleado</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th>Editar</th>
+                <th>Exportar</th>
+                <th>Eliminar</th>
 
               </tr>
             </thead>
             <tbody>
               
-              @foreach($datos as $item)
-              <tr>
-
-                <td id="n_remision">
-            
-               {{$item->Id_remision}}
-              </td>
-                
-                <td>{{$item->Fecha_remision}}</td>
-                <td>{{$item->Nom_cliente}}</td>
-                <td>{{$item->Nom_empleado}}</td>
-                <td>{{$item->Estado_remision==0?"Abierta":"Cerrada"}}</td>
-                <td>
-                <form method="post" action="{{url('/remisiones/'.$item->Id_remision)}}">
-                    {{csrf_field()}}
-                    {{ method_field('DELETE')}}
-                    @if($item->Estado_remision==0 )
-                     <a href="{{ url('/remisiones/'.$item->Id_remision).'/edit'}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                       <button type="submit" onclick="return confirm('¿Desea borrar esta remisión?');" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                       @else
-
-                       <a href="{{url('/remisiones.pdfindi/'.$item->Id_remision)}} " type="button" class="btn btn-danger btn-lg" ><i class="fas fa-file-pdf"></i> </a>
-@endif
-                  </form>
-                  
-
-                </td>
-              </tr>
-           
-              
-              @endforeach
             </tbody>
           </table>
          
@@ -258,7 +229,7 @@
     }
 }
 $(document).ready(function(){
- var valor = document.getElementById("n_remision").innerHTML;
+ var valor = document.getElementsByName("n_remision").innerHTML;
 $(this).parent().html("Contenido nuevo");//obtiene el texto sin html
 
   });
@@ -293,9 +264,12 @@ $(this).parent().html("Contenido nuevo");//obtiene el texto sin html
       },
       success: function(data){
 
-        $('#submit').click();
-
-          alertify.success('Guardado con exito');
+     $('#submit').click();
+     
+     // console.log(Id_envase);
+       //antistockinventario(Id_envase);
+        //stockinventario(Id_envase);
+          //alertify.success('Guardado con exito');
           console.log(data);
 
 
@@ -308,14 +282,14 @@ $(this).parent().html("Contenido nuevo");//obtiene el texto sin html
 <script>
 
 
-var stockinventario= (function(Id) {     
+var stockinventario= (function(Id_envase) {     
 
   var token=$('input[name="_token"]').val();
   var Id_envase =$('#txtNombre').val();
       $.ajax({
     dataType: 'json',
     type:'put',
-    url:"{!!URL::to('stockinventario')!!}/"+"'Id'",
+    url:"{!!URL::to('stockinventario')!!}/"+Id_envase,
     data:{Id_envase:Id_envase,_token:token},
     success:function(json){
       console.log(json.Id_envase);
@@ -348,7 +322,7 @@ var antistockinventario= (function(Id) {
         console.log('Cambiado');
       
        
-        alertify.success('Recibido con exito');
+        alertify.success('Recibido con exito,recargue la pagina');
     
        
   },
@@ -361,9 +335,80 @@ error: function(e) {
 
 });
 
-  $(document).ready(function() {
-    $('#tablaa').DataTable({
-       "responsive":true,
+$(document).ready(function() {
+  $('#miTabla').DataTable({
+            
+            "serverSide":true,
+            "processing":true,
+            "responsive":true,
+          
+            "ajax": "{!!URL::to('remisiones')!!}",
+                "columns":[
+                    
+                    {data:'Id_remision',className: 'n_remision',},
+                    {data:'Fecha_remision'},
+                    {data:'cliente.Nom_cliente'},
+                    {data:'empleado.Nom_empleado'},
+                    {data:'Estado_remision'},
+                    {data:'action'},
+                    {data:'action2'},
+                    {data:'action3'},
+                   
+                ],
+                columnDefs: [{
+                 targets: 4,
+                 render: function ( data, type, row ) {
+                    
+                     if (data == 0) {
+                         return "Abierta";
+                     }
+                     else
+                     
+                         return "Cerrada";
+                 }
+             },
+             {
+                 targets: 5,
+                 render: function ( data, type, row ) {
+                   
+                     if (row['Estado_remision'] == 0) {
+
+                        return data;
+                     }
+                     else
+                     
+                         return "Imposible";
+                 }
+             },
+             {
+                 targets: 6,
+                 render: function ( data, type, row ) {
+                   
+                     if (row['Estado_remision'] == 1) {
+                      return data;
+                        
+                     }
+                     else
+                     
+                     return "Imposible";
+                 }
+             },
+             {
+                 targets: 7,
+                 render: function ( data, type, row ) {
+                   
+                     if (row['Estado_remision'] == 0) {
+                      return data;
+                        
+                     }
+                     else
+                     
+                     return "Imposible";
+                 }
+             }],
+                'fnCreatedRow':function(nRow,aData,iDataIndex){
+                        $(nRow).attr('class','item'+aData.Id_remision);
+                    },
           "language":{
         "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
@@ -503,160 +548,48 @@ error: function(e) {
     "thousands": "."
 
     }
-    });
+});
+});
 
-} );
-  
+//mostrar datos para eliminar registros
+$(document).on('click','.deletebutton', function(){
+var modal_data = $(this).data('info').split(';');
+$('.did').text(modal_data[0]);
+$('.dname').html(modal_data[1]);
+});
+$(document).on('click','.btneliminar', function($Id_produccion){
+    $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+$.ajax({
+type:'post',
+url:'/deleteDateordenes',
+data:{
+    '_token':"{{ csrf_token() }}",
+    'Id_produccion':$(".did").text(),
+},
+success: function(data){
+    console.log("eliminado");
+    $('#deletemodal').modal('toggle');
+    $('#item' +$('.did').text()).remove();
+    swal(
+  'Excelente!',
+  'Registro eliminado!',
+  'success'
+)
+$(".swal-button--confirm").click(function(){
+          console.log("click");
+window.location.href = "/ordenes";
+});
+    
 
-</script>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#miTabla').DataTable({
-       "responsive":true,
-          "language":{
-        "processing": "Procesando...",
-    "lengthMenu": "Mostrar _MENU_ registros",
-    "zeroRecords": "No se encontraron resultados",
-    "emptyTable": "Ningún dato disponible en esta tabla",
-    "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-    "search": "Buscar:",
-    "infoThousands": ",",
-    "loadingRecords": "Cargando...",
-    "paginate": {
-        "first": "Primero",
-        "last": "Último",
-        "next": "Siguiente",
-        "previous": "Anterior"
-    },
-    "aria": {
-        "sortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sortDescending": ": Activar para ordenar la columna de manera descendente"
-    },
-    "buttons": {
-        "copy": "Copiar",
-        "colvis": "Visibilidad",
-        "collection": "Colección",
-        "colvisRestore": "Restaurar visibilidad",
-        "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
-        "copySuccess": {
-            "1": "Copiada 1 fila al portapapeles",
-            "_": "Copiadas %d fila al portapapeles"
-        },
-        "copyTitle": "Copiar al portapapeles",
-        "csv": "CSV",
-        "excel": "Excel",
-        "pageLength": {
-            "-1": "Mostrar todas las filas",
-            "1": "Mostrar 1 fila",
-            "_": "Mostrar %d filas"
-        },
-        "pdf": "PDF",
-        "print": "Imprimir"
-    },
-    "autoFill": {
-        "cancel": "Cancelar",
-        "fill": "Rellene todas las celdas con <i>%d<\/i>",
-        "fillHorizontal": "Rellenar celdas horizontalmente",
-        "fillVertical": "Rellenar celdas verticalmentemente"
-    },
-    "decimal": ",",
-    "searchBuilder": {
-        "add": "Añadir condición",
-        "button": {
-            "0": "Constructor de búsqueda",
-            "_": "Constructor de búsqueda (%d)"
-        },
-        "clearAll": "Borrar todo",
-        "condition": "Condición",
-        "conditions": {
-            "date": {
-                "after": "Despues",
-                "before": "Antes",
-                "between": "Entre",
-                "empty": "Vacío",
-                "equals": "Igual a",
-                "not": "No",
-                "notBetween": "No entre",
-                "notEmpty": "No Vacio"
-            },
-            "moment": {
-                "after": "Despues",
-                "before": "Antes",
-                "between": "Entre",
-                "empty": "Vacío",
-                "equals": "Igual a",
-                "not": "No",
-                "notBetween": "No entre",
-                "notEmpty": "No vacio"
-            },
-            "number": {
-                "between": "Entre",
-                "empty": "Vacio",
-                "equals": "Igual a",
-                "gt": "Mayor a",
-                "gte": "Mayor o igual a",
-                "lt": "Menor que",
-                "lte": "Menor o igual que",
-                "not": "No",
-                "notBetween": "No entre",
-                "notEmpty": "No vacío"
-            },
-            "string": {
-                "contains": "Contiene",
-                "empty": "Vacío",
-                "endsWith": "Termina en",
-                "equals": "Igual a",
-                "not": "No",
-                "notEmpty": "No Vacio",
-                "startsWith": "Empieza con"
-            }
-        },
-        "data": "Data",
-        "deleteTitle": "Eliminar regla de filtrado",
-        "leftTitle": "Criterios anulados",
-        "logicAnd": "Y",
-        "logicOr": "O",
-        "rightTitle": "Criterios de sangría",
-        "title": {
-            "0": "Constructor de búsqueda",
-            "_": "Constructor de búsqueda (%d)"
-        },
-        "value": "Valor"
-    },
-    "searchPanes": {
-        "clearMessage": "Borrar todo",
-        "collapse": {
-            "0": "Paneles de búsqueda",
-            "_": "Paneles de búsqueda (%d)"
-        },
-        "count": "{total}",
-        "countFiltered": "{shown} ({total})",
-        "emptyPanes": "Sin paneles de búsqueda",
-        "loadMessage": "Cargando paneles de búsqueda",
-        "title": "Filtros Activos - %d"
-    },
-    "select": {
-        "1": "%d fila seleccionada",
-        "_": "%d filas seleccionadas",
-        "cells": {
-            "1": "1 celda seleccionada",
-            "_": "$d celdas seleccionadas"
-        },
-        "columns": {
-            "1": "1 columna seleccionada",
-            "_": "%d columnas seleccionadas"
-        }
-    },
-    "thousands": "."
-
+},error:function(){ 
+        alertify.error('Ocurrio un error :( verifica los datos'); 
     }
-    });
-
-} );
-
-
+});
+});
 </script>
  <script>
         function zfill(number, width) {

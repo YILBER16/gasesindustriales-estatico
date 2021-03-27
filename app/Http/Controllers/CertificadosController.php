@@ -14,6 +14,7 @@ use App\Productos;
 use App\CertifiEnvases;
 use Barryvdh\DomPDF\Facade as PDF;
 use Barryvdh\DomPDF\Options;
+use DataTables;
 
 
 class CertificadosController extends Controller
@@ -26,13 +27,33 @@ class CertificadosController extends Controller
 
       public function index(Request $request)
     {
-       $Id=$request->get('buscarpor');
+ 
+        if ($request->ajax()) {
+  
+          return Datatables::of(Certificados::with('empleado','producto')->get())
+                  ->addIndexColumn()
+                  ->addColumn('action', function($data){
+          $btn = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+          // $btn .= '&nbsp;';
+          // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
 
-        $datos['certificados']=Certificados::with('empleado')->with('producto')->get();
-
+       
+                          return $btn;
+                  })->addColumn('action2', function($data2){
+                    // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                    // $btn2 .= '&nbsp;';
+                    $btn2 = '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data2->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+          
+                 
+                                    return $btn2;
+                            })
+                  ->rawColumns(['action','action2'])
+                  ->make(true);
+                  
+      }
 
         
-        return view('certificados.index',$datos);
+        return view('certificados.index');
         
         
     }
@@ -169,7 +190,7 @@ class CertificadosController extends Controller
 
     }
     public function consultaenvase(Request $request){
-         $envase= Envases::all('Id_envase','Estado_actual','Inventario')->where('Estado_actual','==','0')->where('Inventario','==','1');
+         $envase= Envases::where('Estado_actual','0')->where('Inventario','1')->get();
          
         return response()->json($envase);
 

@@ -14,6 +14,7 @@ use DB;
 use Barryvdh\DomPDF\Facade as PDF;
 use Barryvdh\DomPDF\Options;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use DataTables;
 
 class RemisionesController extends Controller
 {
@@ -28,14 +29,42 @@ class RemisionesController extends Controller
      */
     public function index(Request $request)
     {
-       $Id=$request->get('buscarpor');
+      
+        
+        if ($request->ajax()) {
+  
+            return Datatables::of(Remisiones::with('empleado','cliente')->get())
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a type="button" class="editbutton btn btn-primary" href="/remisiones/'.$data->Id_remision.'/edit"><i class="fas fa-edit"></i></a>';
 
-        $datos=DB::table('remisiones')
-        ->join('clientes','clientes.Id_cliente', '=','remisiones.Id_cliente')
-        ->join('empleados','empleados.Id_empleado', '=','remisiones.Id_empleado')
-        ->select('clientes.Id_cliente','clientes.Nom_cliente','remisiones.Id_remision','remisiones.Fecha_remision','remisiones.Id_empleado','remisiones.Estado_remision','empleados.Nom_empleado')
-        ->get();
-
+                        // $btn .= '&nbsp;';
+                        // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+              
+                     
+                                        return $btn;
+                                })->addColumn('action2', function($data2){
+                                    $btn2 = '<a type="button" class="pdfbutton btn btn-danger" href="/remisiones.pdfindi/'.$data2->Id_remision.'"><i class="fas fa-file-pdf"></i></a>';
+            
+                                  // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                                  // $btn2 .= '&nbsp;';
+                      
+                               
+                                                  return $btn2;
+                                          })->addColumn('action3', function($data3){
+                                            $btn3 = '<button  class="deletebutton btn btn-danger"  data-toggle="modal" data-target="#deletemodal" data-info="'.$data3->Id_remision.'"><i class="fas fa-trash-alt"></i></button>';
+                        
+                                              // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                                              // $btn2 .= '&nbsp;';
+                                  
+                                           
+                                                              return $btn3;
+                                                      })
+                    ->rawColumns(['action','action2','action3'])
+                    ->make(true);
+                    
+        }
+       
         $datos2=DB::table('envase_remision')
         ->join('remisiones','remisiones.Id_remision', '=','envase_remision.Id_remision')
         ->select('envase_remision.Id','envase_remision.Id_envase','envase_remision.Id_remision','envase_remision.Producto','envase_remision.Cantidad','remisiones.Fecha_remision')->where('Estado', 1)->where('Estado_remision', 1)->get();
@@ -62,7 +91,7 @@ class RemisionesController extends Controller
        
        
         
-        return view('remisiones.index',compact('datos','datos2','aire','oxigeno_m','oxigeno_i','nitrogeno','co2','argon','acetileno','mezclas','helio'));
+        return view('remisiones.index',compact('datos2','aire','oxigeno_m','oxigeno_i','nitrogeno','co2','argon','acetileno','mezclas','helio'));
     }
 
     /**

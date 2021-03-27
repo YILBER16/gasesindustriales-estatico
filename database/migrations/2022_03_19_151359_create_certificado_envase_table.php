@@ -14,8 +14,7 @@ class CreateCertificadoEnvaseTable extends Migration
     public function up()
     {
         Schema::create('certificado_envase', function (Blueprint $table) {
-            $table->bigInteger('Id')->unsigned();
-            $table->primary('Id');
+            $table->id('Id');
             $table->bigInteger('Id_certificado')->unsigned();
             $table->string('Id_envase',20);
             $table->bigInteger('Id_producto')->unsigned();

@@ -1,3 +1,4 @@
+@extends('welcome')
 @extends('layouts.layout')
 @section('titulo')
 <title>Ordenes</title>
@@ -40,41 +41,13 @@ function validarNumero(e) {
                 <th>Fecha solicitud</th>
                 <th>No. Lote</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th>Ver</th>
+                <th>Cerrar</th>
+                <th>Eliminar</th>
 
               </tr>
             </thead>
             <tbody>
-              @foreach($ordenes as $orden)
-              <tr>
-                <td>{{$orden->Id_produccion}}</td>
-                <td>{{$orden->Fecha_solicitud}}</td>
-                <td>{{$orden->N_lote}}</td>
-                <td>{{$orden->Estado==null?"Abierta":"Cerrada"}}</td>
-               
-                
-                <td>
-                  
-
-                  
-                  
-                  <form method="post" action="{{url('/ordenes/'.$orden->Id_produccion)}}">
-                    {{csrf_field() }}
-
-                    <!--{{ method_field('DELETE')}}-->
-
-                    <a href="{{url('/ordenes/'.$orden->Id_produccion)}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                    
-                    @if($orden->Estado==null )
-                     <a href="{{ url('/ordenes/'.$orden->Id_produccion).'/edit'}}" class="btn btn-primary" id="edito"><i class="fas fa-edit"></i></a>                    
-                     @endif
-                   <!-- <button type="submit" onclick="return confirm('¿Desea borrar este registro?');" class="btn btn-danger">Eliminar</button>-->
-
-                  </form>
-
-                </td>
-              </tr>
-              @endforeach
             </tbody>
           </table>
            <div class="modal-footer">
@@ -89,9 +62,66 @@ function validarNumero(e) {
 </div>
 <!-- ./wrapper -->
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#miTabla').DataTable({
-        "responsive":true,
+ $(document).ready(function() {
+  $('#miTabla').DataTable({
+            
+            "serverSide":true,
+            "processing":true,
+            "responsive":true,
+          
+            "ajax": "{!!URL::to('ordenes')!!}",
+                "columns":[
+                    
+                    {data:'Id_produccion'},
+                    {data:'Fecha_solicitud'},
+                    {data:'N_lote'},
+                    {data:'Estado'},
+                    {data:'action'},
+                    {data:'action2'},
+                    {data:'action3'},
+                   
+                ],
+                columnDefs: [{
+                 targets: 3,
+                 render: function ( data, type, row ) {
+                    
+                     if (data == null) {
+                         return "Abierta";
+                     }
+                     else
+                     
+                         return "Cerrada";
+                 }
+             },
+             {
+                 targets: 5,
+                 render: function ( data, type, row ) {
+                    console.log(row['Estado']);
+                     if (row['Estado'] == null) {
+
+                        return data;
+                     }
+                     else
+                     
+                         return "Cerrada";
+                 }
+             },
+             {
+                 targets: 6,
+                 render: function ( data, type, row ) {
+                    console.log(row['Estado']);
+                     if (row['Estado'] == 1) {
+
+                        return "Imposible";
+                     }
+                     else
+                     
+                     return data;
+                 }
+             }],
+                'fnCreatedRow':function(nRow,aData,iDataIndex){
+                        $(nRow).attr('class','item'+aData.Id_produccion);
+                    },
           "language":{
         "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
@@ -231,9 +261,48 @@ function validarNumero(e) {
     "thousands": "."
 
     }
-    });
+});
+});
 
-} );
+//mostrar datos para eliminar registros
+$(document).on('click','.deletebutton', function(){
+var modal_data = $(this).data('info').split(';');
+$('.did').text(modal_data[0]);
+$('.dname').html(modal_data[1]);
+});
+$(document).on('click','.btneliminar', function($Id_produccion){
+    $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+$.ajax({
+type:'post',
+url:'/deleteDateordenes',
+data:{
+    '_token':"{{ csrf_token() }}",
+    'Id_produccion':$(".did").text(),
+},
+success: function(data){
+    console.log("eliminado");
+    $('#deletemodal').modal('toggle');
+    $('#item' +$('.did').text()).remove();
+    swal(
+  'Excelente!',
+  'Registro eliminado!',
+  'success'
+)
+$(".swal-button--confirm").click(function(){
+          console.log("click");
+window.location.href = "/ordenes";
+});
+    
+
+},error:function(){ 
+        alertify.error('Ocurrio un error :( verifica los datos'); 
+    }
+});
+});
 </script>
 
 @endsection

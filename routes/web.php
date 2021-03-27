@@ -41,6 +41,7 @@ Route::post('/deleteDate', 'ClientesController@deleteDate');
 Route::post('/deleteDate', 'PropietariosController@deleteDate');
 Route::post('/deleteDate', 'ProveedoresController@deleteDate');
 Route::post('/deleteDate', 'EnvasesController@deleteDate');
+Route::post('/deleteDateordenes', 'OrdenesController@deleteDateordenes');
 Route::resource('empleados','EmpleadosController')->middleware('can:isAdmin');
 Route::resource('clientes','ClientesController');
 Route::resource('propietarios','PropietariosController');
@@ -76,6 +77,7 @@ Route::get('remisiones/tblremisiones','RemisionesController@tabla');
 
 Route::post('/saveremienvases', 'RemisionesController@store');
 Route::get('/kardes', 'RemisionesController@kardes');
+Route::get('consultaenvasesprestados', 'RemisionesController@consultaenvasesprestados');
 Route::get('/consultaenvaseremisiones', 'RemisionesController@consultaenvaseremisiones');
 Route::put('/stockremisiones','RemisionesController@stockremisiones');
 Route::put('/antistockremisiones/{Id_envase}','RemisionesController@antistockremisiones');

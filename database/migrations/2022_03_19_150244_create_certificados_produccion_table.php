@@ -14,8 +14,7 @@ class CreateCertificadosProduccionTable extends Migration
     public function up()
     {
         Schema::create('certificados_produccion', function (Blueprint $table) {
-            $table->bigInteger('Id_certificado')->unsigned();
-            $table->primary('Id_certificado');
+            $table->id('Id_certificado');
             $table->bigInteger('Id_produccion')->unsigned();
             $table->bigInteger('Id_producto')->unsigned();
             $table->bigInteger('Id_empleado')->unsigned();

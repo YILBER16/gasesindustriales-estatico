@@ -85,6 +85,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script >
   $(document).ready(function(){
   $('.form-control-chosen').chosen();
+  fun2();
+  $('#Id_envase').trigger("chosen:updated");
     });
 $.ajaxSetup({
   headers: {
@@ -217,6 +219,7 @@ $(document).ready(function(){
       console.log(response);
       stock();
       fun2();
+      
       ver_tabla();
       $('#modalNuevo').modal('hide');
       alertify.success('Guardado con exito');
@@ -289,8 +292,9 @@ $(document).ready(function(){
     });
 });
       $(".btn_mostrar").click(function(e){
+       
       fun2();
-
+      $('#Id_envase').trigger("chosen:updated");
       console.log('si,reseteado');
       });
       var stock= (function() {

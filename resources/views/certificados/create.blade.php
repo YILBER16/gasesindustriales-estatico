@@ -165,6 +165,8 @@ $.ajax({
 
 $(document).ready(function(){
   $('.form-control-chosen').chosen();
+  fun2();
+  $('#Id_envase').trigger("chosen:updated");
     });
 
 </script>
@@ -369,8 +371,9 @@ $(document).ready(function(){
 });
     $(".btn_mostrar").click(function(e){
       fun2();
+      $('#Id_envase').trigger("chosen:updated");
       $('input[name=Cantidad').val('');
-      $('#Id_producto').prop('selectedIndex',0);
+      $('#Id_producto').val("");
       console.log('si');
       });
 

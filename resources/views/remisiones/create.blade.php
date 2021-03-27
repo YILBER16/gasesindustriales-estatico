@@ -81,6 +81,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
 $(document).ready(function(){
   $('.form-control-chosen').chosen();
+  fun2();
+  $('#Id_envase').trigger("chosen:updated");
     });
 
   function ver_tabla(){
@@ -376,10 +378,11 @@ var fun1= (function() {
     });
 });
       $(".btn_mostrar").click(function(e){
-        $('#Id_producto').empty();
-       $('#Cantidad').empty();
+        $('#Id_producto').val("");
+       $('#Cantidad').val("");
+     
       fun2();
-
+      $('#Id_envase').trigger("chosen:updated");
       console.log('si,reseteado');
       });
 
@@ -409,7 +412,7 @@ var stock= (function() {
 
 function eliminar(Id){
 
-var ruta="{!!URL::to('eliminar')!!}/"+"'Id'";
+var ruta="{!!URL::to('eliminar')!!}/"+Id;
 var token=$('input[name="_token"]').val();
 var Id_envase=$(this).find("td").eq(2).html(); 
 

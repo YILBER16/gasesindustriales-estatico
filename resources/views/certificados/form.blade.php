@@ -2,7 +2,7 @@
 
         <input type="" hidden=""  name="id" id="id">
            
-           <input type="text"  hidden="" name="Id_certificado" id="Id_certificado" class="form-control input-sm" value="">
+           <input type="text"  hidden="" name="Id_certificado" id="Id_certificado" class="form-control  input-sm" value="">
                        
 
                           <label>Envase</label>
@@ -12,7 +12,7 @@
                               
                              </div>
                             
-                                <select id="Id_envase" name="Id_envase" class="form-control ">
+                                <select id="Id_envase" name="Id_envase" class="form-control form-control-chosen">
                                   <option value="">Seleccione el envase</option>
                                   @foreach($envase as $item)
                                   <option value="{{$item['Id_envase']}}">{{$item['Id_envase']}}</option>
@@ -33,7 +33,7 @@
                               
                              </div>
                             
-                                <select id="Id_producto" name="Id_producto" class="form-control ">
+                                <select id="Id_producto" name="Id_producto" class="form-control form-control-chosen">
                                   <option value="">Seleccione el producto</option>
                                   @foreach($producto as $item)
                                   <option value="{{$item['Id_producto']}}">{{$item['Nom_producto']}}</option>

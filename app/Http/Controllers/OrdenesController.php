@@ -6,6 +6,7 @@ use App\Ordenes;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateordenesRequest;
 use Carbon\Carbon;
+use DataTables;
 
 class OrdenesController extends Controller
 {
@@ -15,10 +16,39 @@ class OrdenesController extends Controller
     }
       public function index(Request $request)
     {
-              $Id=$request->get('buscarpor');
+        if ($request->ajax()) {
+  
+            return Datatables::of(Ordenes::all())
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+            $btn = '<a type="button" class="eyebutton btn btn-primary" href="/ordenes/'.$data->Id_produccion.'"><i class="fas fa-eye"></i></a>';
+            // $btn .= '&nbsp;';
+            // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+  
+         
+                            return $btn;
+                    })->addColumn('action2', function($data2){
+                    $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/ordenes/'.$data2->Id_produccion.'/edit"><i class="fas fa-edit"></i></a>';
 
-        $datos['ordenes']=Ordenes::all();
-        return view('ordenes.index',$datos);
+                      // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                      // $btn2 .= '&nbsp;';
+          
+                   
+                                      return $btn2;
+                              })->addColumn('action3', function($data3){
+                                $btn3 = '<button  class="deletebutton btn btn-danger"  data-toggle="modal" data-target="#deletemodal" data-info="'.$data3->Id_produccion.';'.$data3->Id_produccion.'"><i class="fas fa-trash-alt"></i></button>';
+            
+                                  // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                                  // $btn2 .= '&nbsp;';
+                      
+                               
+                                                  return $btn3;
+                                          })
+                    ->rawColumns(['action','action2','action3'])
+                    ->make(true);
+                    
+        }
+        return view('ordenes.index');
 
     }
 
@@ -132,7 +162,12 @@ class OrdenesController extends Controller
      */
     public function destroy($Id_produccion)
     {
-               Ordenes::destroy($Id_produccion);
-        return redirect('ordenes')->with('alertdeleted', 'Eliminado con exito');
+        //        Ordenes::destroy($Id_produccion);
+        // return redirect('ordenes')->with('alertdeleted', 'Eliminado con exito');
+    }
+    public function deleteDateordenes(Request $request)
+    {
+        $data=Ordenes::find($request->Id_produccion)->delete();
+        return response()->json();
     }
 }
