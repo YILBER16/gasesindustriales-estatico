@@ -273,7 +273,10 @@ $(this).parent().html("Contenido nuevo");//obtiene el texto sin html
           console.log(data);
 
 
-      }
+      },
+error: function() {
+  alertify.error('Ocurrio un error :( verifica los datos'); 
+}
     });
   });
 

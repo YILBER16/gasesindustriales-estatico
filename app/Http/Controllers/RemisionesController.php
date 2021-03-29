@@ -15,6 +15,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Barryvdh\DomPDF\Options;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use DataTables;
+use App\Http\Requests\UpdateremisionenvaseRequest;
 
 class RemisionesController extends Controller
 {
@@ -311,10 +312,10 @@ public function consultaremi(Request $request){
           return response()->json($datos);
 
     }
-    public function updateenvase(Request $request, $Id)
+    public function updateenvase(UpdateremisionenvaseRequest $request, $Id)
       {
         $datos= Envase_remision::findOrFail($Id);
-        if ($datos->update($request->all())) {
+        if ($datos->update(['Fecha_ingreso'=> $request->Fecha_ingresou])) {
             return response()->json('ok');
         }
     }

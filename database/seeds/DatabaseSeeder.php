@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Productos;
+use App\DataProviders\testDataProvider;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,5 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserSeeder::class);
+        Productos::insert(testDataProvider::Productos());
     }
 }

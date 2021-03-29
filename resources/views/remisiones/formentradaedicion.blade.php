@@ -8,4 +8,4 @@
         <label>Cantidad</label>
         <input type="text" name="" id="Cantidadu" class="form-control input-sm"disabled="disabled">
         <label>Fecha de ingreso</label>
-        <input type="datetime-local" name="" id="Fecha_ingresou" class="form-control input-sm">
+        <input type="datetime-local" name="Fecha_ingresou" id="Fecha_ingresou" class="form-control input-sm">

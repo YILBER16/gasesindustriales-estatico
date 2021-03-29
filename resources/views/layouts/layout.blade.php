@@ -262,7 +262,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <p></p>
           
           <li class="nav-item bg-danger boton2">
-                <a href="{{route('logout')}}" class="nav-link">
+                <a type="button" class="nav-link" id="cerrarsesion">
 
                   <i class="fas fa-sign-out-alt"></i>
                   <p>Cerrar sesión</p>
@@ -312,7 +312,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
+<script>
+   $("#cerrarsesion").click(function(e){
+    swal({
+     title:"¿Estás seguro de que quieres cerrar la sesión?",
+     text:"",
+     icon:"warning",
+     buttons:true,
+     dangerMode:true,
+     })
+     .then((willDelete)=>{
+     if(willDelete){
+      
+      location.href ="{{route('logout')}}";      
+         }
+       }); 
+   });
+</script>
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->

@@ -26,6 +26,10 @@ class CreateCertificadoEnvaseTable extends Migration
             $table->foreign('Id_producto')->references('Id_producto')->on('productos');
 
         });
+        
+        Artisan::call('db:seed', [
+            '--class' => DatabaseSeeder::class
+        ]);
     }
 
     /**
