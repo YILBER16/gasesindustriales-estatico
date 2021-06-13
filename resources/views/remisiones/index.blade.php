@@ -351,7 +351,7 @@ $(document).ready(function() {
                     {data:'Id_remision',className: 'n_remision',},
                     {data:'Fecha_remision'},
                     {data:'cliente.Nom_cliente'},
-                    {data:'empleado.Nom_empleado'},
+                    {data:'Nom_empleado'},
                     {data:'Estado_remision'},
                     {data:'action'},
                     {data:'action2'},

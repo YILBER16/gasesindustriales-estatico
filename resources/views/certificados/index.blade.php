@@ -96,7 +96,7 @@ function validarNumero(e) {
                     
                     {data:'Id_certificado'},
                     {data:'producto.Nom_producto'},
-                    {data:'empleado.Nom_empleado'},
+                    {data:'Nom_empleado'},
                     {data:'Capacidad'},
                     {data:'Pureza'},
                     {data:'Presion'},

@@ -14,9 +14,9 @@
                           <input type="text" hidden="" id="id2" name="id2">
    
                         
-                        <div class="form-group d-flex justify-content-center">
-
-                            <div class=" input-group col-md-4">
+                          <div class="row justify-content-center">
+                            <div class="form-group col-md-4">
+                              <label class="">Orden de producción</label>
 
                             
                                 <select id="Id_produccion" name="Id_produccion" class="form-control form-control-chosen Id_produccion">
@@ -31,8 +31,8 @@
                                 {!! $errors->first('Id_produccion','<div class="invalid-feedback">:message</div>') !!}
 
                             </div>
-                             <div class=" input-group col-md-5">
-
+                            <div class="form-group col-md-5">
+                              <label class="">Clase de producto</label>
                                 <select id="Id_producto" name="Id_producto" class="form-control form-control-chosen Id_producto">
                                   <option value="">Seleccione producto</option>
                                   @foreach($producto as $item)
@@ -75,24 +75,13 @@
                                 <input id="f_vencimiento" name="f_vencimiento" type="text" value=""class="form-control" disabled="disabled" >
                                  </div>
                         </div>
-                        <div class="form-group d-flex justify-content-center">
-
-                            <div class=" input-group col-md-9">
-                              <div class="input-group-append">
-                    
-                             </div>
-                            
-                                <select id="Id_empleado" name="Id_empleado" class="form-control form-control-chosen Id_empleado">
-                                  <option value="">Seleccione el empleado</option>
-                                  @foreach($empleados as $item)
-                                  <option value="{{$item['Id_empleado']}}">{{$item['Nom_empleado']}}</option>
-                                  @endforeach
-
-                                   </select>
-
-                                
-                                {!! $errors->first('Id_empleado','<div class="invalid-feedback">:message</div>') !!}
-
+                       
+                        <div class="row justify-content-center">
+                          
+                          <div class="form-group col-md-9">     
+                            <label>Empleado</label>               
+                             <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{Auth::user()->name}}" readonly>                         
+                                {!! $errors->first('Nom_empleado','<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -116,7 +105,7 @@
                         </div>
                        <div class="row justify-content-center">
                               <div class="form-group col-md-9">
-                        <button type="submit"  class="btn btn-primary btn-lg btnenviar ">Crear</button>
+                        <button type="submit"  class="btn btn-primary btn-lg btnenviar "><i class="fas fa-plus"></i> Crear</button>
                         </div>
                         </div>
                        

@@ -55,13 +55,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
              <div class="">
               <div class="col-md-12">
-        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar"style="display:none;">Finalizar</button> 
+        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar"style="display:none;"><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
              </div>
                          </div>
              <div class="row justify-content-center ">
               <div class="form-group col-md-12 ">
                <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" style="display:none;" >
-               NUEVO</button> 
+                <i class="fas fa-plus"></i> Agregar</button> 
                
                </div>
                         </div>
@@ -148,6 +148,7 @@ $(document).ready(function(){
         success:function(data){
           console.log(data.Id);
           $('#Id_producto').val(data.Id_producto);
+          $('#Clas_producto').val(data.Clas_producto);
           $('#Cantidad').val(data.Cantidad);
           var valor =$('#Id_producto').val();
           if(valor==1){
@@ -166,32 +167,6 @@ $(document).ready(function(){
     });
 
   });
-$(document).ready(function(){
-    $('#Id_empleado').on('change', function(){
-
-      var Id_empleado=$(this).val();
-      var cc_empleado=$(this).val();
-      $.ajax({
-        type:'get',
-        url:'{!!URL::to('datosempleados')!!}',
-        data:{
-          'Id_empleado':Id_empleado,
-          'Id_empleado':cc_empleado,
-        },
-        dataType:'json',
-        success:function(data){
-          console.log('success');
-          //a.find('#lote').val(data.N_lote);
-          $('#cc_empleado').val(data.Id_empleado);
-        },
-        error:function(){
-          console.log('error');
-        }
-      });
-    });
-
-  });
-
 
 $(document).ready(function(){
 
@@ -305,12 +280,13 @@ $(document).ready(function(){
   var Id_remision = $("input[name=Id_remision]").val();
   var Fecha_remision= $("input[name=Fecha_remision]").val();
   var Id_cliente = $("#Id_cliente option:selected").val();
-  var Id_empleado = $("#Id_empleado option:selected").val();
+  var Nom_empleado = $("input[name=Nom_empleado]").val();
+  var Id_empleado = $("input[name=Id_empleado]").val();
   var token=$('input[name="_token"]').val();
   $.ajax({
     type:'POST',
     url:"{!!URL::to('saveremi')!!}",
-    data:{Id_remision:Id_remision,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Id_empleado:Id_empleado,_token:token},
+    data:{Id_remision:Id_remision,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Nom_empleado:Nom_empleado,Id_empleado:Id_empleado,_token:token},
     success:function(data){
       if(data=="ok"){
         fun1();
@@ -379,6 +355,7 @@ var fun1= (function() {
 });
       $(".btn_mostrar").click(function(e){
         $('#Id_producto').val("");
+        $('#Clas_producto').val("");
        $('#Cantidad').val("");
      
       fun2();
@@ -442,7 +419,7 @@ $.ajax({
     $('#submit').click();
     swal('Eliminado con exito','','success')
     ver_tabla();
-   
+    fun2();
 
   }
   }
@@ -453,4 +430,5 @@ swal("Cancelado", "No finalizado", "error");
 });
 }
 </script>
+
 @endsection

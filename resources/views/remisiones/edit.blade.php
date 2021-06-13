@@ -58,13 +58,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
              <div class="">
               <div class="col-md-12">
-        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar">Finalizar</button> 
+        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar"><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
              </div>
                          </div>
              <div class="row justify-content-center ">
               <div class="form-group col-md-12 ">
                <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo">
-               NUEVO</button> 
+                <i class="fas fa-plus"></i> Agregar</button> 
                
                </div>
                         </div>
@@ -197,7 +197,7 @@ $.ajax({
     $('#submit').click();
     swal('Eliminado con exito','','success')
     ver_tabla();
-   
+    fun2();
 
   }
   }
@@ -251,6 +251,7 @@ $(document).ready(function(){
         success:function(data){
           console.log(data.Id);
           $('#Id_producto').val(data.Id_producto);
+          $('#Clas_producto').val(data.Clas_producto);
           $('#Cantidad').val(data.Cantidad);
           var valor =$('#Id_producto').val();
           if(valor==1){
@@ -292,7 +293,9 @@ $(document).ready(function(){
     });
 });
       $(".btn_mostrar").click(function(e){
-       
+        $('#Id_producto').val("");
+        $('#Clas_producto').val("");
+       $('#Cantidad').val("");
       fun2();
       $('#Id_envase').trigger("chosen:updated");
       console.log('si,reseteado');

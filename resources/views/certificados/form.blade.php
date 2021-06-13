@@ -29,20 +29,18 @@
                         <label>Seleccione el producto</label>
                         <div class="form-group   ">
                             <div class=" input-group ">
-                              <div class="input-group-append">
-                              
-                             </div>
-                            
-                                <select id="Id_producto" name="Id_producto" class="form-control form-control-chosen">
+                           
+                            <input type="text" name="Clas_producto" id="Clas_producto" class="form-control " readonly>
+                                {{-- <select id="Id_producto" name="Id_producto" class="form-control form-control-chosen">
                                   <option value="">Seleccione el producto</option>
                                   @foreach($producto as $item)
                                   <option value="{{$item['Id_producto']}}">{{$item['Nom_producto']}}</option>
                                   @endforeach
 
-                                   </select>
+                                   </select> --}}
 
                                 
-                                {!! $errors->first('Id_producto','<div class="invalid-feedback">:message</div>') !!}
+                                {!! $errors->first('Clas_producto','<div class="invalid-feedback">:message</div>') !!}
 
                             </div>
                         </div>

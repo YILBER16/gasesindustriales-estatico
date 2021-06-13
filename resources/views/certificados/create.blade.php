@@ -77,19 +77,20 @@ function mostrarPassword(){
                @endsection
                  <div class="container ">
       <div class="row justify-content-center">
+      
         <div class="col-md-10">
-
+    
              <div class="tabla" id="tabla" style="display:none;" ></div> 
 
              <div class="">
               <div class="col-md-12">
-        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar" style="display:none;">Finalizar</button> 
+        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar" style="display:none;"><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
              </div>
                          </div>
              <div class="row justify-content-center ">
               <div class="form-group col-md-12 ">
                <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" style="display:none;" >
-               NUEVO</button> 
+                <i class="fas fa-plus"></i> Agregar</button> 
                
                </div>
                         </div>
@@ -153,7 +154,7 @@ $.ajax({
        $('#submit').click();
     swal('Eliminado con exito','','success')
     ver_tabla();
-   
+    fun2();
 
   }
   }
@@ -232,7 +233,7 @@ $(document).ready(function(){
 
   e.preventDefault();
   var Id_produccion = $("#Id_produccion option:selected").val();
-  var Id_empleado = $("#Id_empleado option:selected").val();
+  var Nom_empleado = $("input[name=Nom_empleado]").val();
   var Id_producto = $("#Id_producto option:selected").val();
   var Capacidad= $("input[name=Capacidad]").val();
   var Pureza= $("input[name=Pureza]").val();
@@ -243,7 +244,7 @@ $(document).ready(function(){
   $.ajax({
     type:'POST',
     url:"{!!URL::to('savecerti')!!}",
-    data:{Id_produccion:Id_produccion,Id_producto:Id_producto,Id_empleado:Id_empleado,Capacidad:Capacidad,Pureza:Pureza,Presion:Presion,Observaciones:Observaciones,_token:token},
+    data:{Id_produccion:Id_produccion,Id_producto:Id_producto,Nom_empleado:Nom_empleado,Capacidad:Capacidad,Pureza:Pureza,Presion:Presion,Observaciones:Observaciones,_token:token},
     success:function(data){
       if(data=="ok"){
         fun1();
@@ -373,7 +374,7 @@ $(document).ready(function(){
       fun2();
       $('#Id_envase').trigger("chosen:updated");
       $('input[name=Cantidad').val('');
-      $('#Id_producto').val("");
+      $('#Clas_producto').val('');
       console.log('si');
       });
 
@@ -468,6 +469,36 @@ swal("Cancelado", "No finalizado", "error");
         finalizar();
       
       });
+</script>
+<script>
+  $(document).ready(function(){
+    $('#Id_envase').on('change', function(){
+      //console.log("Si");
+      var Id_envase=$(this).val();
+      var Clas_producto=$(this).val();
+      //console.log(Id_produccion);
+      $.ajax({
+        type:'get',
+        url:'{!!URL::to('consultaproducto')!!}',
+        data:{
+          'Id_envase':Id_envase,
+          'Clas_producto':Clas_producto,
+        },
+        dataType:'json',
+        success:function(data){
+          console.log(data.Clas_producto);
+          console.log(data.Id_envase);
+          // $('#lote').val(data.N_lote);
+          $('#Clas_producto').val(data.Clas_producto);
+
+        },
+        error:function(){
+
+        }
+      });
+    });
+
+  });
 </script>
 <!-- REQUIRED SCRIPTS -->
 

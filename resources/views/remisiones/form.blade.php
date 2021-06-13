@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <label>Producto</label>
-        <input type="text" name="Id_producto" id="Id_producto" value="" class="form-control input-sm"readonly>
+        <input type="text" name="Clas_producto" id="Clas_producto" value="" class="form-control input-sm"readonly>
         <label>Cantidad</label>
         <input type="text" name="Cantidad" id="Cantidad" value="" class="form-control input-sm"readonly>
 

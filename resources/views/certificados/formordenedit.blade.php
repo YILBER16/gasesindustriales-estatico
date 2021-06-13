@@ -13,11 +13,10 @@
                           @csrf
                           <input type="text" hidden="" id="id" name="id">
    
-                        
-                        <div class="form-group d-flex justify-content-center">
-
-                            <div class=" input-group col-md-4">
-
+                      
+                          <div class="row justify-content-center">
+                            <div class="form-group col-md-4">
+                              <label class="">Orden de producción</label>
                               
                                    <input id="Id_produccion" name="Id_produccion" class="form-control Id_produccion" value="{{isset($certificados->Id_produccion)?$certificados->Id_produccion:old('Id_produccion')}}" disabled="">
 
@@ -25,7 +24,8 @@
                                 {!! $errors->first('Id_produccion','<div class="invalid-feedback">:message</div>') !!}
 
                             </div>
-                            <div class=" input-group col-md-5">
+                            <div class="form-group col-md-5">
+                              <label class="">Clase de producto</label>
                                    <input id="Id_producto" name="Id_produto" class="form-control Id_producto" value="{{isset($certificados->producto->Nom_producto)?$certificados->producto->Nom_producto:old('Id_producto')}}" disabled="">
 
                                 
@@ -64,36 +64,32 @@
                                 <input id="f_vencimiento" name="f_vencimiento" type="text" value=""class="form-control" disabled="disabled" >
                                  </div>
                         </div>
-                        <div class="form-group d-flex justify-content-center">
-
-                            <div class=" input-group col-md-9">
-                              <div class="input-group-append">
-                    
-                             </div>
-                            
-                            <input type="text" name="Id_empleado" id="Id_empleado" value="{{$certificados->empleado->Nom_empleado}}" class="form-control lote" disabled="">
-                                                         
-                                {!! $errors->first('Id_empleado','<div class="invalid-feedback">:message</div>') !!}
-
+                        <div class="row justify-content-center">
+                          
+                          <div class="form-group col-md-9">     
+                            <label>Empleado</label>               
+                             <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{$certificados->Nom_empleado}}" disabled="">                         
+                                {!! $errors->first('Nom_empleado','<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>
+                        
                         <div class="row justify-content-center">
                               <div class="form-group col-md-3">
                                   <label class="">Capacidad M3</label>
-                             <input id="Capacidad" name="Capacidad" type="text" value="{{isset($certificados->Capacidad)?$certificados->Capacidad:old('Capacidad')}}"class="form-control"  >
+                             <input id="Capacidad" name="Capacidad" type="text" value="{{isset($certificados->Capacidad)?$certificados->Capacidad:old('Capacidad')}}"class="form-control"  disabled="disabled">
                              </div>
                                  <div class="form-group col-md-3">
                                   <label>Pureza</label>
-                                <input id="Pureza" name="Pureza" type="text" value="{{isset($certificados->Pureza)?$certificados->Pureza:old('Pureza')}}"class="form-control lote" >
+                                <input id="Pureza" name="Pureza" type="text" value="{{isset($certificados->Pureza)?$certificados->Pureza:old('Pureza')}}"class="form-control lote" disabled="disabled">
                                  </div>
                                  <div class="form-group col-md-3">
                                   <label>Presion</label>
-                                <input id="Presion" name="Presion" type="text" value="{{isset($certificados->Presion)?$certificados->Presion:old('Presion')}}"class="form-control" >
+                                <input id="Presion" name="Presion" type="text" value="{{isset($certificados->Presion)?$certificados->Presion:old('Presion')}}"class="form-control" disabled="disabled">
                                  </div>
                         </div>
                         <div class="row justify-content-center">
                               <div class="form-group col-md-9">
-                             <input id="Observaciones" name="Observaciones" type="text" value="{{isset($certificados->Observaciones)?$certificados->Observaciones:old('Observaciones')}}"class="form-control" placeholder="Observaciones"  >
+                             <input id="Observaciones" name="Observaciones" type="text" value="{{isset($certificados->Observaciones)?$certificados->Observaciones:old('Observaciones')}}"class="form-control" placeholder="Observaciones"  disabled="disabled">
                              </div>
                         </div>
 

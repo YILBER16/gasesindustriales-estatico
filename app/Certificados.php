@@ -12,7 +12,7 @@ class Certificados extends Model
 {
      protected $table = "certificados_produccion";
      protected $fillable = [
-    	'Id_certificado','Id_produccion','Id_producto', 'Id_empleado', 'Capacidad', 'Pureza', 'Presion','Producto', 'Observaciones','Estado_certificado'
+    	'Id_certificado','Id_produccion','Id_producto', 'Nom_empleado', 'Capacidad', 'Pureza', 'Presion','Producto', 'Observaciones','Estado_certificado'
     ];
     protected $primaryKey='Id_certificado';
     protected $keyType = 'string';

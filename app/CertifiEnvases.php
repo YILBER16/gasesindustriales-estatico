@@ -12,7 +12,7 @@ class CertifiEnvases extends Model
 
     protected $table = "certificado_envase";
      protected $fillable = [
-    	'Id','Id_certificado', 'Id_envase', 'Id_producto', 'Cantidad','Estado'
+    	'Id','Id_certificado', 'Id_envase', 'Clas_producto', 'Cantidad','Estado'
     ];
     protected $primaryKey='Id';
     protected $keyType = 'string';

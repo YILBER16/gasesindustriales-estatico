@@ -1,5 +1,8 @@
-                        <div class="container">
+                      <div class="card">
+                       <div class="container">
+                     
                         <div class="row justify-content-center">
+                          <h4>Cilindros en el certificado</h4>
                           <div class="col-sm-10">
                             
                               
@@ -10,7 +13,7 @@
                               <td hidden="">Id</td>
                               <td hidden="">Id certificado</td>
                               <td>Id envase</td>
-                              <td>Id producto</td>
+                              <td>Producto</td>
                               <td>Cantidad</td>
                               <td>Acciones</td>
                               
@@ -23,7 +26,7 @@
                                 <td class="valorid">{{$item->Id_envase}}</td>
                                 <td>
                                 
-                                {{$item->producto->Nom_producto}}
+                                {{$item->Clas_producto}}
                                 </td>
                                 
                                 <td>{{$item->Cantidad}}</td>
@@ -49,7 +52,7 @@
                         </div>
                         
                         </div>
-
+                      </div>
                         <script>
 $(document).ready(function(){
  $('#tabla tr').on('click', function(){

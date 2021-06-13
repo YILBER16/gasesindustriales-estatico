@@ -90,7 +90,7 @@
         .encabezado img{
 
  
-    top: -2em; /* ajustar los valores para mover la imagen */
+    top: -4em; /* ajustar los valores para mover la imagen */
 
     width: 20%;
 
@@ -225,7 +225,7 @@
     margin-bottom:0;
 }
 .row [class*="col-"] { 
-   border:1px solid red;
+   /* border:1px solid red; */
 }
 
 @media only screen and (max-width: 768px) {
@@ -271,7 +271,7 @@
   
 </td>
 
-<td align="right" width="80%"pull-right>
+<td align="right" width="80%" pull-right>
     <h4 class="titulopri">GASES INDUSTRIALES DE 
         LOS SANTANDERES S.A.S
         <br>
@@ -383,7 +383,7 @@
  </div>
  </div>
 <div class="invoice">
-<table width=100% style="top: 8em; position: relative; float:right; font-size: 12;"> 
+<table width=100% style="top: 9em; position: relative; float:right; font-size: 12;"> 
   <tr> 
     <td valign="top">
         <table class="tablaproducto"  width="100%">
@@ -395,15 +395,15 @@
                     
                 </tr>  
             </thead>
-
-             @foreach($datos as $item)
+           
+             @forelse($datos as $item)
             <tbody>
                 <tr>
                    
                              <td  class="fondodato"><span class="text"> {{$item->Cantidad}}</span></td>
                               <td  class="fondodato"><span class="text">
 
-                               {{$item->producto->Nom_producto}}
+                               {{$item->Clas_producto}}
                            </span></td>
                                <td  class="fondodato"><span class="text"> {{$item->Id_envase}}</span></td>
                                
@@ -411,8 +411,24 @@
                                
                         
                 </tr>
+                
              </tbody>
-             @endforeach
+             @empty
+             <tbody>
+                <tr>
+                   
+                             <td  class="fondodato"><span class="text"> Sin datos</span></td>
+                              <td  class="fondodato"><span class="text"> Sin datos</span></td>
+                               <td  class="fondodato"><span class="text"> Sin datos</span></td>
+                               
+
+                               
+                        
+                </tr>
+                
+             </tbody>
+             @endforelse
+             
               </table>
     </td>
     <td valign="top">

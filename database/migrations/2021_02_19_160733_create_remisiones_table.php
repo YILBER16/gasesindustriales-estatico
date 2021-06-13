@@ -18,12 +18,13 @@ class CreateRemisionesTable extends Migration
             $table->primary('Id_remision');
             $table->date('Fecha_remision');
             $table->string('Id_cliente',20);
-            $table->bigInteger('Id_empleado')->unsigned();
+            $table->string('Nom_empleado',120);
+            $table->bigInteger('Id_empleado');
             $table->string('Estado_remision',12);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('Id_cliente')->references('Id_cliente')->on('clientes');
-            $table->foreign('Id_empleado')->references('Id_empleado')->on('empleados');
+           
 
         });
     }

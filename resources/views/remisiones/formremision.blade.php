@@ -60,29 +60,22 @@
                                 <input id="Cor_cliente" name="Cor_cliente" type="text" value=""class="form-control" disabled="" >
                                  </div>
                         </div>
-                        <div class="row justify-content-center">
+                      <div class="row justify-content-center">
                             <div class="form-group col-md-5">
+
                               <label class="">Empleado</label>
-                                <select id="Id_empleado" name="Id_empleado" class="form-control form-control-chosen Id_empleado">
-                                  <option value="">Seleccione el empleado</option>
-                                  @foreach($empleados as $item)
-                                  <option value="{{$item['Id_empleado']}}">{{$item['Nom_empleado']}}</option>
-                                  @endforeach
-
-                                   </select>
-
-                                
-                                {!! $errors->first('Id_empleado','<div class="invalid-feedback">:message</div>') !!}
+                              <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{Auth::user()->name}}" readonly>                         
+                              {!! $errors->first('Nom_empleado','<div class="invalid-feedback">:message</div>') !!}
                                  </div>
+
                                  <div class="form-group col-md-5">
                             <label class="">Nit o CC</label>
-                        <input id="cc_empleado" name="cc_empleado" type="text" value=""class="form-control" disabled="">
-                          </div>
+                          <input id="Id_empleado" name="Id_empleado" type="text" class="form-control" value="{{Auth::user()->id}}" readonly>                          </div>
 
                           </div>
                        <div class="row justify-content-center">
                               <div class="form-group col-md-10">
-                        <button type="submit"  class="btn btn-primary btn-lg btnenviar ">Crear</button>
+                        <button type="submit"  class="btn btn-primary btn-lg btnenviar "><i class="fas fa-plus"></i> Crear</button>
                         </div>
                         </div>
                        </form>

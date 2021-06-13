@@ -28,7 +28,7 @@
                         <div class="row justify-content-center">
                             <div class="form-group col-md-5">
                               <label class="">Cliente</label>
-                                <select id="Id_cliente" name="Id_cliente" class="form-control form-control-chosen Id_cliente">
+                                <select id="Id_cliente" name="Id_cliente" class="form-control form-control-chosen Id_cliente" disabled>
                                   <option value="{{isset($remisiones->Id_cliente)?$remisiones->Id_cliente:old('Id_cliente')}}">{{isset($remisiones->cliente->Nom_cliente)?$remisiones->cliente->Nom_cliente:old('Id_cliente')}}</option>
                                   @foreach($clientes as $item)
                                   <option value="{{$item['Id_cliente']}}">{{$item['Nom_cliente']}}</option>
@@ -61,26 +61,18 @@
                                  </div>
                         </div>
                         <div class="row justify-content-center">
-                            <div class="form-group col-md-5">
-                              <label class="">Empleado</label>
-                                <select id="Id_empleado" name="Id_empleado" class="form-control form-control-chosen Id_empleado"autofocus>
-                  <option value="{{isset($remisiones->Id_empleado)?$remisiones->Id_empleado:old('Id_empleado')}}" >{{isset($remisiones->Id_empleado)?$remisiones->empleado->Nom_empleado:old('Id_empleado')}}
-                   </option>
-                                  @foreach($empleados as $item)
-                                  <option value="{{$item['Id_empleado']}}">{{$item['Nom_empleado']}}</option>
-                                  @endforeach
+                          <div class="form-group col-md-5">
 
-                                   </select>
+                            <label class="">Empleado</label>
+                            <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{Auth::user()->name}}" readonly>                         
+                            {!! $errors->first('Nom_empleado','<div class="invalid-feedback">:message</div>') !!}
+                               </div>
 
-                                
-                                {!! $errors->first('Id_empleado','<div class="invalid-feedback">:message</div>') !!}
-                                 </div>
-                                 <div class="form-group col-md-5">
-                            <label class="">CC</label>
-                        <input id="cc_empleado" name="cc_empleado" type="text" value=""class="form-control" disabled="">
-                          </div>
+                               <div class="form-group col-md-5">
+                          <label class="">Nit o CC</label>
+                        <input id="id_empleado" name="id_empleado" type="text" class="form-control" value="{{Auth::user()->id}}" readonly>                          </div>
 
-                          </div>
+                        </div>
                        <div class="row justify-content-center">
                               <div class="form-group col-md-10">
                         </div>

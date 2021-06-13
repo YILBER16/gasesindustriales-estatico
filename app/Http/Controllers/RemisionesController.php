@@ -131,7 +131,7 @@ class RemisionesController extends Controller
 
         $nuevo->Id_remision = $request->Id_remision1;
         $nuevo->Id_envase = $request->Id_envase;
-        $nuevo->Producto = $request->Id_producto;
+        $nuevo->Producto = $request->Clas_producto;
         $nuevo->Cantidad = $request->Cantidad;
         $nuevo->Estado = '1';
         $nuevo->save();
@@ -224,10 +224,7 @@ class RemisionesController extends Controller
         $clientes= Clientes::all()->where('Id_cliente',$request->Id_cliente)->first();
         return response()->json($clientes);
     }
-     public function datosempleados(Request $request){
-        $empleados= Empleados::all()->where('Id_empleado',$request->Id_empleado)->first();
-        return response()->json($empleados);
-    }
+     
     public function datosenvasecerti(Request $request)
     {
         $datenvases= CertifiEnvases::all()->where('Id_envase',$request->Id_envase)->last();
@@ -239,6 +236,7 @@ public function saveremi(Request $request){
         $datosremision->Id_remision = $request->Id_remision;
         $datosremision->Fecha_remision = $request->Fecha_remision;
         $datosremision->Id_cliente = $request->Id_cliente;
+        $datosremision->Nom_empleado = $request->Nom_empleado;
         $datosremision->Id_empleado = $request->Id_empleado;
         $datosremision->Estado_remision = '0';
         $datosremision->save();
@@ -366,5 +364,6 @@ public function consultaremi(Request $request){
         }
 
     }
+  
 
 }

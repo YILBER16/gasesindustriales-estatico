@@ -74,22 +74,24 @@ function mostrarPassword(){
                  @endsection
                
                @endsection
-             
+               
              <div class="container ">
+               
       <div class="row justify-content-center">
+        
         <div class="col-md-10">
-
+          
              <div class="tablaedit" id="tablaedit"  ></div> 
 
              <div class="">
               <div class="col-md-12">
-        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar" >Finalizar</button> 
+        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar" ><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
              </div>
                          </div>
              <div class="row justify-content-center ">
               <div class="form-group col-md-12 ">
                <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" >
-               NUEVO</button> 
+                <i class="fas fa-plus"></i> Agregar</button> 
                
                </div>
                         </div>
@@ -107,9 +109,12 @@ function mostrarPassword(){
 
 
 <script >
-
+  $(document).ready(function(){
+ $('.form-control-chosen').chosen();
+});
 
 $(document).ready(function(){
+  
   $.get('tblcertificadosedit',function(data){
     $('#tablaedit').empty().html(data);
    
@@ -153,6 +158,7 @@ $.ajax({
     $('#submit').click();
     swal('eliminado con exito','','success')
     ver_tabla();
+    fun2();
   }
   }
 });
@@ -313,8 +319,10 @@ $(document).ready(function(){
 });
   $(".btn_mostrar").click(function(e){
       fun2();
+      $('#Id_envase').trigger("chosen:updated");
+      $('#Clas_producto').val('');
       $('input[name=Cantidad').val('');
-      $('#Id_producto').prop('selectedIndex',0);
+      
       console.log('si');
       });
   var fun2= (function() {
@@ -411,6 +419,36 @@ swal("Cancelado", "No finalizado", "error");
         finalizar();
       
       });
+</script>
+<script>
+  $(document).ready(function(){
+    $('#Id_envase').on('change', function(){
+      //console.log("Si");
+      var Id_envase=$(this).val();
+      var Clas_producto=$(this).val();
+      //console.log(Id_produccion);
+      $.ajax({
+        type:'get',
+        url:'{!!URL::to('consultaproducto')!!}',
+        data:{
+          'Id_envase':Id_envase,
+          'Clas_producto':Clas_producto,
+        },
+        dataType:'json',
+        success:function(data){
+          console.log(data.Clas_producto);
+          console.log(data.Id_envase);
+          // $('#lote').val(data.N_lote);
+          $('#Clas_producto').val(data.Clas_producto);
+
+        },
+        error:function(){
+
+        }
+      });
+    });
+
+  });
 </script>
 <!-- REQUIRED SCRIPTS -->
 

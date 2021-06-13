@@ -17,7 +17,7 @@ class CreateCertificadosProduccionTable extends Migration
             $table->id('Id_certificado');
             $table->bigInteger('Id_produccion')->unsigned();
             $table->bigInteger('Id_producto')->unsigned();
-            $table->bigInteger('Id_empleado')->unsigned();
+            $table->string('Nom_empleado',80);
             $table->string('Capacidad',40);
             $table->bigInteger('Pureza');
             $table->bigInteger('Presion');
@@ -26,8 +26,7 @@ class CreateCertificadosProduccionTable extends Migration
             $table->timestamps();
             $table->foreign('Id_produccion')->references('Id_produccion')->on('orden_produccion');
             $table->foreign('Id_producto')->references('Id_producto')->on('productos');
-            $table->foreign('Id_empleado')->references('Id_empleado')->on('empleados');
-
+           
 
         });
     }

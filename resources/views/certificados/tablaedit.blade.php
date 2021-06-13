@@ -1,16 +1,22 @@
-                        <div class="container">
-                        <div class="row justify-content-center">
-                          <div class="col-sm-10">
+
+                       <div class="card">
+                      <div class="container">
+                      
+                       
                             
+                        <div class="row justify-content-center">
+                          <h4>Cilindros en el certificado</h4>
+                          <div class="col-sm-10">
+                           
                               
                            
                             <table id="tablaedit" class="table table-hover table-condensed table-bordered tablaedit">
                               
                               <tr>
-                              <td>Id</td>
-                              <td>Id certificado</td>
+                              <td hidden="">Id</td>
+                              <td hidden="">Id certificado</td>
                               <td>Id envase</td>
-                              <td>Id producto</td>
+                              <td>Producto</td>
                               <td>Cantidad</td>
                               <td>Acciones</td>
                               
@@ -18,11 +24,11 @@
                               
                               @foreach($datos as $item)
                               <tr>
-                                <td>{{$item->Id}}</td>
-                                <td>{{$item->Id_certificado}}</td>
+                                <td hidden="">{{$item->Id}}</td>
+                                <td hidden="">{{$item->Id_certificado}}</td>
                                 <td class="valorid">{{$item->Id_envase}}</td>
                                 <td>
-                                {{$item->producto->Nom_producto}}
+                                {{$item->Clas_producto}}
                                  
                                 </td>
                                 
@@ -50,7 +56,7 @@
                         </div>
                         
                         </div>
-
+                      </div>
                         <script>
 $(document).ready(function(){
  $('#tablaedit tr').on('click', function(){

@@ -1,5 +1,7 @@
+                        <div class="card">
                         <div class="container">
                         <div class="row justify-content-center">
+                          <h4>Cilindros en la remisión</h4>
                           <div class="col-sm-10">
                             
                               
@@ -46,6 +48,7 @@
                         </div>
                         
                         </div>
+                      </div>
 
                         <script>
 $(document).ready(function(){

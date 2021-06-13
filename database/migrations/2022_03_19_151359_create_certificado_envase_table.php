@@ -17,13 +17,13 @@ class CreateCertificadoEnvaseTable extends Migration
             $table->id('Id');
             $table->bigInteger('Id_certificado')->unsigned();
             $table->string('Id_envase',20);
-            $table->bigInteger('Id_producto')->unsigned();
+            $table->string('Clas_producto',80);
             $table->string('Cantidad',20);
             $table->string('Estado',2)->nullable();
             $table->timestamps();
             $table->foreign('Id_certificado')->references('Id_certificado')->on('certificados_produccion');
             $table->foreign('Id_envase')->references('Id_envase')->on('envases');
-            $table->foreign('Id_producto')->references('Id_producto')->on('productos');
+
 
         });
         

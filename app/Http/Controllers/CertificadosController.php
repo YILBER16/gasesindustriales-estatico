@@ -67,16 +67,16 @@ class CertificadosController extends Controller
     
     public function create()
     {
-        $empleados=Empleados::all('Id_empleado','Nom_empleado');
+      
         $produccion=Ordenes::all('Id_produccion','Estado','certi_estado')->where('Estado','==','1')->where('certi_estado','==','0');
-        $envase= Envases::all('Id_envase','Estado_actual','Inventario');
+        $envase= Envases::all('Id_envase','Clas_producto','Estado_actual','Inventario');
         $producto= Productos::all('Id_producto','Nom_producto');
 
         $datoscertificados= Certificados::all('Id_certificado');
         $datos=CertifiEnvases::all();
         //$last = Certificados::select('Id_certificado')->latest()->first();
 
-        return view('certificados.create', compact('empleados','produccion','envase','datos','datoscertificados','producto'));
+        return view('certificados.create', compact('produccion','envase','datos','datoscertificados','producto'));
         //return view('envases.create');
     }
 
@@ -88,7 +88,7 @@ class CertificadosController extends Controller
 
         $nuevo->Id_certificado = $request->Id_certificado;
         $nuevo->Id_envase = $request->Id_envase;
-        $nuevo->Id_producto = $request->Id_producto;
+        $nuevo->Clas_producto = $request->Clas_producto;
         $nuevo->Cantidad = $request->Cantidad;
         $nuevo->Estado = $request->Estado;
         $nuevo->save();
@@ -117,7 +117,7 @@ class CertificadosController extends Controller
       $certificados=Certificados::with('producto')->findOrFail($Id_certificado);
       $orden= Ordenes::all()->where('Id_produccion',$request->Id_produccion)->first();
       $producto= Productos::all('Id_producto','Nom_producto');
-      $envase= Envases::all('Id_envase','Estado_actual','Inventario')->where('Estado_actual','==','0')->where('Inventario','==','1');
+      $envase= Envases::all('Id_envase','Clas_producto','Estado_actual','Inventario')->where('Estado_actual','==','0')->where('Inventario','==','1');
 
 
 
@@ -199,7 +199,7 @@ class CertificadosController extends Controller
     public function savecerti(Request $request){
         $datosproduccion=new Certificados();
         $datosproduccion->Id_produccion = $request->Id_produccion;
-        $datosproduccion->Id_empleado = $request->Id_empleado;
+        $datosproduccion->Nom_empleado = $request->Nom_empleado;
         $datosproduccion->Capacidad = $request->Capacidad;
         $datosproduccion->Pureza = $request->Pureza;
         $datosproduccion->Presion = $request->Presion;
@@ -308,7 +308,10 @@ class CertificadosController extends Controller
         $pdf->getDomPDF()->set_option("enable_php", true);
         return $pdf->stream('certificado-list.pdf');
     }
-         
+    public function consultaproducto(Request $request){
+      $producto= Envases::all()->where('Id_envase',$request->Id_envase)->first();
+      return response()->json($producto);
+  }
       
 
 }
