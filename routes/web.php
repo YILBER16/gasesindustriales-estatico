@@ -91,6 +91,7 @@ Route::put('/stockinventario/{Id_envase}','RemisionesController@stockinventario'
 Route::put('/antistockinventario/{Id}','RemisionesController@antistockinventario');
 Route::post('enviartabla', 'RemisionesController@enviartabla')->name('enviartabla');
 Route::delete('eliminar/{Id}','RemisionesController@eliminar');
+Route::get('/envasesafuera', 'RemisionesController@envasesafuera');
 Route::resource('certificados','CertifiEnvasesController');
 Route::resource('certificados','CertificadosController');
 Route::resource('remisiones','RemisionesController');

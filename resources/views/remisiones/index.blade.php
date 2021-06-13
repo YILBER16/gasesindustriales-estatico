@@ -1,7 +1,7 @@
 @extends('welcome')
 @extends('layouts.layout')
 @section('titulo')
-<title>Certificados</title>
+<title>Remisiones</title>
 @endsection
 @section('script')
 
@@ -178,7 +178,7 @@
           </table>
          
                  
-          @section('cuerpo_modal_remision')
+          {{-- @section('cuerpo_modal_remision')
 
                 @csrf
                  
@@ -197,7 +197,7 @@
                  <button type="submit" id="btn_recibir" class="btn btn-warning btn_recibir" data-dismiss="modal" data-dismiss="modal">Recibir</button>
                  @endsection
 
-               @endsection
+               @endsection --}}
           
 
            <div class="modal-footer">
@@ -235,7 +235,7 @@ $(this).parent().html("Contenido nuevo");//obtiene el texto sin html
   });
 </script>
 
-<script>
+{{-- <script>
   function ver_datos(Id){
 
   $.get('/remisiones/' + Id + '/editremision', function (data){
@@ -281,62 +281,62 @@ error: function() {
   });
 
 }
-</script>
+</script> --}}
 <script>
 
 
-var stockinventario= (function(Id_envase) {     
+// var stockinventario= (function(Id_envase) {     
 
-  var token=$('input[name="_token"]').val();
-  var Id_envase =$('#txtNombre').val();
-      $.ajax({
-    dataType: 'json',
-    type:'put',
-    url:"{!!URL::to('stockinventario')!!}/"+Id_envase,
-    data:{Id_envase:Id_envase,_token:token},
-    success:function(json){
-      console.log(json.Id_envase);
-     console.log(token);
-        console.log('SI');
+//   var token=$('input[name="_token"]').val();
+//   var Id_envase =$('#txtNombre').val();
+//       $.ajax({
+//     dataType: 'json',
+//     type:'put',
+//     url:"{!!URL::to('stockinventario')!!}/"+Id_envase,
+//     data:{Id_envase:Id_envase,_token:token},
+//     success:function(json){
+//       console.log(json.Id_envase);
+//      console.log(token);
+//         console.log('SI');
        
-        //alertify.success('Guardado con exito');
+//         //alertify.success('Guardado con exito');
     
        
-  },
-error: function(e) {
-    console.log(e.message);
-}
+//   },
+// error: function(e) {
+//     console.log(e.message);
+// }
   
       
-    }); 
+//     }); 
 
-});
-var antistockinventario= (function(Id) {     
+// });
+// var antistockinventario= (function(Id) {     
 
-  var token=$('input[name="_token"]').val();
-  var Id =$('#txtNombreid').val();
-      $.ajax({
-    dataType: 'json',
-    type:'put',
-    url:"{!!URL::to('antistockinventario')!!}/"+Id,
-    data:{Id:Id,_token:token},
-    success:function(json){
-      console.log(json.Id);
-        console.log('Cambiado');
+//   var token=$('input[name="_token"]').val();
+//   var Id =$('#txtNombreid').val();
+//       $.ajax({
+//     dataType: 'json',
+//     type:'put',
+//     url:"{!!URL::to('antistockinventario')!!}/"+Id,
+//     data:{Id:Id,_token:token},
+//     success:function(json){
+//       console.log(json.Id);
+//         console.log('Cambiado');
       
        
-        alertify.success('Recibido con exito,recargue la pagina');
+//         alertify.success('Recibido con exito,recargue la pagina');
     
        
-  },
-error: function(e) {
-    console.log(e.message);
-}
+//   },
+// error: function(e) {
+//     console.log(e.message);
+// }
   
       
-    }); 
+//     }); 
 
-});
+// });
 
 $(document).ready(function() {
   $('#miTabla').DataTable({

@@ -19,7 +19,7 @@ class CreateEnvaseRemisionTable extends Migration
             $table->bigInteger('Id_remision')->unsigned();
             $table->string('Producto',80);
             $table->string('Cantidad',11);
-            $table->dateTime('Fecha_ingreso')->nullable();
+            $table->dateTime('Fecha_ingreso');
             $table->string('Estado',15);
             $table->timestamps();
             $table->foreign('Id_envase')->references('Id_envase')->on('envases');

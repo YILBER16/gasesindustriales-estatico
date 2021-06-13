@@ -66,16 +66,6 @@ class RemisionesController extends Controller
                     
         }
        
-        $datos2=DB::table('envase_remision')
-        ->join('remisiones','remisiones.Id_remision', '=','envase_remision.Id_remision')
-        ->select('envase_remision.Id','envase_remision.Id_envase','envase_remision.Id_remision','envase_remision.Producto','envase_remision.Cantidad','remisiones.Fecha_remision')->where('Estado', 1)->where('Estado_remision', 1)->get();
-        
-        
-        if($request->ajax())
-       {
-        return response()->json(view('remisiones.formentrada',$datos2));
-
-       }
 
        $aire= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Aire')->count();
        $oxigeno_m= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Oxigeno medicinal')->count();
@@ -92,7 +82,7 @@ class RemisionesController extends Controller
        
        
         
-        return view('remisiones.index',compact('datos2','aire','oxigeno_m','oxigeno_i','nitrogeno','co2','argon','acetileno','mezclas','helio'));
+        return view('remisiones.index',compact('aire','oxigeno_m','oxigeno_i','nitrogeno','co2','argon','acetileno','mezclas','helio'));
     }
 
     /**
@@ -300,7 +290,7 @@ public function consultaremi(Request $request){
        {
         $data=Envase_remision::select('Id_envase','Estado')->where('Estado', 0)->where('Id_envase','LIKE',"%$Id%")->orderBy('Id_envase','DESC')->paginate(5);
         dd($data);
-        return view('remisiones.formentrada',compact('data'))->render();
+        return view('remisiones.indexrecepcion',compact('data'))->render();
        }
     }
     public function editremision($Id,Envase_remision $Id_remision)
@@ -313,8 +303,8 @@ public function consultaremi(Request $request){
     public function updateenvase(UpdateremisionenvaseRequest $request, $Id)
       {
         $datos= Envase_remision::findOrFail($Id);
-        if ($datos->update(['Fecha_ingreso'=> $request->Fecha_ingresou])) {
-            return response()->json('ok');
+        if ($datos->update(['Fecha_ingreso'=> $request->Fecha_ingreso])) {
+            return response()->json('Actualizado');
         }
     }
     public function stockinventario(Request $request, $Id_envase)
@@ -364,6 +354,14 @@ public function consultaremi(Request $request){
         }
 
     }
-  
+    public function envasesafuera(Request $request)
+    {
+        $envasesafuera = Envase_remision::with('remision','remision.cliente')->where('Estado', 1)->whereHas('remision', function ($query) {
+            $query->where('Estado_remision', '=', 1);
+        })->get();
+
+        return view('remisiones.indexrecepcion',compact('envasesafuera'));
+       
+    }
 
 }

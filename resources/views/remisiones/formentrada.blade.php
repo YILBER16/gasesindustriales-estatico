@@ -12,7 +12,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($datos2 as $item)
+              @foreach($envasesafuera as $item)
               <tr>
                 <td hidden="">{{$item->Id}}</td>
                 <td>{{$item->Id_envase}}</td>
