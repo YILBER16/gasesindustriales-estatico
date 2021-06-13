@@ -1,4 +1,5 @@
        <input type="text" hidden="" id="id1" name="id1">
+       <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         <input type="text" hidden=""  id="Idc" name="Idc">
         <input type="text" name="" hidden="" id="Id_remisionu" class="form-control input-sm">
         <label>Id envase</label>
