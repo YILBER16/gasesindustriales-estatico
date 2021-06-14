@@ -158,7 +158,7 @@
         </div>
            <h4 class="titulo center" ><b>REMISIONES</b> </h4>
 
-          <table class=" table table-striped  table-hover table-curved text-center table2" id="miTabla">
+          <table class=" table table-striped  table-hover table-curved text-center nowrap table2" id="miTabla">
             <thead >
               <tr class="">
                 <th>Nº remisión</th>

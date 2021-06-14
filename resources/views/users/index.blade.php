@@ -41,7 +41,7 @@ function validarNumero(e) {
 
               @foreach($users as $user)
               <tr {{Auth::user()->id == $user->id ? 'bgcolor=#ADD8E6': ' ' }}>
-                <td>{{$user->id}}</td>
+                <td>{{$user->cedula}}</td>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>

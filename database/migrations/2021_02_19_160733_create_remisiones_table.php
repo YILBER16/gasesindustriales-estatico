@@ -17,7 +17,7 @@ class CreateRemisionesTable extends Migration
             $table->bigInteger('Id_remision')->unsigned();
             $table->primary('Id_remision');
             $table->date('Fecha_remision');
-            $table->string('Id_cliente',20);
+            $table->string('Id_cliente',25);
             $table->string('Nom_empleado',120);
             $table->bigInteger('Id_empleado');
             $table->string('Estado_remision',12);

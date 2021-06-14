@@ -13,10 +13,10 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />     
 <div class="container">
   <h4 class="titulo center" ><b>ENVASES PRESTADOS</b> </h4>
-  <table class="table table-striped  table-hover table-curved text-center tablaa" id="tablaa">
+  <table class="table table-striped  table-hover table-curved text-center nowrap tablaa" id="tablaa">
               <thead >
                 <tr class="">
-                  <td hidden="">Id</td>
+                  <td>Id</td>
                   <td>Id envase</td>
                   <td>Nº remision</td>
                   <td>Id cliente</td>
@@ -24,11 +24,11 @@
                   <td>Producto</td>
                   <td>Cantidad</td>
                   <td>Fecha remision</td>
-                  <td>Acciones</td>
+                  <td>Recibir</td>
                 </tr>
               </thead>
               <tbody>
-                @foreach($envasesafuera as $item)
+                {{-- @foreach($envasesafuera as $item)
                 <tr>
                   <td hidden="">{{$item->Id}}</td>
                   <td>{{$item->Id_envase}}</td>
@@ -40,13 +40,13 @@
                   <td>{{$item->remision->Fecha_remision}}</td>
                   <td>
   
-                    <button type="submit" class="btn btn-primary" id="elim" name="elim" onclick="ver_datos({{$item->Id}});"data-toggle="modal" data-target="#modalremisionedicion"><i class="fas fa-arrow-right" ></i></button>
+                    <button type="submit" class="btn btn-primary" id="elim" name="elim" onclick="ver_datos({{$item->Id}});" data-toggle="modal" data-target="#modalremisionedicion"><i class="fas fa-arrow-right" ></i></button>
                     <button type="submit" hidden="" id="submit" name="submit" onclick="antistockinventario('{{$item->Id_envase}}');stockinventario('{{$item->Id_envase}}');">Prueba</button>
                   </td>
                 </tr>
               
                 
-                @endforeach
+                @endforeach --}}
               </tbody>
             </table>
             @section('cuerpo_modal_remision_edicion')
@@ -57,20 +57,39 @@
               <button type="submit" id="btn_recibir" class="btn btn-warning btn_recibir" data-dismiss="modal" data-dismiss="modal">Recibir</button>
               @endsection
               @endsection
-
-            <input type="text" hidden="" name="txtNombre" id="txtNombre" value=""> 
-            <input type="text" hidden="" name="txtNombreid" id="txtNombreid" value=""> 
-  </div>
+       </div>
     
   
   <script >
     
     $(document).ready(function() {
           $('#tablaa').DataTable({
-              
-              "processing":true,
-              "responsive":true,
-            
+            "serverSide":true,
+            "processing":true,
+            "responsive":true,
+          
+            "ajax": "{!!URL::to('envasesafuera')!!}",
+                "columns":[
+                    
+                    {data:'Id'},
+                    {data:'Id_envase'},
+                    {data:'Id_remision'},
+                    {data:'remision.cliente.Id_cliente'},
+                    {data:'remision.cliente.Nom_cliente'},
+                    {data:'Producto'},
+                    {data:'Cantidad'},
+                    {data:'remision.Fecha_remision'},
+                    {data:'action'},
+                   
+                ],
+                columnDefs: [{
+                  "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+             }],
+                'fnCreatedRow':function(nRow,aData,iDataIndex){
+                        $(nRow).attr('class','item'+aData.Id);
+                    },
             "language":{
           "processing": "Procesando...",
       "lengthMenu": "Mostrar _MENU_ registros",
@@ -215,14 +234,15 @@
   
   </script>
   <script>
-    $(document).ready(function(){
-   $('#tablaa tr').on('click', function(){
-   var dato=$(this).find("td").eq(1).html(); 
-    var dato2=$(this).find("td").eq(0).html(); 
-    $('#txtNombre').val(dato);
-    $('#txtNombreid').val(dato2);
-  });
-    });
+  //   $(document).ready(function(){
+  //  $('#tablaa tr').on('click', function(){
+  //  var dato=$(this).find("td").eq(1).html(); 
+  //   var dato2=$(this).find("td").eq(0).html(); 
+  //   $('#txtNombre').val(dato);
+  //   $('#txtNombreid').val(dato2);
+  //   console.log("obtenido");
+  // });
+  //   });
 
     function ver_datos(Id){
   
@@ -255,8 +275,11 @@
           Fecha_ingreso:Fecha_ingreso,
                 },
         success: function(data){
-  
-       $('#submit').click();
+
+
+          stockinventario();
+          antistockinventario();
+     
        
        // console.log(Id_envase);
          //antistockinventario(Id_envase);
@@ -278,12 +301,13 @@
 var stockinventario= (function(Id_envase) {     
 
 var token=$('input[name="_token"]').val();
-var Id_envase =$('#txtNombre').val();
+var Id_envase =$('#Id_envaseu').val();
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+console.log(Id_envase);
     $.ajax({
   dataType: 'json',
   type:'put',
@@ -293,11 +317,7 @@ $.ajaxSetup({
     console.log(json.Id_envase);
    console.log(token);
       console.log('SI');
-     
-      //alertify.success('Guardado con exito');
-  
-     
-},
+     },
 error: function(e) {
   console.log(e.message);
 }
@@ -309,12 +329,13 @@ error: function(e) {
 var antistockinventario= (function(Id) {     
 
 var token=$('input[name="_token"]').val();
-var Id =$('#txtNombreid').val();
+var Id =$('#Idc').val();
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+console.log(Id);
     $.ajax({
   dataType: 'json',
   type:'put',
@@ -322,10 +343,8 @@ $.ajaxSetup({
   data:{Id:Id},
   success:function(json){
     console.log(json.Id);
-      console.log('Cambiado');
-    
-     
-      alertify.success('Recibido con exito,recargue la pagina');
+  
+      alertify.success('Recibido con exito');
       $('#tablaa').DataTable().ajax.reload();
   
      

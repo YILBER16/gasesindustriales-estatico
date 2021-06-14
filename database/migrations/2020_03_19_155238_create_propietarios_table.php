@@ -14,13 +14,13 @@ class CreatePropietariosTable extends Migration
     public function up()
     {
         Schema::create('propietarios', function (Blueprint $table) {
-            $table->string('Id_propietario',15);
+            $table->string('Id_propietario',25);
             $table->primary('Id_propietario');
-            $table->string('Nom_propietario',60);
-            $table->string('Ciudad',20);
-            $table->string('Dir_propietario',60);
-            $table->string('Tel_propietario',12)->nullable();
-            $table->string('Cor_propietario',40)->nullable();
+            $table->string('Nom_propietario',200);
+            $table->string('Ciudad',70);
+            $table->string('Dir_propietario',200);
+            $table->string('Tel_propietario',15)->nullable();
+            $table->string('Cor_propietario',200)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

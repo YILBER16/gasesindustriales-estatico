@@ -70,7 +70,7 @@
 
                                  <div class="form-group col-md-5">
                             <label class="">Nit o CC</label>
-                          <input id="Id_empleado" name="Id_empleado" type="text" class="form-control" value="{{Auth::user()->id}}" readonly>                          </div>
+                          <input id="Id_empleado" name="Id_empleado" type="text" class="form-control" value="{{Auth::user()->cedula}}" readonly>                          </div>
 
                           </div>
                        <div class="row justify-content-center">
