@@ -17,7 +17,7 @@ class CreateKardexTable extends Migration
             $table->bigInteger('Id_kardex')->unsigned();
             $table->primary('Id_kardex');
             $table->bigInteger('Id_remision')->unsigned();
-            $table->string('Id_envase',20);
+            $table->string('Id_envase',25);
             $table->dateTime('Fecha_entrada');
             $table->string('Ciudad',12);
             $table->bigInteger('N_dto_entrada');

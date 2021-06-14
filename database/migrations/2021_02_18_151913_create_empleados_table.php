@@ -16,10 +16,10 @@ class CreateEmpleadosTable extends Migration
         Schema::create('empleados', function (Blueprint $table) {
             $table->bigInteger('Id_empleado')->unsigned();
             $table->primary('Id_empleado');
-            $table->string('Nom_empleado',70);
-            $table->string('Cargo_empleado',20);
-            $table->string('Dir_empleado',80)->nullable();
-            $table->string('Ciudad',20);
+            $table->string('Nom_empleado',200);
+            $table->string('Cargo_empleado',200);
+            $table->string('Dir_empleado',200)->nullable();
+            $table->string('Ciudad',70);
             $table->string('Tel_empleado',15)->nullable();
             $table->timestamps();
             $table->softDeletes();

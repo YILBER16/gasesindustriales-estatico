@@ -22,8 +22,8 @@ function validarNumero(e) {
                                <div class="input-group-append">
                               <button class="btn btn-primary" type="button" disabled="disabled"> <span><i class="fas fa-id-card"></i></span> </button>
                              </div>
-                               <input id="id" name="id" type="text" 
-                                value="{{isset($user->id)?$user->id:old('id')}}" placeholder="Cedula" class="form-control {{$errors->has('id')?'is-invalid':''}}  onkeypress="return validarNumero(event)">
+                               <input id="cedula" name="cedula" type="text" 
+                                value="{{isset($user->id)?$user->id:old('cedula')}}" placeholder="Cedula" class="form-control {{$errors->has('cedula')?'is-invalid':''}}  onkeypress="return validarNumero(event)">
                                
 
                          {!! $errors->first('id','<div class="invalid-feedback">:message</div>') !!}

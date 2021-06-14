@@ -16,7 +16,7 @@ class CreateCertificadoEnvaseTable extends Migration
         Schema::create('certificado_envase', function (Blueprint $table) {
             $table->id('Id');
             $table->bigInteger('Id_certificado')->unsigned();
-            $table->string('Id_envase',20);
+            $table->string('Id_envase',25);
             $table->string('Clas_producto',80);
             $table->string('Cantidad',20);
             $table->string('Estado',2)->nullable();

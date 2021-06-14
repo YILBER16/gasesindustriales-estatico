@@ -14,10 +14,10 @@ class CreateEnvasesTable extends Migration
     public function up()
     {
         Schema::create('envases', function (Blueprint $table) {
-            $table->string('Id_envase',20);
+            $table->string('Id_envase',25);
             $table->primary('Id_envase');
-            $table->string('Id_propietario',15);
-            $table->string('Id_proveedor',15)->nullable();
+            $table->string('Id_propietario',25);
+            $table->string('Id_proveedor',25)->nullable();
             $table->string('N_int_envase',20);
             $table->string('Estado_envase',10);
             $table->string('Material',12);

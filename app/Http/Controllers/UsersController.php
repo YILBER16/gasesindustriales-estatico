@@ -57,6 +57,7 @@ class UsersController extends Controller
 
 
      $this->validate($request,[
+        'cedula' => 'required',
         'name' => 'required',
         'email'=> 'required',
         'password' => 'required',
@@ -64,6 +65,7 @@ class UsersController extends Controller
 
 
     $user = new User;
+    $user->cedula= $request->cedula;
     $user->name= $request->name;
     $user->email= $request->email;
     $user->password=Hash::make($request->password);

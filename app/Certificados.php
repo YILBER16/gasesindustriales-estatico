@@ -36,6 +36,10 @@ public function orden()
     {
       return $this->belongsTo('App\Productos','Id_producto','Id_producto');
    }
+   public function certificados_remisiones()
+{
+  return $this->hasMany(CertifiEnvases::class, 'Id_certificado','Id');
+}
 
 
 

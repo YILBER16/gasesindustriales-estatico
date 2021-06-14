@@ -321,10 +321,10 @@ public function consultaremi(Request $request){
       public function antistockinventario(Request $request, $Id)
       {
         $id = $request->Id;
-        $stock=Envase_remision::findOrFail($id);
+        $antistockinventario=Envase_remision::findOrFail($id);
 
-        if ($stock->update(['Estado'=>'0'])) {
-        return response()->json($stock);
+        if ($antistockinventario->update(['Estado'=>'0'])) {
+        return response()->json($antistockinventario);
           
         }
          
@@ -356,11 +356,30 @@ public function consultaremi(Request $request){
     }
     public function envasesafuera(Request $request)
     {
-        $envasesafuera = Envase_remision::with('remision','remision.cliente')->where('Estado', 1)->whereHas('remision', function ($query) {
-            $query->where('Estado_remision', '=', 1);
-        })->get();
+        if ($request->ajax()) {
+  
+            return Datatables::of(Envase_remision::with('remision','remision.cliente')->where('Estado', 1)->whereHas('remision', function ($query) {
+                $query->where('Estado_remision', '=', 1);
+            })->get())
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a type="submit" class="btn btn-primary" id="elim" name="elim" onclick="ver_datos('.$data->Id.')" data-toggle="modal" data-target="#modalremisionedicion"><i class="fas fa-arrow-right"></i></a>';
 
-        return view('remisiones.indexrecepcion',compact('envasesafuera'));
+                        // $btn .= '&nbsp;';
+                        // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+              
+                     
+                                        return $btn;
+                                })
+                    ->rawColumns(['action'])
+                    ->make(true);
+                    
+        }
+        // $envasesafuera = Envase_remision::with('remision','remision.cliente')->where('Estado', 1)->whereHas('remision', function ($query) {
+        //     $query->where('Estado_remision', '=', 1);
+        // })->get();
+
+        return view('remisiones.indexrecepcion');
        
     }
 
