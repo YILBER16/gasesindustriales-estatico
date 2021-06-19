@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Remisiones;
+use App\Devoluciones;
 class Clientes extends Model
 {
 	use SoftDeletes;
@@ -22,5 +23,9 @@ class Clientes extends Model
     public function remisiones()
 {
         return $this->belongsToMany(Remisiones::class, 'remisiones','Id_cliente','Id_remision');
+}
+public function devoluciones()
+{
+        return $this->belongsToMany(devoluciones::class, 'devoluciones','Id_cliente','id');
 }
 }
