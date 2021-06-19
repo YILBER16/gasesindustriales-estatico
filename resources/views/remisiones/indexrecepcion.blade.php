@@ -25,10 +25,12 @@
                   <td>Cantidad</td>
                   <td>Fecha remision</td>
                   <td>Recibir</td>
+                  <td>Devolución</td>
+                  <td>pivot</td>
                 </tr>
               </thead>
               <tbody>
-                {{-- @foreach($envasesafuera as $item)
+                <!-- {{-- @foreach($envasesafuera as $item)
                 <tr>
                   <td hidden="">{{$item->Id}}</td>
                   <td>{{$item->Id_envase}}</td>
@@ -46,7 +48,7 @@
                 </tr>
               
                 
-                @endforeach --}}
+                @endforeach --}} -->
               </tbody>
             </table>
             @section('cuerpo_modal_remision_edicion')
@@ -80,10 +82,17 @@
                     {data:'Cantidad'},
                     {data:'remision.Fecha_remision'},
                     {data:'action'},
+                    {data:'action2'},
+                    {data:'action3'},
                    
                 ],
                 columnDefs: [{
                   "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+             },
+             {
+                  "targets": [ 10 ],
                 "visible": false,
                 "searchable": false
              }],
@@ -346,6 +355,8 @@ console.log(Id);
   
       alertify.success('Recibido con exito');
       $('#tablaa').DataTable().ajax.reload();
+
+
   
      
 },
@@ -357,5 +368,113 @@ error: function(e) {
   }); 
 
 });
+$(document).on('click','.devolverbutton', function(){
+var modal_data = $(this).data('info').split(';');
+$('.didregistro').text(modal_data[0]);
+$('.denvase').html(modal_data[1]);
+$('#dremision').val(modal_data[2]);
+$('#d_cliente').val(modal_data[3]);
+$('#n_cliente').val(modal_data[4]);
+$('#d_producto').val(modal_data[5]);
+$('#c_producto').val(modal_data[6]);
+
+});
+
+
+$(document).on('click','.btndevolver', function(Id, Id_envase){
+    $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+
+  var dremision =$('#dremision').val();
+  var Fecha_devolucion =$('#Fecha_devolucion').val();
+  var d_cliente =$('#d_cliente').val();
+  var denvase =$('#denvase').text();
+  var d_producto =$('#d_producto').val();
+  var c_producto =$('#c_producto').val();
+  var d_empleado =$('#d_empleado').val();
+  var n_empleado =$('#n_empleado').val();
+  var descripcion =$('#descripcion').val();
+console.log(dremision);
+console.log(d_cliente);
+  
+  $.ajax({
+type:'post',
+url:'/registrardevolucion',
+data:{
+    _token:"{{ csrf_token() }}",
+    dremision:dremision,
+    Fecha_devolucion:Fecha_devolucion,
+    d_cliente:d_cliente,
+    denvase:denvase,
+    d_producto:d_producto,
+    c_producto:c_producto,
+    d_empleado:d_empleado,
+    n_empleado:n_empleado,
+    descripcion:descripcion,
+},
+success: function(data){
+    console.log("Devolucion registrada");
+    
+   
+    $.ajax({
+type:'post',
+url:'/elimenvasedevoluciones/' + Id,
+data:{
+    '_token':"{{ csrf_token() }}",
+    'Id':$(".didregistro").text(),
+},
+success: function(data){
+    console.log("eliminado");
+   
+
+var Id_envase =$('.denvase').text();
+
+    $.ajax({
+  dataType: 'json',
+  type:'put',
+  url:'/stockenvasedevoluciones/'+ Id_envase,
+  data:{Id_envase:Id_envase},
+  success:function(json){
+    
+    
+    console.log("devuelto con exito");
+
+    $('#devolucionmodal').modal('toggle');
+    $('#tablaa').DataTable().ajax.reload();
+    swal(
+  'Excelente!',
+  'Devuelto con exito!',
+  'success'
+)
+     
+},
+error: function(e) {
+  console.log("error, envase sin cambio de estado");
+  console.log(e.message);
+}
+
+    
+  }); 
+
+},error:function(){ 
+        alertify.error('Ocurrio un error al eliminar el registro'); 
+    }
+});
+
+},error:function(){ 
+  console.log("Devolucion rechazada");
+        alertify.error('Ocurrio un error al registrar, verifica los datos'); 
+    }
+});
+
+
+
+
+});
+
   </script>
 @endsection

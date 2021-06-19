@@ -10,12 +10,14 @@ use App\Envases;
 use App\Envase_remision;
 use App\CertifiEnvases;
 use App\Certificados;
+use App\Devoluciones;
 use DB;
 use Barryvdh\DomPDF\Facade as PDF;
 use Barryvdh\DomPDF\Options;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use DataTables;
 use App\Http\Requests\UpdateremisionenvaseRequest;
+use Carbon\Carbon;
 
 class RemisionesController extends Controller
 {
@@ -78,7 +80,6 @@ class RemisionesController extends Controller
        $helio= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Helio')->count();
 
 
-  
        
        
         
@@ -370,17 +371,88 @@ public function consultaremi(Request $request){
               
                      
                                         return $btn;
-                                })
-                    ->rawColumns(['action'])
+                                })->addColumn('action2', function($data2){
+                                    $btn2 = '<a type="submit" class="devolverbutton btn btn-danger" id="devolverbutton" name="devolverbutton" data-toggle="modal" data-target="#devolucionmodal" data-info="'.$data2->Id.';'.$data2->Id_envase.';'.$data2->remision->Id_remision.';'.$data2->remision->cliente->Id_cliente.';'.$data2->remision->cliente->Nom_cliente.';'.$data2->Producto.';'.$data2->Cantidad.'"><i class="fas fa-exchange-alt"></i></a>';
+                                    // $btn2 = '<a type="submit" class="devolverbutton btn btn-danger" id="devolverbutton" name="devolverbutton" href="/stockdevoluciones/'.$data2->Id.'"><i class="fas fa-exchange-alt"></i></a>';
+
+                                    // $btn .= '&nbsp;';
+                                    // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+                          
+                                 
+                                                    return $btn2;
+                                            })->addColumn('action3', function($data3){
+                                                $btn3 = '<a type="submit" class="btn btn-danger" id="submit" name="submit" onclick="antistockinventario('.$data3->Id_envase.');stockinventario('.$data3->Id_envase.');"><i class="fas fa-exchange-alt"></i></a>';
+                        
+                                                // $btn .= '&nbsp;';
+                                                // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+                                      
+                                             
+                                                                return $btn3;
+                                                        })
+                    ->rawColumns(['action','action2','action3'])
                     ->make(true);
                     
         }
+        $fecha_actual= Carbon::now()->format('Y-m-d\TH:i');
         // $envasesafuera = Envase_remision::with('remision','remision.cliente')->where('Estado', 1)->whereHas('remision', function ($query) {
         //     $query->where('Estado_remision', '=', 1);
         // })->get();
-
-        return view('remisiones.indexrecepcion');
+  
+        return view('remisiones.indexrecepcion',compact('fecha_actual'));
        
+    }
+    public function elimenvasedevoluciones(Request $request)
+      {
+      
+       // $devolucion=Envases::findOrFail($id);
+        $devolucionenvase=Envase_remision::find($request->Id)->delete();
+        return response()->json();
+  
+        
+        // if ($stock->update(['Inventario'=>'1'])) {
+        // return response()->json($stock);
+        
+        // }
+         
+      }
+      public function stockenvasedevoluciones(Request $request)
+      {
+        // $Id_envase = $request->Id_envase;
+        $stockenvase=Envases::find($request->Id_envase);
+
+        if ($stockenvase->update(['Inventario'=>'1'])) {
+        return response()->json($stockenvase);
+          
+        }
+         
+      }
+      public function registrardevolucion(Request $request){
+        $validatedData = $request->validate([
+            'dremision' => 'required',
+            'Fecha_devolucion' => 'required',
+            'd_cliente' => 'required',
+            'denvase' => 'required',
+            'd_producto' => 'required',
+            'c_producto' => 'required',
+            'd_empleado' => 'required',
+            'n_empleado' => 'required',
+            'descripcion' => 'required',
+        ]);
+        $devolucion=new Devoluciones();
+        $devolucion->Id_remision = $request->dremision;
+        $devolucion->Fecha_devolucion = $request->Fecha_devolucion;
+        $devolucion->Id_cliente = $request->d_cliente;
+        $devolucion->Id_envase = $request->denvase;
+        $devolucion->Producto = $request->d_producto;
+        $devolucion->Cantidad = $request->c_producto;
+        $devolucion->Id_empleado = $request->d_empleado;
+        $devolucion->Nom_empleado = $request->n_empleado;
+        $devolucion->Descripcion = $request->descripcion;
+
+        
+
+        $devolucion->save();
+        return response()->json('ok');
     }
 
 }

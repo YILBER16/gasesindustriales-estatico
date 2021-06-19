@@ -1,6 +1,6 @@
            
 
-        <input type="" hidden=""  name="id" id="id">
+        <input type=""   name="id" id="id">
            
            <input type="text"  hidden="" name="Id_certificado" id="Id_certificado" class="form-control  input-sm" value="">
                        
@@ -26,7 +26,7 @@
 
                             </div>
                         </div>
-                        <label>Seleccione el producto</label>
+                        <label>Producto</label>
                         <div class="form-group   ">
                             <div class=" input-group ">
                            

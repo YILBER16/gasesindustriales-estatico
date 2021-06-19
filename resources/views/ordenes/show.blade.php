@@ -59,7 +59,7 @@ function mostrarPassword(){
                                 value="{{isset($orden->Fecha_solicitud)?$orden->Fecha_solicitud:old('Fecha_solicitud')}}"  class="form-control {{$errors->has('Fecha_solicitud')?'is-invalid':''}}"disabled>
                             </div>
                         </div>
-                        </div>
+                    </div>
 
 
                         <div class="row">
@@ -158,19 +158,19 @@ function mostrarPassword(){
                        
 
 
-<div class="form-group">
-<div class="col-md-12 text-center">
-<button type="button" class="btn btn-danger btn-lg" onclick="window.location='{{ URL::previous() }}'">Cancelar</button>
+                    <div class="form-group">
+                        <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-danger btn-lg" onclick="window.location='{{ URL::previous() }}'">Cancelar</button>
 
 
-                        </div>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+   </div>
 </fieldset>
                  
                    
