@@ -17,6 +17,7 @@ use Barryvdh\DomPDF\Options;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use DataTables;
 use App\Http\Requests\UpdateremisionenvaseRequest;
+use App\Http\Requests\ConsultafechasRequest;
 use Carbon\Carbon;
 
 class RemisionesController extends Controller
@@ -454,5 +455,15 @@ public function consultaremi(Request $request){
         $devolucion->save();
         return response()->json('ok');
     }
+
+    public function informeremisiones(ConsultafechasRequest $request)
+  {
+      $fecha1= $request->fechainicial;
+      $fecha2= $request->fechafinal;
+     $remisiones= Remisiones::with('cliente')->whereBetween('created_at', [$fecha1, $fecha2])->get();
+   
+     $pdf= PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('remisiones.pdf',compact('remisiones'));
+      return $pdf->stream('remisiones-list.pdf');
+  }
 
 }

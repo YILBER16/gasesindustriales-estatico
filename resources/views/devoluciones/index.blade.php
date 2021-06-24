@@ -6,17 +6,23 @@
 @section('script')
 
 @endsection
-@section('contenido')
-  @if (session('error'))
-<div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+      @section('contenido')
+      @if ($errors->any())
+    <div class="alert alert-danger">
+         <ul>
+            @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+            @endforeach
+         </ul>
+    </div>
+        @endif
           
          <div class="container ">
 
-          
+<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalinforme"><i class="fas fa-file-pdf"></i> Informe</button>
            <h4 class="titulo center" ><b>DEVOLUCIONES REALIZADAS</b> </h4>
 
-          <table class="table table-striped  table-hover table-curved text-center nowrap" id="devolucionestabla">
+          <table class="table table-striped  table-hover table-curved text-center nowrap display responsive no-wrap" width="100%" id="devolucionestabla">
             <thead >
               <tr class="">
                 <th>Id</th>
@@ -35,7 +41,30 @@
               
             </tbody>
           </table>
-                
+          
+              @section('cuerpo-modal-informe')
+              <form action="{{route('informedevoluciones')}}" method="post"> 
+                @csrf
+                <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha inicial</label>
+                  <input id="fechainicial" name="fechainicial" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+         <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha final</label>
+                  <input id="fechafinal" name="fechafinal" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+        </div>
+                 @section('pie-modal-informe')
+                 <button type="submit" class="btn btn-primary btn-cunsultar" id="btn-consultar" name="btn-consultar">Consultar</button>
+                 </form> 
+                 @endsection
+               
+               @endsection  
           </div>
 <script>
 $(document).ready(function() {

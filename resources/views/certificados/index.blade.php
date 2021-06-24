@@ -1,38 +1,29 @@
+@extends('welcome')
 @extends('layouts.layout')
 @section('titulo')
 <title>Certificados</title>
 @endsection
-@section('script')
-  <script type="text/javascript">
-$(document).ready(function() {
-    setTimeout(function() {
-        $(".content").fadeOut(1500);
-    },6000);
-});
-</script>
- <script type="text/javascript">
-function validarNumero(e) {
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla==8) return true; 
-    patron =/[0-9]/;
-    te = String.fromCharCode(tecla); 
-    return patron.test(te); 
- }
-</script>
-@endsection
-@section('contenido')
-          @if(Session::has('Mensaje'))
-          <div class="alert alert-success content col-sm-12 text-center "role="alert">
-          {{ Session::get('Mensaje')}}
-          </div>
 
-        
-          @endif
+@section('contenido')
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
           
          <div class="container ">
-            <h4 class="titulo center" ><b>CERTIFICADOS DE PRODUCCION</b> </h4>
+         
+         <a href="{{url('certificados/create')}} " type="button" class="btn btn-success float-right" style="margin-left: 20px !important;"> <i class="fas fa-file-contract"></i> Crear</a>
+         
+         <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalinforme"><i class="fas fa-file-pdf"></i> Informe</button>
+        
+         <h4 class="titulo center" ><b>CERTIFICADOS DE PRODUCCIÓN</b> </h4>
 
-          <table class=" table table-striped  table-hover table-curved text-center table2" id="miTabla">
+          <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="miTabla">
             <thead >
               <tr class="">
                 <th>Id certificado</th>
@@ -50,12 +41,30 @@ function validarNumero(e) {
             
             </tbody>
           </table>
-          
-           <div class="modal-footer">
-         
-        <a href="{{url('certificados/create')}} " type="button" class="btn btn-success" >Crear certificado</a>
+          @section('cuerpo-modal-informe')
+              <form action="{{route('informecertificados')}}" method="post"> 
+                @csrf
+                <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha inicial</label>
+                  <input id="fechainicial" name="fechainicial" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+         <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha final</label>
+                  <input id="fechafinal" name="fechafinal" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+        </div>
+                 @section('pie-modal-informe')
+                 <button type="submit" class="btn btn-primary btn-cunsultar" id="btn-consultar" name="btn-consultar">Consultar</button>
+                 </form> 
+                 @endsection
+               
+               @endsection  
 
-</div>
 </div>
 <script>
   $(document).ready(function(){

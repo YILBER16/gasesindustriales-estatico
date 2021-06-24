@@ -212,12 +212,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
           @canany(['isVentas','isAdmin'])
            <p></p>
            
-          <li class="nav-item bg-primary boton2">
-                <a href="{{ url('/remisiones/')}}" class="nav-link">
+           <li class="nav-item has-treeview menu-close boton2">
+            <a href="#" class="nav-link active">
+              
+              <p>
+               <i class="fas fa-cogs"></i>
+               Gestion de ventas
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
 
-                 <i class="fas fa-cart-arrow-down"></i>
-                  <p>Ventas</p>
+                <a href="{{ url('/remisiones/')}}" class="nav-link">
+                <i class="fas fa-share-square"></i>
+                  <p>Remisiones</p>
                 </a>
+              </li>
+            </ul>
+              <ul class="nav nav-treeview">
+              <li class="nav-item">
+
+                <a href="{{ url('/envasesafuera/')}}" class="nav-link">
+                <i class="fas fa-undo-alt"></i>
+                  <p>Recepciones</p>
+                </a>
+              </li>
+            </ul>
           </li>
           @endcanany
            @can('isAdmin')
@@ -340,7 +361,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('dist/js/alertify.js')}}"></script>
 
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
     
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>

@@ -3,12 +3,15 @@
 @section('titulo')
 <title>Remisiones</title>
 @endsection
-@section('script')
-
-@endsection
 @section('contenido')
-  @if (session('error'))
-<div class="alert alert-danger">{{ session('error') }}</div>
+@if ($errors->any())
+    <div class="alert alert-danger">
+         <ul>
+            @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+            @endforeach
+         </ul>
+    </div>
 @endif
           
          <div class="container ">
@@ -156,9 +159,11 @@
           
           <!-- ./col -->
         </div>
+        <a href="{{url('remisiones/create')}} " type="button" class="btn btn-success float-right" style="margin-left: 20px !important;"><i class="fas fa-file-contract"></i> Crear</a>
+        <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalinforme"><i class="fas fa-file-pdf"></i> Informe</button>
+           <br>
            <h4 class="titulo center" ><b>REMISIONES</b> </h4>
-
-          <table class=" table table-striped  table-hover table-curved text-center nowrap table2" id="miTabla">
+          <table class=" table table-striped  table-hover table-curved text-center nowrap table2 display responsive no-wrap" width="100%" id="miTabla">
             <thead >
               <tr class="">
                 <th>Nº remisión</th>
@@ -178,33 +183,51 @@
           </table>
          
                  
-          {{-- @section('cuerpo_modal_remision')
+            <!-- {{-- @section('cuerpo_modal_remision')
 
+                  @csrf
+                  
+                @include('remisiones.formentrada')
+                  @section('pie_modal_remision')
+                  <button type="submit" class="btn btn-danger" data-dismiss="modal" data-dismiss="modal">Cerrar</button>
+                  @endsection
+                
+                @endsection
+
+                @section('cuerpo_modal_remision_edicion')
+
+                @include('remisiones.formentradaedicion')
+
+                @section('pie_modal_remision_edicion')
+                  <button type="submit" id="btn_recibir" class="btn btn-warning btn_recibir" data-dismiss="modal" data-dismiss="modal">Recibir</button>
+                  @endsection
+
+                @endsection --}} -->
+                @section('cuerpo-modal-informe')
+              <form action="{{route('informeremisiones')}}" method="post"> 
                 @csrf
-                 
-               @include('remisiones.formentrada')
-                 @section('pie_modal_remision')
-                 <button type="submit" class="btn btn-danger" data-dismiss="modal" data-dismiss="modal">Cerrar</button>
+                <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha inicial</label>
+                  <input id="fechainicial" name="fechainicial" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+         <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha final</label>
+                  <input id="fechafinal" name="fechafinal" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+        </div>
+                 @section('pie-modal-informe')
+                 <button type="submit" class="btn btn-primary btn-cunsultar" id="btn-consultar" name="btn-consultar">Consultar</button>
+                 </form> 
                  @endsection
                
-               @endsection
+               @endsection  
 
-               @section('cuerpo_modal_remision_edicion')
-
-               @include('remisiones.formentradaedicion')
-
-               @section('pie_modal_remision_edicion')
-                 <button type="submit" id="btn_recibir" class="btn btn-warning btn_recibir" data-dismiss="modal" data-dismiss="modal">Recibir</button>
-                 @endsection
-
-               @endsection --}}
           
-
-           <div class="modal-footer">
-         <button id="prueba" data-toggle="modal" data-target="#modalremision" class="btn btn-primary">RECIBIR</button>
-        <a href="{{url('remisiones/create')}} " type="button" class="btn btn-success" >Crear remision</a>
-        
-</div>
 </div>
 
 <script type="text/javascript">
