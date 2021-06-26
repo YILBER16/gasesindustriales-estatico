@@ -10,7 +10,7 @@
                            
                               
                            
-                            <table id="tablaedit" class="table table-hover table-condensed table-bordered tablaedit">
+                            <table id="tablaedit" class="table table-hover table-condensed table-bordered tablaedit display responsive no-wrap" width="100%">
                               
                               <tr>
                               <td hidden="">Id</td>

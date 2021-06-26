@@ -12,7 +12,7 @@
          <div class="container ">
            <h4 class="titulo center" ><b>KARDEX DE TRAZABILIDAD</b> </h4>
 
-          <table class=" table table-striped  table-hover table-curved text-center table2" id="miTabla">
+          <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="miTabla">
             <thead >
               <tr class="">
 

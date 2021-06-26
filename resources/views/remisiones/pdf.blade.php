@@ -38,7 +38,7 @@
         .invoice table {
             position: relative;
             table-layout: fixed;
-    width: 1042px;
+    width: 820px;
            
         }
          .invoice table th, td{
@@ -166,7 +166,8 @@
        
     }
     .tabla3 td{
-        border: 1px solid #000;
+        border: 0.5px solid #000;
+        width: 50px;
     }
     .tabla3 .cancelado{
         border-left: 0;
@@ -183,7 +184,11 @@
         color: #000000;
         background-color: rgba(0, 0, 0, .15);
     }
-   
+    footer{
+   /* Like the header, the footer will have a static height - it shouldn't grow or shrink.  */
+   /* 0 flex-grow, 0 flex-shrink, auto flex-basis */
+   flex: 0 0 auto;
+}
     </style>
 
     
@@ -225,60 +230,28 @@
 
 </div>
  
-            <thead align="left" >
-                  <h4 class="titulo2" align="center" ><b>LISTADO DE ENVASES</b> </h4>
+<thead align="left" >
+<h4 class="titulo2" align="center" ><b>INFORME DE REMISIONES</b> </h4>
               <tr class="">
-                <td align="center" class="fondo"><strong>ENVASE</strong></td>
-                <td align="center" class="fondo"><strong>PROPIETARIO</strong></td>
-                <td align="center" class="fondo"><strong>PROVEEDOR</strong></td>
-                <td align="center" class="fondo"><strong>Nº INTERNO ENVASE</strong></td>
-                <td align="center" class="fondo"><strong>ESTADO</strong></td>
-                <td align="center" class="fondo"><strong>MATERIAL</strong></td>
-                <td align="center" class="fondo"><strong>UNIDAD MEDIDA</strong></td>
-                <td align="center" class="fondo"><strong>CAPACIDAD</strong></td>
-                <td align="center" class="fondo"><strong>CLASE PRODUCTO</strong></td>
-                <td align="center" class="fondo"><strong>PRESION</strong></td>
-                <td align="center" class="fondo"><strong>ALTURA CON VALVULA</strong></td>
-                <td align="center" class="fondo"><strong>PRESION CON VALVULA</strong></td>
-                <td align="center" class="fondo"><strong>VALVULA</strong></td>
-                <td align="center" class="fondo"><strong>COLOR</strong></td>
-                <td align="center" class="fondo"><strong>NORMA TECNICA FABRICACION</strong></td>
-                <td align="center" class="fondo"><strong>TAPA</strong></td>
-                <td align="center" class="fondo"><strong>FECHA COMPRA</strong></td>
-                <td align="center" class="fondo"><strong>GARANTIA</strong></td>
-                <td align="center" class="fondo"><strong>FECHA FABRICACION</strong></td>
-                <td align="center" class="fondo"><strong>PRUEBA HIDROSTATICA</strong></td>
+                <td align="center" class="fondo"><strong>FECHA REMISION</strong></td>
+                <td align="center" class="fondo"><strong>Nº REMISION</strong></td>
+                <td align="center" class="fondo"><strong>NIT CLIENTE</strong></td>
+                <td align="center" class="fondo"><strong>CLIENTE</strong></td>
+                <td align="center" class="fondo"><strong>CC EMPLEADO</strong></td>
+                <td align="center" class="fondo"><strong>EMPLEADO</strong></td>
                 </tr>     
             </thead>
             <tbody>
-                <label></label>
-              @foreach($envasespdf as $envase)
+           @foreach($remisiones as $item)
 
-              <tr>
-                <td  align="left" class="fondodato"><span class="text">{{$envase->Id_envase}}</span></td>
-                <td  class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Nom_propietario}}</span></td>
-                <td align="left" class="fondodato" id="valor"><span class="text" id="valor" >{{$envase->Nom_proveedor}}</span></td>
-                <td align="left" class="fondodato"><span class="text">{{$envase->N_int_envase}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Estado_envase}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Material}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->U_medida}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Capacidad}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Clas_producto}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Presion}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Alt_c_valvula}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->P_c_valvula}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Valvula}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Color}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->N_int_fabricacion}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Tapa}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Fecha_compra}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Garantia}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Fecha_fabricacion}}</span></td>
-                <td class="fondodato" align="left"><span class="text" class="fondo">{{$envase->Prueba_hidrostatica}}</span></td>
-
-              
-
-              </tr>
+         <tr>
+        <td  align="left" class="fondodato"><span class="text">{{$item->Fecha_remision}}</span></td>
+        <td  class="fondodato" align="left"><span class="text" class="fondo">{{$item->Id_remision}}</span></td>
+        <td align="left" class="fondodato" id="valor"><span class="text" id="valor" >{{$item->Id_cliente}}</span></td>
+        <td align="left" class="fondodato"><span class="text">{{$item->cliente->Nom_cliente}}</span></td>
+        <td class="fondodato" align="left"><span class="text" class="fondo">{{$item->Id_empleado}}</span></td>
+        <td class="fondodato" align="left"><span class="text" class="fondo">{{$item->Nom_empleado}}</span></td>
+        </tr>
 
               @endforeach
             </tbody>
@@ -286,7 +259,8 @@
             </div>
            
           </table>
-</div>
+<!-- </div>
+<footer>
 
 <div class="information2" style="position: relative; bottom: 2;width: 1042px;">
     <table width="100%">
@@ -340,5 +314,6 @@ BUCARAMANGA SANTANDER
 
     </table>
 </div>
+</footer> -->
 </body>
 </html>

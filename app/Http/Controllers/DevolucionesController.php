@@ -9,6 +9,9 @@ use App\Clientes;
 use App\Remisiones;
 use App\Devoluciones;
 use App\Envases;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Options;
+use App\Http\Requests\ConsultafechasRequest;
 
 class DevolucionesController extends Controller
 {
@@ -50,5 +53,16 @@ class DevolucionesController extends Controller
 
        return view('devoluciones.show',compact('devolucion'));
        
+    }
+   
+
+      public function informedevoluciones(ConsultafechasRequest $request)
+    {
+        $fecha1= $request->fechainicial;
+        $fecha2= $request->fechafinal;
+       $devoluciones= Devoluciones::with('cliente')->whereBetween('created_at', [$fecha1, $fecha2])->get();
+      
+       $pdf= PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('letter','landscape')->loadView('devoluciones.pdf',compact('devoluciones'));
+        return $pdf->stream('devoluciones-list.pdf');
     }
 }

@@ -23,7 +23,7 @@
     </div>
 
 
-          <table class=" table table-striped  table-hover table-curved text-center table2">
+          <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%">
             <thead >
               <tr class="bg-primary titulo2">
                 <th>Nº remisión</th>

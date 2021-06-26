@@ -187,3 +187,21 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="modalinforme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-align: justify" id="myModalLabel">Informe general</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        
+      </div>
+      <div class="modal-body">
+      @yield('cuerpo-modal-informe')
+      </div>
+      <div class="modal-footer">
+      @yield('pie-modal-informe')
+       
+      </div>
+    </div>
+  </div>
+</div>

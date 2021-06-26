@@ -36,7 +36,7 @@ function validarNumero(e) {
          <div class="container ">
             <h4 class="center" ><b>LISTADO DE CLIENTES</b> </h4>
  
-          <table class=" table table-striped  table-hover table-curved text-center table2" id="mitabla">
+          <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="mitabla">
             <thead >
               <tr>
                 <th>Identificación</th>

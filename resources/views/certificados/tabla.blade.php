@@ -7,7 +7,7 @@
                             
                               
                            
-                            <table id="tabla" class="table table-hover table-condensed table-bordered tabla">
+                            <table id="tabla" class="table table-hover table-condensed table-bordered tabla display responsive no-wrap" width="100%">
                               
                               <tr>
                               <td hidden="">Id</td>

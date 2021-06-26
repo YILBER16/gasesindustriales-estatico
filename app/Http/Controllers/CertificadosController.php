@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Certificados;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatecertificadosRequest;
+use App\Http\Requests\ConsultafechasRequest;
 use Illuminate\Support\Facades\DB;
 use App\Empleados;
 use App\Ordenes;
@@ -311,6 +312,16 @@ class CertificadosController extends Controller
     public function consultaproducto(Request $request){
       $producto= Envases::all()->where('Id_envase',$request->Id_envase)->first();
       return response()->json($producto);
+  }
+
+  public function informecertificados(ConsultafechasRequest $request)
+  {
+      $fecha1= $request->fechainicial;
+      $fecha2= $request->fechafinal;
+     $certificados= Certificados::with('orden','producto')->whereBetween('created_at', [$fecha1, $fecha2])->get();
+   
+     $pdf= PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('letter','landscape')->loadView('certificados.pdf',compact('certificados'));
+      return $pdf->stream('certificados-list.pdf');
   }
       
 

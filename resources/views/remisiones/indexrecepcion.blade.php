@@ -12,8 +12,10 @@
 @endif
 <meta name="csrf-token" content="{{ csrf_token() }}" />     
 <div class="container">
+<a href="{{url('/devoluciones')}} " type="button" class="btn btn-primary float-right" ><i class="fas fa-undo-alt"></i> Devoluciones</a>
+    <br>
   <h4 class="titulo center" ><b>ENVASES PRESTADOS</b> </h4>
-  <table class="table table-striped  table-hover table-curved text-center nowrap tablaa" id="tablaa">
+  <table class="table table-striped  table-hover table-curved text-center nowrap tablaa display responsive no-wrap" width="100%" id="tablaa">
               <thead >
                 <tr class="">
                   <td>Id</td>
