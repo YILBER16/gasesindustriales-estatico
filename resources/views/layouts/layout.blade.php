@@ -168,8 +168,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-         
+          @endcan
           <p></p>
+          
+          @canany(['isProduccion','isAdmin','isVentas'])
           <li class="nav-item bg-primary boton2">
                 <a href="{{ url('/envases/')}}" class="nav-link">
 
@@ -177,7 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Gestion de cilindros</p>
                 </a>
           </li>
-           @endcan
+          @endcanany
            @canany(['isProduccion','isAdmin'])
           <p></p>
           <li class="nav-item has-treeview menu-close boton2">

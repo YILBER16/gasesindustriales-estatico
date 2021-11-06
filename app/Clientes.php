@@ -10,7 +10,6 @@ use App\Devoluciones;
 class Clientes extends Model
 {
 	use SoftDeletes;
-	public $timestamps = false;
 
     protected $table = "clientes";
      protected $fillable = [

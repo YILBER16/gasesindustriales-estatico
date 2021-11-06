@@ -20,7 +20,7 @@ class CreateClientesTable extends Migration
             $table->string('Dir_cliente',200)->nullable();
             $table->string('Ciudad',70);
             $table->string('Tel_cliente',20)->nullable();
-            $table->string('Cor_cliente',200);
+            $table->string('Cor_cliente',200)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

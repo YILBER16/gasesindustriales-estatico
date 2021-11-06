@@ -44,10 +44,10 @@ class ClientesImport implements ToModel,WithHeadingRow,WithValidation
     return [
         'identificacion.unique' => 'Ya existe esta identificación',
         'nombre.required' => 'Todos los nombres son requeridos',
-        'direccion.required' => 'Todas las direcciones son requeridas',
-        'ciudad.required' => 'Todas las ciudades son requeridas',
-        'telefono.required' => 'Todos los telefonos son requeridos',
-        'correo.required' => 'Todos los correos son requeridos',
+        // 'direccion.required' => 'Todas las direcciones son requeridas',
+        // 'ciudad.required' => 'Todas las ciudades son requeridas',
+        // 'telefono.required' => 'Todos los telefonos son requeridos',
+        // 'correo.required' => 'Todos los correos son requeridos',
     ];
 }
 }
