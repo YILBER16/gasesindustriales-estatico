@@ -70,7 +70,7 @@ class CertificadosController extends Controller
     {
       
         $produccion=Ordenes::all('Id_produccion','Estado','certi_estado')->where('Estado','==','1')->where('certi_estado','==','0');
-        $envase= Envases::all('Id_envase','Clas_producto','Estado_actual','Inventario');
+        $envase= Envases::all('Id_envase','Clas_producto','Estado_actual','Inventario','Capacidad');
         $producto= Productos::all('Id_producto','Nom_producto');
 
         $datoscertificados= Certificados::all('Id_certificado');
@@ -118,7 +118,7 @@ class CertificadosController extends Controller
       $certificados=Certificados::with('producto')->findOrFail($Id_certificado);
       $orden= Ordenes::all()->where('Id_produccion',$request->Id_produccion)->first();
       $producto= Productos::all('Id_producto','Nom_producto');
-      $envase= Envases::all('Id_envase','Clas_producto','Estado_actual','Inventario')->where('Estado_actual','==','0')->where('Inventario','==','1');
+      $envase= Envases::all('Id_envase','Clas_producto','Estado_actual','Inventario','Capacidad')->where('Estado_actual','==','0')->where('Inventario','==','1');
 
 
 

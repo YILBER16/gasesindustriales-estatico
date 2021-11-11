@@ -34,7 +34,7 @@ class Remisiones extends Model
 
    public function envases_remisiones()
 {
-  return $this->hasMany(Envase_remision::class, 'Id_remision','Id');
+  return $this->hasMany(Envase_remision::class, 'Id','Id_remision');
 }
 
 

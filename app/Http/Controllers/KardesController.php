@@ -47,13 +47,12 @@ class KardesController extends Controller
 
        $datos2['resultado2']=DB::table('envase_remision')
        ->join('remisiones','remisiones.Id_remision', '=','envase_remision.Id_remision')
-       
-
-       ->select('envase_remision.Cantidad','envase_remision.Producto','envase_remision.created_at','remisiones.Id_cliente','envase_remision.Fecha_ingreso')
+       ->join('clientes','clientes.Id_cliente', '=','remisiones.Id_cliente')
+       ->select('envase_remision.Cantidad','envase_remision.Producto','envase_remision.created_at','remisiones.Id_cliente','envase_remision.Fecha_ingreso','clientes.Nom_cliente')
 
        ->whereIn('envase_remision.Id_envase', $envase)->get()->toArray();
        
-   
+     
         return view('kardes.show',$datos, $datos2);
     }
 

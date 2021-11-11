@@ -3,16 +3,14 @@
 @section('titulo')
 <title>Kardes</title>
 @endsection
-@section('script')
-
-@endsection
 @section('contenido')
 
           
-         <div class="container ">
+         <div class="container">
            <h4 class="titulo center" ><b>KARDEX DE TRAZABILIDAD</b> </h4>
 
-          <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="miTabla">
+        
+           <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="miTabla">
             <thead >
               <tr class="">
 
@@ -44,7 +42,7 @@
               <td>{{$item->N_lote}}</td>
               <td>{{$item->Fecha_vencimiento}}</td>
               <td>{{$resultado2[$index]->created_at}}</td>
-              <td>{{$resultado2[$index]->Id_cliente}}</td>
+              <td>{{$resultado2[$index]->Nom_cliente}}</td>
               <td>{{$resultado2[$index]->Fecha_ingreso}}</td>
               
               @endforeach
@@ -70,6 +68,5 @@
 
 </div>
 </div>
-
 
 @endsection

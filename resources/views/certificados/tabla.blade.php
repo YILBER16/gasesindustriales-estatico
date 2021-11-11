@@ -14,7 +14,7 @@
                               <td hidden="">Id certificado</td>
                               <td>Id envase</td>
                               <td>Producto</td>
-                              <td>Cantidad</td>
+                              <td>Cantidad (Mt3)</td>
                               <td>Acciones</td>
                               
                               </tr>
