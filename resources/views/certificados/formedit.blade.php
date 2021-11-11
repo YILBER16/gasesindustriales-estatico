@@ -44,8 +44,10 @@
                             </div>
                         </div>
 
-
-        <label>Cantidad</label>
+        <label>Capacidad maxima (Mt3)</label>
+        <input type="text" name="Capacidad_max" id="Capacidad_max" class="form-control input-sm" disabled>
+       
+        <label>Cantidad (Mt3)</label>
         <input type="text" name="Cantidad" id="Cantidad" class="form-control input-sm">
         <input type="text" hidden="" value="1" name="Estado" id="Estado" class="form-control input-sm">
 

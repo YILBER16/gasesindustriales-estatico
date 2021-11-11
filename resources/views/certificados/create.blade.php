@@ -321,6 +321,9 @@ $(document).ready(function(){
   $("#addform").on('submit',function(e){
 
   e.preventDefault();
+  var capacidad_max=$('#Capacidad_max').val();
+  var cantidad=$('#Cantidad').val();
+  if(cantidad<=capacidad_max){
   $.ajax({
     type:'POST',
     url:"/savecerenvases",
@@ -337,10 +340,14 @@ $(document).ready(function(){
   },
   error:function(error){
         console.log(error);
-        alertify.success('No Guardado');
+        alertify.error('No guardado');
 
         }
     });
+  }
+  else{
+        alertify.error('La cantidad es mayor a la capacidad maxima');      
+  }
   });
 
 
@@ -374,6 +381,7 @@ $(document).ready(function(){
       fun2();
       $('#Id_envase').trigger("chosen:updated");
       $('input[name=Cantidad').val('');
+      $('input[name=Capacidad_max').val('');
       $('#Clas_producto').val('');
       console.log('si');
       });
@@ -476,6 +484,7 @@ swal("Cancelado", "No finalizado", "error");
       //console.log("Si");
       var Id_envase=$(this).val();
       var Clas_producto=$(this).val();
+      var Capacidad=$(this).val();
       //console.log(Id_produccion);
       $.ajax({
         type:'get',
@@ -483,6 +492,7 @@ swal("Cancelado", "No finalizado", "error");
         data:{
           'Id_envase':Id_envase,
           'Clas_producto':Clas_producto,
+          'Capacidad':Capacidad,
         },
         dataType:'json',
         success:function(data){
@@ -490,7 +500,7 @@ swal("Cancelado", "No finalizado", "error");
           console.log(data.Id_envase);
           // $('#lote').val(data.N_lote);
           $('#Clas_producto').val(data.Clas_producto);
-
+          $('#Capacidad_max').val(data.Capacidad);
         },
         error:function(){
 

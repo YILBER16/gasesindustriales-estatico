@@ -13,7 +13,7 @@
                               <td hidden="">Id remision</td>
                               <td>Id envase</td>
                               <td>Producto</td>
-                              <td>Capacidad</td>
+                              <td>Cantidad (Mt3)</td>
                               <td>Acciones</td>
                               
                               </tr>

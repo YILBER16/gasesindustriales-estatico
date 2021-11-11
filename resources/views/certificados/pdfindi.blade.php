@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Listado empleados</title>
+    <title>Certificado de producción Nº {{$certificado->Id_certificado}}</title>
 
     <style type="text/css">
         @page {
@@ -296,7 +296,7 @@
 </div>
 
 
-                <h4 class="titulo2" align="center" ><b>CERTIFICADO DE PRODUCCIÓN</b> </h4>
+                <h4 class="titulo2" align="center" ><b>CERTIFICADO DE PRODUCCIÓN Nº {{$certificado->Id_certificado}}</b> </h4>
                 <div class="grupoorden">
                 <div class="nombresorden" style=" float:left; margin-left: 40px;">
                     <div class="row">
@@ -308,7 +308,7 @@
                     </div>
                     <div class="col-md-4 col-lg-4">
 
-                    <label style=" font-weight:bold;">CANTIDAD M3:</label>
+                    <label style=" font-weight:bold;">CANTIDAD Mt3:</label>
                     <label style="margin-left: 32px;">{{$certificado->orden->Cantidad_m3}}</label>
                     
                     </div>
@@ -389,7 +389,7 @@
         <table class="tablaproducto"  width="100%">
              <thead  >
                 <tr class="">
-                     <td align="center" class="fondo"><strong>CAPACIDAD</strong></td>
+                     <td align="center" class="fondo"><strong>CANTIDAD (Mt3)</strong></td>
                      <td align="center" class="fondo"><strong>PRODUCTO</strong></td>
                      <td align="center" class="fondo"><strong>ENVASE</strong></td>
                     

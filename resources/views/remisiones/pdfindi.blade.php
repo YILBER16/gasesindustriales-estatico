@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Example 1</title>
+    <title>Remision Nº {{$remision->Id_remision}}</title>
     <style type="text/css">
         @page {
             margin:1px;
@@ -70,6 +70,14 @@ h1 {
     top: 15em;
 
 }
+.clientes_telefono{
+    position: absolute;
+
+    width: 100% ;
+    height: 50px;
+    top: 16em;
+
+}
 .direccion{
     position: absolute;
 
@@ -78,6 +86,7 @@ h1 {
     top: 17em;
 
 }
+
 .remision span{
     color: red;
 }
@@ -85,7 +94,19 @@ h1 {
     font-size: 14;
     color: #00000;
 }
+.clientes_telefono label{
+  font-size: 14;
+    color: #00000;
+}
+#remision_id label{
+  font-size: 14;
+    color: #00000;
+}
 .direccion label{
+    font-size: 14;
+    color: #00000;
+}
+.correo label{
     font-size: 14;
     color: #00000;
 }
@@ -270,33 +291,37 @@ BUCARAMANGA SANTANDER
 
       <h1 ></h1>
       <div id="project">
-        <div><h4 style="font-size: 14;">REMISIÓN INDUSTRIAL</h4></div>
+        <div><h4 style="font-size: 14;">REMISIÓN Nº {{$remision->Id_remision}}</h4></div>
 
         <div style="position: absolute; left: 37em; top:0.5em "><span>Fecha:</span></div>
         <div style="position: absolute; left: 53em; top: 0.5em;"><span>Nº remision:</span></div>
         <div style="position: absolute; left: 43em; top: 0.5em;"><span >{{$remision->Fecha_remision}}</span></div>
-        <div id="remisionsi" style="position: absolute; left: 63em; top: 0.5em;">{{$remision->Id_remision}}</div>
+        <div  style="position: absolute; left: 61em; top: 0.5em;"><span >{{$remision->Id_remision}}</span></div>
        
       </div>
 
       <div class="personas" style="position: absolute; top: 16em;">
         <div><label>Cliente:</label></div>
         <div style="position: absolute; top: 0em; left: 7em;"><label>{{$remision->cliente->Nom_cliente}}</label></div>
-        <div style="position: absolute; top: 0em; left: 25em;"><label>Nit o Cc:</label></div>
-        <div style="position: absolute; top: 0em; left: 32em;"><label>{{$remision->cliente->Id_cliente}}</label></div>
-        <div style="position: absolute; top: 0em; left: 50em;"><label>Tel:</label></div>
-        <div style="position: absolute; top: 0em; left:53em;"><label>{{$remision->cliente->Tel_cliente}}</label></div>
       </div>
-       <div class="direccion"style="position: absolute; top: 18em;">
+      <div class="clientes_telefono" style="position: absolute; top: 18em;">
+        <div><label>Nit o Cc:</label></div>
+        <div style="position: absolute; top: 0em; left: 7em;"><label>{{$remision->cliente->Id_cliente}}</label></div>
+        <div style="position: absolute; top: 0em; left: 25em;"><label>Tel:</label></div>
+        <div style="position: absolute; top: 0em; left:28em;"><label>{{$remision->cliente->Tel_cliente}}</label></div>
+      </div>
+       <div class="direccion"style="position: absolute; top: 20em;">
         <div><label>Direccion:</label></div>
         <div style="position: absolute; left: 7em; top: 0em;"><label>{{$remision->cliente->Dir_cliente}}</label></div>
-        <div style="position: absolute; top: 0em; left: 25em;"><label>E-mail:</label></div>
-        <div style="position: absolute; top: 0em; left: 32em;"><label>{{$remision->cliente->Cor_cliente}}</label></div>
+      </div>
+      <div class="correo"style="position: absolute; top: 22em;">
+        <div><label>E-mail:</label></div>
+        <div style="position: absolute; top: 0em; left: 7em;"><label>{{$remision->cliente->Cor_cliente}}</label></div>
       </div>
       
     </header>
     <main>
-        <div class="datos" style="position: relative;top: 3em;">
+        <div class="datos" style="position: relative;top: 6em;">
       <table>
         <thead>
           <tr >
@@ -319,24 +344,24 @@ BUCARAMANGA SANTANDER
        
       </table>
       </div>
-      <div id="notices"  style="position: relative; top: 1em;">
+      <div id="notices"  style="position: relative; top: 5em;">
         <div class="notice">Nota: Los cilindros aquí relacionados son propiedad de GASES INDUSTRIALES DE LOS SANTANDERES S.A.S, en caso de extravió o perdida se cobrará el valor del cilindro en la actualidad.</div>
         <div class="notice"></div>
       </div>
-      <div class="firmas" style="position: relative; top: 4em;">
+      <div class="firmas" style="position: relative; top: 6em;">
           <div class="vendedor">
               <label style="font-size: 14;">Firma vendedor</label>
               <label>           _________________________________</label>
           </div>
           <div class="comprador" style="position: relative; left: 35em; top: -1.3em;">
               <label style="font-size: 14;">Acepto:</label>
-              <label>           ___________________________________
+              <label style="font-size: 14;">________________________________
              <br> Nit o CC.</label>
              
           </div>
 
       </div>
-      <label id="myLabel" for="male">5</label>
+      
     </main>
   </body>
 </html>
