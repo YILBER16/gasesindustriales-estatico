@@ -53,7 +53,6 @@ class CertificadosController extends Controller
                   
       }
 
-        
         return view('certificados.index');
         
         
@@ -226,8 +225,8 @@ class CertificadosController extends Controller
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-
-        if ($stock->update(['Estado_actual'=>'1'])) {
+        $stock2 = Envases::on('mysql2')->findOrFail($id);
+        if ($stock->update(['Estado_actual'=>'1']) && $stock2->update(['Estado_actual'=>'1'])) {
         return response()->json($stock);
           
         }
@@ -237,8 +236,8 @@ class CertificadosController extends Controller
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-
-        if ($stock->update(['Estado_actual'=>'0'])) {
+        $stock2 = Envases::on('mysql2')->findOrFail($id);
+        if ($stock->update(['Estado_actual'=>'0']) && $stock2->update(['Estado_actual'=>'0'])) {
         return response()->json($stock);
           
         }

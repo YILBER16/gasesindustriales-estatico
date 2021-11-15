@@ -251,8 +251,8 @@ public function consultaremi(Request $request){
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-
-        if ($stock->update(['Inventario'=>'0'])) {
+        $stock2 = Envases::on('mysql2')->findOrFail($id);
+        if ($stock->update(['Inventario'=>'0']) && $stock2->update(['Inventario'=>'0'])) {
         return response()->json($stock);
           
         }
@@ -261,7 +261,7 @@ public function consultaremi(Request $request){
       public function consultadatosenvase(Request $request){
          $id = $request->Id_envase;
         $stock=CertifiEnvases::findOrFail($id);
-
+        
         return response()->json($envase);
 
     }
@@ -269,8 +269,8 @@ public function consultaremi(Request $request){
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-
-        if ($stock->update(['Inventario'=>'1'])) {
+        $stock2 = Envases::on('mysql2')->findOrFail($id);
+        if ($stock->update(['Inventario'=>'1'])&& $stock2->update(['Inventario'=>'1'])) {
         return response()->json($stock);
           
         }
@@ -313,8 +313,8 @@ public function consultaremi(Request $request){
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-
-        if ($stock->update(['Inventario'=>'1','Estado_actual'=>'0'])) {
+        $stock2 = Envases::on('mysql2')->findOrFail($id);
+        if ($stock->update(['Inventario'=>'1','Estado_actual'=>'0']) && $stock2->update(['Inventario'=>'1','Estado_actual'=>'0'])) {
         return response()->json($stock);
           
         }
@@ -420,8 +420,8 @@ public function consultaremi(Request $request){
       {
         // $Id_envase = $request->Id_envase;
         $stockenvase=Envases::find($request->Id_envase);
-
-        if ($stockenvase->update(['Inventario'=>'1'])) {
+        $stockenvase2 = Envases::on('mysql2')->find($request->Id_envase);
+        if ($stockenvase->update(['Inventario'=>'1']) && $stockenvase2->update(['Inventario'=>'1'])) {
         return response()->json($stockenvase);
           
         }

@@ -23,7 +23,7 @@
                 <th>Lote</th>
                 <th>Fecha vencimiento</th>
                 <th>Fecha salida</th>
-                <th>Id cliente</th>
+                <th>Cliente</th>
                 <th>Fecha ingreso</th>
                 
               </tr>

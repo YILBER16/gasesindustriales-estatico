@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Listado empleados</title>
+    <title>Listado propietarios</title>
 
     <style type="text/css">
         @page {

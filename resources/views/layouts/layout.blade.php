@@ -105,14 +105,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
         <div class="image">
-          <img src="{{ asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('dist/img/users.png')}}" class="img-circle elevation-2" alt="User Image" style="background:white;">
         </div>
-        <div class="info">
+        
+        <div class="info" style="margin-bottom:-30px !important;">
           @auth
-          <label class="" style="color:#FFFFFF";>{{Auth::user()->name}} {{Auth::user()->roles->isNotEmpty()? Auth::user()->roles->first()->name : ""}}</label>
-
+          <label class="" style="color:#FFFFFF; font-size:20px;">{{Auth::user()->name}} <br>
+          <span class="" style="color:#FFFFFF; font-size:15px;">{{Auth::user()->roles->isNotEmpty()? Auth::user()->roles->first()->name : ""}}</span></label>          
           @endauth
         </div>
       </div>

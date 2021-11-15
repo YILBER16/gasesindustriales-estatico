@@ -68,8 +68,8 @@ class ProveedoresController extends Controller
        
 
        Proveedores::insert($datosProveedor);
-
-       
+       Proveedores::on('mysql2')->insert($datosProveedor);
+      
 
      
        // Session::flash('flash_message','Guardado con exito');
@@ -111,7 +111,8 @@ class ProveedoresController extends Controller
     {
       $datosProveedor=request()->except(['_token','_method']);
        Proveedores::where('Id_proveedor','=',$Id_proveedor)->update($datosProveedor);
-        
+       Proveedores::on('mysql2')->where('Id_proveedor','=',$Id_proveedor)->update($datosProveedor);
+       
         return redirect('proveedores')->with('alertedit', 'Modificado con exito');
     }
 
@@ -130,6 +131,8 @@ class ProveedoresController extends Controller
     public function deleteDate(Request $request)
     {
         $data=Proveedores::find($request->Id_proveedor)->delete();
+        $data=Proveedores::on('mysql2')->find($request->Id_proveedor)->delete();
+        
         return response()->json();
     }
     public function exportpdf()

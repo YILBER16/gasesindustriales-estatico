@@ -15,7 +15,7 @@
           <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="miTabla">
             <thead >
               <tr class="">
-                <th>Idº envase</th>
+                <th>Id envase</th>
                 <th>Acciones</th>
               </tr>
             </thead>

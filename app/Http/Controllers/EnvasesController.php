@@ -72,7 +72,7 @@ class EnvasesController extends Controller
        
 
         Envases::insert($datosEnvase);
-
+        Envases::on('mysql2')->insert($datosEnvase);
         $tipo = "alert alert-success";
         
 
@@ -116,7 +116,7 @@ class EnvasesController extends Controller
         
       $datosEnvase=request()->except(['_token','_method']);
        Envases::where('Id_envase','=',$Id_envase)->update($datosEnvase);
-        
+       Envases::on('mysql2')->where('Id_envase','=',$Id_envase)->update($datosEnvase);
         return redirect('envases')->with('alertedit', 'Modificado con exito');
     }
 
@@ -136,6 +136,8 @@ class EnvasesController extends Controller
     public function deleteDate(Request $request)
     {
         $data=Envases::find($request->Id_envase)->delete();
+        $data=Envases::on('mysql2')->find($request->Id_envase)->delete();
+        
         return response()->json();
     }
     public function exportpdf()
