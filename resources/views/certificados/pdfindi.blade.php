@@ -384,79 +384,30 @@
  </div>
 <div class="invoice">
 <table width=100% style="top: 9em; position: relative; float:right; font-size: 12;"> 
-  <tr> 
-    <td valign="top">
-        <table class="tablaproducto"  width="100%">
-             <thead  >
+  
+<thead  >
                 <tr class="">
                      <td align="center" class="fondo"><strong>CANTIDAD (Mt3)</strong></td>
                      <td align="center" class="fondo"><strong>PRODUCTO</strong></td>
                      <td align="center" class="fondo"><strong>ENVASE</strong></td>
-                    
-                </tr>  
-            </thead>
-           
-             @forelse($datos as $item)
-            <tbody>
-                <tr>
-                   
-                             <td  class="fondodato"><span class="text"> {{$item->Cantidad}}</span></td>
-                              <td  class="fondodato"><span class="text">
-
-                               {{$item->Clas_producto}}
-                           </span></td>
-                               <td  class="fondodato"><span class="text"> {{$item->Id_envase}}</span></td>
-                               
-
-                               
-                        
-                </tr>
-                
-             </tbody>
-             @empty
-             <tbody>
-                <tr>
-                   
-                             <td  class="fondodato"><span class="text"> Sin datos</span></td>
-                              <td  class="fondodato"><span class="text"> Sin datos</span></td>
-                               <td  class="fondodato"><span class="text"> Sin datos</span></td>
-                               
-
-                               
-                        
-                </tr>
-                
-             </tbody>
-             @endforelse
-             
-              </table>
-    </td>
-    <td valign="top">
-        <table  class="tablaproducto" width="100%" style="margin-left: -5px;"> 
-             <thead>
-                <tr class="">
                      <td align="center" class="fondo"><strong>PROPIETARIO</strong></td>
                     
                 </tr>  
             </thead>
-             @foreach($resultado as $item)
-             <tbody>
+           
+             @foreach($datos as $item)
+            <tbody>
                 <tr>
-           <td  class="fondodato"><span class="text"> {{$item->Nom_propietario}}</span></td>
-           </tr>
+                   
+                             <td  class="fondodato"><span class="text"> {{$item->Cantidad}}</span></td>
+                             <td  class="fondodato"><span class="text">{{$item->Clas_producto}}</span></td>
+                             <td  class="fondodato"><span class="text"> {{$item->Id_envase}}</span></td>
+                             <td  class="fondodato"><span class="text"> {{$item->Nom_propietario}}</span></td>
+        
+                        
+                </tr>
+            @endforeach
              </tbody>
-             @endforeach
-          </table>
-      </td>
-             
-
-
-
-
-
-
-
-</tr>
    </table>
 </div>
          
