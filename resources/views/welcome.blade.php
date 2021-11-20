@@ -205,3 +205,24 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalinformecliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content"style="max-height: calc(100vh - 210px);overflow-x: hidden;">
+      <div class="form-group">
+         <legend class="card-header text-center bg-dark">Informe kardex por cliente</legend>
+       
+        
+      </div>
+      <div class="modal-body">
+
+    @yield('cuerpo_modal_informe_cliente')
+      </div>
+      <div class="modal-footer">
+        @yield('pie_modal_informe_cliente')
+        
+        
+      </div>
+    </div>
+  </div>
+</div>

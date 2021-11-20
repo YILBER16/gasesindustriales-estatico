@@ -69,21 +69,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                            </div>
                             </div>
-                            
-
-
-
-<!-- Modal para registros nuevos -->
-
-<!-- Modal para edicion -->
-
-<!-- ./wrapper -->
 <script>
 $(document).ready(function(){
   $('.form-control-chosen').chosen();
   fun2();
   $('#Id_envase').trigger("chosen:updated");
-    });
+});
+
 
   function ver_tabla(){
   $.get('tblremisiones',function(data){
@@ -228,7 +220,7 @@ $(document).ready(function(){
        swal('Remisión exitosa','','success')
         $(".swal-button--confirm").click(function(){
           console.log("click");
-window.location.href = "/remisiones";
+        window.location.href = "/remisiones";
 });
         //alertify.success('Guardado con exito');
     
