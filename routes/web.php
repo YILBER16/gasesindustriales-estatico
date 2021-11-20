@@ -81,7 +81,6 @@ Route::get('consultaenvasesprestados', 'RemisionesController@consultaenvasespres
 Route::get('/consultaenvaseremisiones', 'RemisionesController@consultaenvaseremisiones');
 Route::put('/stockremisiones','RemisionesController@stockremisiones');
 Route::put('/antistockremisiones/{Id_envase}','RemisionesController@antistockremisiones');
-
 Route::get('remisiones/{Id_remision}/tblremisionesedit','RemisionesController@tablaedit');
 Route::put('finalizarremi/{Id_remision}','RemisionesController@finalizarremi');
 Route::get('/fetch_data', 'RemisionesController@fetch_data');
@@ -98,6 +97,8 @@ Route::post('registrardevolucion', 'RemisionesController@registrardevolucion');
 Route::post('/informedevoluciones', 'DevolucionesController@informedevoluciones')->name('informedevoluciones');
 Route::post('/informecertificados', 'CertificadosController@informecertificados')->name('informecertificados');
 Route::post('/informeremisiones', 'RemisionesController@informeremisiones')->name('informeremisiones');
+Route::get('resumencliente/{Id_cliente}', 'KardesController@resumencliente');
+Route::get('resumenclientepdf/{Id_cliente}', 'KardesController@resumenclientepdf');
 Route::resource('certificados','CertifiEnvasesController');
 Route::resource('certificados','CertificadosController');
 Route::resource('remisiones','RemisionesController');

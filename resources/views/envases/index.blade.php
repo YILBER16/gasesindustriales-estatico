@@ -27,8 +27,6 @@ function validarNumero(e) {
           <div class="alert alert-success content col-sm-12 text-center "role="alert">
           {{ Session::get('Mensaje')}}
           </div>
-
-        
           @endif
           
          <div class="container ">

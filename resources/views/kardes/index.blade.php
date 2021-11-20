@@ -7,8 +7,88 @@
 
 @endsection
 @section('contenido')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalinformecliente"><i class="fas fa-file-pdf"></i> Informe por cliente</button>
+ 
+        @section('cuerpo_modal_informe_cliente')
+    <form action="" method="get" id="formenviar"> 
+                @csrf
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label>CC o Nit Cliente</label> 
+                                <input type="text" class="form-control" id="Id_cliente" name="Id_cliente" readonly>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                        <label>Nombre Cliente</label>                                  
+                                            <select id="cliente" name="cliente" class="form-control form-control-chosen">
 
-          
+                                                <option value="">Seleccione una opción</option>
+                                                @foreach($clientes as $cliente)
+                                                <option value="{{$cliente['Id_cliente']}}">{{$cliente['Nom_cliente']}}</option>
+                                                @endforeach
+                                            </select>
+                                                
+                                            
+                                {!! $errors->first('Id_cliente','<div class="invalid-feedback">:message</div>') !!}
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 d-flex align-items-center justify-content-center">
+                                <div class="form-group">
+                                    <label>Fechas</label>
+                                    <br>
+                                        <input type="checkbox" name="fechas" id="fechas" value="no" class="mgc-switch mgc-lg">
+                                </div> 
+                        </div>
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                            <div class="form-group">
+                                <label>Fecha inicial</label>
+                                <input id="fechainicial" name="fechainicial" type="datetime-local"  class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                            <div class="form-group">
+                                <label>Fecha final</label>
+                                <input id="fechafinal" name="fechafinal" type="datetime-local"  class="form-control" disabled>
+                            </div>
+                        </div>
+                        
+                    </div>
+                @section('pie_modal_informe_cliente')
+            <button type="submit" class="btn btn-danger btn-consultar-pdf" id="btn-consultar-pdf" name="btn-consultar-pdf">Consultar <i class="fas fa-file-pdf"></i></button>
+            <button type="button" class="btn btn-primary btn-consultar" id="btn-consultar" name="btn-consultar">Consultar <i class="far fa-eye"></i></button>
+    </form> 
+        
+         <table class="table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="tblclientes">
+             <thead>
+                <tr class="">
+                    <th>Nº remision</th>
+                    <th>Id envase</th>
+                    <th>Producto</th>
+                    <th>Cantidad (Mt3)</th>
+                    <th>Fecha salida</th>
+                    <th>Fecha ingreso</th>
+                </tr>
+             </thead>
+             <tbody id="resultados">
+
+            </tbody>
+            
+        </table>
+        @endsection
+        @endsection  
          <div class="container ">
            <h4 class="titulo center" ><b>KARDEX DE TRAZABILIDAD</b> </h4>
 
@@ -51,6 +131,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $('.form-control-chosen').chosen();
     $('#miTabla').DataTable({
         "responsive":true,
           "language":{
@@ -195,5 +276,81 @@
     });
 
 } );
+
+
+$(document).ready(function(){
+    $('#cliente').on('change', function(){
+        var Id_cliente=$(this).val();
+        $('#Id_cliente').val(Id_cliente);
+
+    var id =Id_cliente;
+    // var enlace = "resumenclientepdf/" + id;
+    // document.getElementById("btn-consultar-pdf").setAttribute("href",enlace);
+        $('#formenviar').attr('action', 'resumenclientepdf/'+id);
+    });
+
+    $("#btn-consultar").click(function(e){
+        var Id_cliente = $("input[name=Id_cliente]").val();
+        var fechas = $("input[name=fechas]").val();
+        var fechainicial = $("input[name=fechainicial]").val();
+        var fechafinal = $("input[name=fechafinal]").val();
+        var token=$('input[name="_token"]').val();
+        console.log(Id_cliente);
+        console.log(fechas);
+        e.preventDefault();
+        $.ajax({
+            type:'GET',
+            url:"{!!URL::to('resumencliente')!!}/"+Id_cliente,
+            data:{
+              fechas,fechainicial,fechafinal,
+                },
+            success:function(data){
+            console.log("Correcto");
+            console.log(data);
+                var html = '';
+                var i;
+                for (i = 0; i < data.length; i++) {
+                html += '<tr>' +
+                    '<td>' + data[i].Id_remision + '</td>' +
+                    '<td>' + data[i].Id_envase + '</td>' +
+                    '<td>' + data[i].Producto + '</td>' +
+                    '<td>' + data[i].Cantidad + '</td>' +
+                    '<td>' + data[i].created_at + '</td>' +
+                    '<td>' + data[i].Fecha_ingreso + '</td>' +
+                    '</tr>';
+                }
+                $('#resultados').html(html);
+
+        },
+        error:function(data){
+            console.log(data);
+            swal({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Verifica los datos',
+        footer: '<a href>Why do I have this issue?</a>'
+        });
+                }
+            
+            });
+            });
+   
+});
+    $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                $("#fechainicial").removeAttr('disabled');
+                $("#fechafinal").removeAttr('disabled');
+                $("#fechas").val('si');
+                console.log($("#fechas").val())
+            }
+            else{
+                $("#fechainicial").attr('disabled','disabled');
+                $("#fechafinal").attr('disabled','disabled');
+                $("#fechas").val('no');
+                console.log($("#fechas").val())
+            }
+        });
+    });
 </script>
 @endsection
