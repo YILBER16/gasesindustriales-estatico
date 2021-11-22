@@ -281,30 +281,18 @@ class CertificadosController extends Controller
     }
     public function exportpdfindi(Request $request, $Id_certificado,CertifiEnvases $Id, Envases $Id_envase)
     {
-      
-          $certificado=Certificados::findOrFail($Id_certificado);
-          $datos= CertifiEnvases::where('Id_certificado',$request->Id_certificado)->with('producto')->get();
-          
-          $array=[];  
-         foreach ($datos as $item ) {
+      $certificado=Certificados::findOrFail($Id_certificado);
          
-           $array[] = $item->Id_envase;
-          
-         }
+          $datos=DB::table('certificados_produccion')
+          ->join('certificado_envase','certificado_envase.Id_certificado', '=','certificados_produccion.Id_certificado')
+          ->join('productos','productos.Id_producto', '=','certificados_produccion.Id_producto')
+          ->join('envases','envases.Id_envase', '=','certificado_envase.Id_envase')
+          ->join('propietarios','propietarios.Id_propietario', '=','envases.Id_propietario')
+          ->select('certificado_envase.Cantidad','certificado_envase.Clas_producto','certificado_envase.Id_envase','propietarios.Nom_propietario')
+          ->where('certificado_envase.Id_certificado', $request->Id_certificado)->get()->toArray();
 
-
-
-
-         $tempStr = implode(',',array_fill(0, count($array), '?'));
-
-        
-
-          $resultado= DB::table('envases')
-        ->join('propietarios','propietarios.Id_propietario', '=','envases.Id_propietario')
-        ->select('envases.Id_envase','propietarios.Nom_propietario')->whereIn('envases.Id_envase',$array)->orderByRaw("field(Id_envase,{$tempStr})", $array)
-        ->get();
-
-        $pdf=PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,"isPhpEnabled", true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('certificados.pdfindi',compact('certificado','datos','resultado'));
+    
+        $pdf=PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,"isPhpEnabled", true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('certificados.pdfindi',compact('certificado','datos'));
         $pdf->getDomPDF()->set_option("enable_php", true);
         return $pdf->stream('certificado-list.pdf');
     }
