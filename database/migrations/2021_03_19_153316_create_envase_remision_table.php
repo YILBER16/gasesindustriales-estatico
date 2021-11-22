@@ -16,7 +16,7 @@ class CreateEnvaseRemisionTable extends Migration
         Schema::create('envase_remision', function (Blueprint $table) {
             $table->id('Id');
             $table->string('Id_envase',25);
-            $table->bigInteger('Id_remision')->unsigned();
+            $table->string('Id_remision',25);
             $table->string('Producto',80);
             $table->string('Cantidad',11);
             $table->dateTime('Fecha_ingreso')->nullable();

@@ -326,8 +326,7 @@ $(document).ready(function(){
       var finalizar= (function(Id_remision) {     
 
   var token=$('input[name="_token"]').val();
-  var valor=$('#Id_remision').val();
-  var Id_remision = valor.replace(/\b0+/g, "");
+  var Id_remision=$('#Id_remision').val(); 
   console.log(Id_remision)
   swal({
   title:"Esta seguro?",

@@ -42,6 +42,7 @@ Route::post('/deleteDate', 'PropietariosController@deleteDate');
 Route::post('/deleteDate', 'ProveedoresController@deleteDate');
 Route::post('/deleteDate', 'EnvasesController@deleteDate');
 Route::post('/deleteDateordenes', 'OrdenesController@deleteDateordenes');
+Route::post('/deleteDateremisiones', 'RemisionesController@deleteDateremisiones');
 Route::resource('empleados','EmpleadosController')->middleware('can:isAdmin');
 Route::resource('clientes','ClientesController');
 Route::resource('propietarios','PropietariosController');
@@ -99,6 +100,8 @@ Route::post('/informecertificados', 'CertificadosController@informecertificados'
 Route::post('/informeremisiones', 'RemisionesController@informeremisiones')->name('informeremisiones');
 Route::get('resumencliente/{Id_cliente}', 'KardesController@resumencliente');
 Route::get('resumenclientepdf/{Id_cliente}', 'KardesController@resumenclientepdf');
+Route::get('consecutivo', 'RemisionesController@consecutivo');
+Route::get('indexsoluciones', 'RemisionesController@indexsoluciones');
 Route::resource('certificados','CertifiEnvasesController');
 Route::resource('certificados','CertificadosController');
 Route::resource('remisiones','RemisionesController');

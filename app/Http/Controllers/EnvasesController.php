@@ -72,7 +72,6 @@ class EnvasesController extends Controller
        
 
         Envases::insert($datosEnvase);
-        Envases::on('mysql2')->insert($datosEnvase);
         $tipo = "alert alert-success";
         
 

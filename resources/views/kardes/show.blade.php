@@ -30,34 +30,21 @@
             </thead>
             <tbody>
 
-              @foreach($resultado as $index => $item)
-
+              @foreach($datos as $index => $item)
               <tr>
               <td>{{$item->created_at}}</td>
               <td>{{$item->Id_certificado}}</td>
               <td>{{$item->Id_envase}}</td>
               <td>{{$item->Id_propietario}}</td>
-              <td>{{$resultado2[$index]->Cantidad}}</td>
-              <td>{{$resultado2[$index]->Producto}}</td>
+              <td>{{$datos2[$index]->Cantidad}}</td>
+              <td>{{$datos2[$index]->Producto}}</td>
               <td>{{$item->N_lote}}</td>
               <td>{{$item->Fecha_vencimiento}}</td>
-              <td>{{$resultado2[$index]->created_at}}</td>
-              <td>{{$resultado2[$index]->Nom_cliente}}</td>
-              <td>{{$resultado2[$index]->Fecha_ingreso}}</td>
-              
-              @endforeach
- 
-             
-              
-
-              
-             
-              
-
-               
+              <td>{{$datos2[$index]->created_at}}</td>
+              <td>{{$datos2[$index]->Nom_cliente}}</td>
+              <td>{{$datos2[$index]->Fecha_ingreso}}</td>  
                </tr>
-
-
+               @endforeach
             </tbody>
 
           </table>

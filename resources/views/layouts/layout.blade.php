@@ -227,10 +227,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-
                 <a href="{{ url('/remisiones/')}}" class="nav-link">
                 <i class="fas fa-share-square"></i>
-                  <p>Remisiones</p>
+                  <p>Remisiones Gases</p>
+                </a>
+                <a href="{{ url('/indexsoluciones/')}}" class="nav-link">
+                <i class="fas fa-share-square"></i>
+                  <p>Remisiones Soluciones</p>
                 </a>
               </li>
             </ul>

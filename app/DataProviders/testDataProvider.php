@@ -16,7 +16,6 @@ abstract class testDataProvider
             ['Id_producto' => '7','Nom_producto' => 'Mezclas','created_at' => '2021-03-29 14:31:18','updated_at' => '2021-03-29 14:31:18'],
             ['Id_producto' => '8','Nom_producto' => 'Oxigeno medicinal','created_at' => '2021-03-29 14:31:18','updated_at' => '2021-03-29 14:31:18'],
             ['Id_producto' => '9','Nom_producto' => 'Oxigeno industrial','created_at' => '2021-03-29 14:31:18','updated_at' => '2021-03-29 14:31:18'],
-
         ];
     }
     

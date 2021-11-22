@@ -37,7 +37,7 @@ class RemisionesController extends Controller
         
         if ($request->ajax()) {
   
-            return Datatables::of(Remisiones::with('empleado','cliente')->get())
+            return Datatables::of(Remisiones::with('empleado','cliente')->where('empresa','=','Gases')->get())
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
                         $btn = '<a type="button" class="editbutton btn btn-primary" href="/remisiones/'.$data->Id_remision.'/edit"><i class="fas fa-edit"></i></a>';
@@ -97,18 +97,9 @@ class RemisionesController extends Controller
         $empleados=Empleados::all('Id_empleado','Nom_empleado');
         $clientes=Clientes::all('Id_cliente','Nom_cliente');
         $envases=CertifiEnvases::all('Id_envase','Estado')->where('Estado','==','1');
-        $documentos= Remisiones::all();
-
-        $ultimoAgregado  = $documentos->last();
-        if($ultimoAgregado == null){
-        $ultimoAgregadosumado='00000'+ 1 ;
-        
-    }else{
-        $ultimoAgregadosumado=$ultimoAgregado->Id_remision + 1 ;
-    }
+       
     
-
-       return view('remisiones.create',compact('empleados','clientes','envases','ultimoAgregadosumado'));
+       return view('remisiones.create',compact('empleados','clientes','envases'));
     }
 
     /**
@@ -226,6 +217,7 @@ class RemisionesController extends Controller
 public function saveremi(Request $request){
         $datosremision=new Remisiones();
         $datosremision->Id_remision = $request->Id_remision;
+        $datosremision->empresa = $request->empresa;
         $datosremision->Fecha_remision = $request->Fecha_remision;
         $datosremision->Id_cliente = $request->Id_cliente;
         $datosremision->Nom_empleado = $request->Nom_empleado;
@@ -335,21 +327,24 @@ public function consultaremi(Request $request){
     {
       
           $remision=Remisiones::findOrFail($Id_remision);
-          
+       
           $datos= Envase_remision::all()->where('Id_remision', $request->Id_remision);
 
-   
-        
-        $pdf=PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,"isPhpEnabled", true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('remisiones.pdfindi',compact('remision','datos'));
-        $pdf->getDomPDF()->set_option("enable_php", true);
-        return $pdf->stream('remision.pdf');
+        if($remision->empresa=='Gases'){
+            $pdf=PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,"isPhpEnabled", true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('remisiones.pdfindi',compact('remision','datos'));
+            $pdf->getDomPDF()->set_option("enable_php", true);
+            return $pdf->stream('remision.pdf');
+         }
+         else{
+            $pdf=PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,"isPhpEnabled", true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('remisiones.pdfindisoluciones',compact('remision','datos'));
+            $pdf->getDomPDF()->set_option("enable_php", true);
+            return $pdf->stream('remision.pdf');
+         }
     }
         public function eliminar($Id)
     {
         
         $datos= Envase_remision::findOrFail($Id);
-
-
         if ($datos->delete()) {
         
             return response()->json('ok');
@@ -458,12 +453,98 @@ public function consultaremi(Request $request){
 
     public function informeremisiones(ConsultafechasRequest $request)
   {
+      $empresa=$request->empresa; 
       $fecha1= $request->fechainicial;
       $fecha2= $request->fechafinal;
-     $remisiones= Remisiones::with('cliente')->whereBetween('created_at', [$fecha1, $fecha2])->get();
+     $remisiones= Remisiones::with('cliente')->whereBetween('created_at', [$fecha1, $fecha2])->where('empresa','=',$empresa)->get();
    
      $pdf= PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper(array(0, 0, 622.00, 792.00))->loadView('remisiones.pdf',compact('remisiones'));
       return $pdf->stream('remisiones-list.pdf');
   }
 
+  public function consecutivo(Request $request)
+  {
+    $resultado= Remisiones::all()->where('empresa','=',$request->empresa)->last();
+
+
+    if($resultado == ''){
+    $ultimoAgregadosumado=1 ;
+    return response()->json($ultimoAgregadosumado);
+    }
+
+    $conversion = preg_replace('/[0-9]+/', '', $resultado->Id_remision);
+
+    if($conversion == 'Gases-'){
+        $valor=preg_replace('~\D~', '', $resultado->Id_remision);
+        $ultimoAgregadosumado=$valor + 1 ;
+        return response()->json($ultimoAgregadosumado);
+    }
+
+    if($conversion == 'Soluciones-'){
+        $valor=preg_replace('~\D~', '', $resultado->Id_remision);
+            $ultimoAgregadosumado=$valor + 1 ;
+            return response()->json($ultimoAgregadosumado);
+        }
+    
+  }
+  public function deleteDateremisiones(Request $request)
+    {
+        $data=Remisiones::find($request->Id_remision)->delete();
+        return response()->json();
+    }
+    public function indexsoluciones(Request $request)
+    {
+      
+        
+        if ($request->ajax()) {
+  
+            return Datatables::of(Remisiones::with('empleado','cliente')->where('empresa','=','Soluciones')->get())
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a type="button" class="editbutton btn btn-primary" href="/remisiones/'.$data->Id_remision.'/edit"><i class="fas fa-edit"></i></a>';
+
+                        // $btn .= '&nbsp;';
+                        // $btn .= '<a type="button" class="pdfbutton btn btn-danger" href="/certificados.pdfindi/'.$data->Id_certificado.'"><i class="fas fa-file-pdf"></i></a>';
+              
+                     
+                                        return $btn;
+                                })->addColumn('action2', function($data2){
+                                    $btn2 = '<a type="button" class="pdfbutton btn btn-danger" href="/remisiones.pdfindi/'.$data2->Id_remision.'"><i class="fas fa-file-pdf"></i></a>';
+            
+                                  // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                                  // $btn2 .= '&nbsp;';
+                      
+                               
+                                                  return $btn2;
+                                          })->addColumn('action3', function($data3){
+                                            $btn3 = '<button  class="deletebutton btn btn-danger"  data-toggle="modal" data-target="#deletemodal" data-info="'.$data3->Id_remision.'"><i class="fas fa-trash-alt"></i></button>';
+                        
+                                              // $btn2 = '<a type="button" class="editbutton btn btn-primary" href="/certificados/'.$data->Id_certificado.'/edit"><i class="fas fa-edit"></i></a>';
+                                              // $btn2 .= '&nbsp;';
+                                  
+                                           
+                                                              return $btn3;
+                                                      })
+                    ->rawColumns(['action','action2','action3'])
+                    ->make(true);
+                    
+        }
+       
+
+       $aire= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Aire')->count();
+       $oxigeno_m= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Oxigeno medicinal')->count();
+       $oxigeno_i= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Oxigeno industrial')->count();
+       $nitrogeno= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Nitrogeno')->count();
+       $argon= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Argon')->count();
+       $acetileno= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Acetileno')->count();
+       $co2= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Co2')->count();
+       $mezclas= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Mezclas')->count();
+       $helio= Envases::where('Estado_actual','=','1')->where('Inventario','=','1')->where('Clas_producto','=','Helio')->count();
+
+
+       
+       
+        
+        return view('remisiones.index-soluciones',compact('aire','oxigeno_m','oxigeno_i','nitrogeno','co2','argon','acetileno','mezclas','helio'));
+    }
 }

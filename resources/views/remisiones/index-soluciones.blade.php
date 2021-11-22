@@ -14,7 +14,7 @@
     </div>
 @endif
           
-         <div class="container ">
+<div class="container ">
 
             <div class="row">
           
@@ -181,7 +181,7 @@
               
             </tbody>
           </table>
-          @section('cuerpo-modal-informe')
+                @section('cuerpo-modal-informe')
               <form action="{{route('informeremisiones')}}" method="post"> 
                 @csrf
                 <div class="row">
@@ -208,7 +208,6 @@
 
           
 </div>
-
 <script>
 $(document).ready(function() {
   $('#miTabla').DataTable({
@@ -216,7 +215,7 @@ $(document).ready(function() {
             "serverSide":true,
             "processing":true,
             "responsive":true,
-            "ajax": "{!!URL::to('remisiones')!!}",
+            "ajax": "{!!URL::to('indexsoluciones')!!}",
                 "columns":[
                     
                     {data:'Id_remision',className: 'n_remision',},
@@ -464,4 +463,5 @@ $('#miTabla').DataTable().ajax.reload();
 });
 });
 </script>
+ <script>
 @endsection

@@ -11,18 +11,27 @@
                         
                         <form id="idremision_form" action="" method="post">
                           @csrf
+                          
                           <input type="text" hidden="" id="id2" name="id2">
                             
                             <div class="row justify-content-center">
-                              <div class="form-group col-md-5">
-                                  <label class="">Nº remisión</label>
-                             <input id="Id_remision" name="Id_remision" type="text" value="{{isset($ultimoAgregadosumado)?$ultimoAgregadosumado:old('Id_remision')}}"class="form-control" disabled=""  >
-                             </div>
-                                 <div class="form-group col-md-5">
-                                  <label>Fecha</label>
-                                <input id="Fecha_remision" name="Fecha_remision" type="date" value=""class="form-control lote" >
+                                <div class="form-group col-md-4">
+                                    <label class="">Empresa</label>
+                                    <select id="empresa" name="empresa" class="form-control form-control-chosen">
+                                      <option value="">Seleccione la empresa</option>
+                                      <option value="Gases">Gases industriales de los santanderes</option>
+                                      <option value="Soluciones">Soluciones alternativas de colombia</option>
+                                    </select>
                                  </div>
-                        </div>
+                              <div class="form-group col-md-3">
+                                    <label class="">Nº remisión</label>
+                                    <input id="Id_remision" name="Id_remision" type="text" value=""class="form-control" readonly>
+                              </div>
+                                  <div class="form-group col-md-3">
+                                    <label>Fecha</label>
+                                    <input id="Fecha_remision" name="Fecha_remision" type="date" value=""class="form-control lote" >
+                                  </div>
+                            </div>
 
                         
                         <div class="row justify-content-center">
@@ -35,8 +44,6 @@
                                   @endforeach
 
                                    </select>
-
-                                
                                 {!! $errors->first('Id_cliente','<div class="invalid-feedback">:message</div>') !!}
                                  </div>
                                  <div class="form-group col-md-5">

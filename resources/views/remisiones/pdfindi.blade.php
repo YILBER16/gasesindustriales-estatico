@@ -293,10 +293,8 @@ BUCARAMANGA SANTANDER
       <div id="project">
         <div><h4 style="font-size: 14;">REMISIÓN Nº {{$remision->Id_remision}}</h4></div>
 
-        <div style="position: absolute; left: 37em; top:0.5em "><span>Fecha:</span></div>
-        <div style="position: absolute; left: 53em; top: 0.5em;"><span>Nº remision:</span></div>
-        <div style="position: absolute; left: 43em; top: 0.5em;"><span >{{$remision->Fecha_remision}}</span></div>
-        <div  style="position: absolute; left: 61em; top: 0.5em;"><span >{{$remision->Id_remision}}</span></div>
+        <div style="position: absolute; left: 50em; top:0.5em "><span>Fecha:</span></div>
+        <div style="position: absolute; left: 55em; top: 0.5em;"><span >{{$remision->Fecha_remision}}</span></div>
        
       </div>
 
@@ -325,17 +323,17 @@ BUCARAMANGA SANTANDER
       <table>
         <thead>
           <tr >
-            <th class="service" style="color: #FFFFFF;">CANTIDAD</th>
+            <th class="service" style="color: #FFFFFF;">ENVASE</th>
             <th class="desc" style="color: #FFFFFF;">PRODUCTO</th>
-            <th style="color: #FFFFFF;">ENVASE</th>
+            <th style="color: #FFFFFF;">CANTIDAD</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             @foreach($datos as $item)
-            <td class="unit">{{$item->Cantidad}}</td>
-            <td class="unit">{{$item->Producto}}</td>
             <td class="unit">{{$item->Id_envase}}</td>
+            <td class="unit">{{$item->Producto}}</td>
+            <td class="unit">{{$item->Cantidad}}</td>
             
           </tr>
             @endforeach

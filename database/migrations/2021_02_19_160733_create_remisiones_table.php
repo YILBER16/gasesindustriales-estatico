@@ -14,8 +14,9 @@ class CreateRemisionesTable extends Migration
     public function up()
     {
         Schema::create('remisiones', function (Blueprint $table) {
-            $table->bigInteger('Id_remision')->unsigned();
+            $table->string('Id_remision',25);
             $table->primary('Id_remision');
+            $table->string('empresa',11);
             $table->date('Fecha_remision');
             $table->string('Id_cliente',25);
             $table->string('Nom_empleado',120);

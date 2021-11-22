@@ -89,6 +89,33 @@ $(document).ready(function(){
   }
 });
   $(document).ready(function(){
+
+    $('#empresa').on('change', function(empresa){
+        var empresa= $('#empresa').val();
+        var valor=$(this).val();
+        console.log(empresa);
+        $.ajax({
+          type:'get',
+          url:'{!!URL::to('consecutivo')!!}',
+          data:{
+           empresa:empresa,
+          },
+          dataType:'json',
+          success:function(data){
+            console.log(data);
+            if(empresa=='Gases'){
+              $('#Id_remision').val('Gases-'+zfill(data,5));
+            }
+           else{
+            $('#Id_remision').val('Soluciones-'+zfill(data,5));
+           }
+          },
+          error:function(){
+            console.log('error');
+          }
+        });
+});
+
     $('#Id_cliente').on('change', function(){
 
       var Id_cliente=$(this).val();
@@ -120,6 +147,7 @@ $(document).ready(function(){
         }
       });
     });
+    
 
   });
     $(document).ready(function(){
@@ -196,8 +224,7 @@ $(document).ready(function(){
   var finalizar= (function(Id_remision) {     
 
   var token=$('input[name="_token"]').val();
-  var valor=$('#Id_remision').val();
-  var Id_remision = valor.replace(/\b0+/g, "");
+  var Id_remision=$('#Id_remision').val(); 
   console.log(Id_remision)
   swal({
   title:"Esta seguro?",
@@ -261,24 +288,24 @@ error: function(e) {
     }
 }
 $(document).ready(function(){
-  var Id_remision=$("input[name=Id_remision]").val();
-  console.log(Id_remision);
-  $('#Id_remision').val(zfill(Id_remision,5));
+ 
     
   });
   $(".btnenviar").click(function(e){
 
   e.preventDefault();
   var Id_remision = $("input[name=Id_remision]").val();
+  var empresa = $('#empresa').val();
   var Fecha_remision= $("input[name=Fecha_remision]").val();
   var Id_cliente = $("#Id_cliente option:selected").val();
   var Nom_empleado = $("input[name=Nom_empleado]").val();
   var Id_empleado = $("input[name=Id_empleado]").val();
   var token=$('input[name="_token"]').val();
+    console.log(empresa);
   $.ajax({
     type:'POST',
     url:"{!!URL::to('saveremi')!!}",
-    data:{Id_remision:Id_remision,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Nom_empleado:Nom_empleado,Id_empleado:Id_empleado,_token:token},
+    data:{Id_remision:Id_remision,empresa:empresa,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Nom_empleado:Nom_empleado,Id_empleado:Id_empleado,_token:token},
     success:function(data){
       if(data=="ok"){
         fun1();
@@ -346,9 +373,9 @@ var fun1= (function() {
     });
 });
       $(".btn_mostrar").click(function(e){
-        $('#Id_producto').val("");
-        $('#Clas_producto').val("");
-       $('#Cantidad').val("");
+      $('#Id_producto').val("");
+      $('#Clas_producto').val("");
+      $('#Cantidad').val("");
      
       fun2();
       $('#Id_envase').trigger("chosen:updated");
@@ -367,8 +394,7 @@ var stock= (function() {
     data:{Id_envase:Id_envase,_token:token},
     success:function(data){
       console.log(data.Id_envase);
-     
-        console.log('SI');
+      console.log('SI');
        
         //alertify.success('Guardado con exito');
         
@@ -413,7 +439,7 @@ $.ajax({
     ver_tabla();
     fun2();
 
-  }
+              }
   }
 });
 }else {

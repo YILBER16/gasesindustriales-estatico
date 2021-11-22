@@ -261,8 +261,7 @@ success: function(data){
   'success'
 )
 $(".swal-button--confirm").click(function(){
-          console.log("click");
-window.location.href = "/propietarios";
+    $('#miTabla').DataTable().ajax.reload();
 });
     
 

@@ -19,6 +19,7 @@
               <thead >
                 <tr class="">
                   <td>Id</td>
+                  <td>Empresa</td>
                   <td>Id envase</td>
                   <td>Nº remision</td>
                   <td>Id cliente</td>
@@ -32,25 +33,6 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- {{-- @foreach($envasesafuera as $item)
-                <tr>
-                  <td hidden="">{{$item->Id}}</td>
-                  <td>{{$item->Id_envase}}</td>
-                  <td>{{$item->Id_remision}}</td>
-                  <td>{{$item->remision->cliente->Id_cliente}}</td>
-                  <td>{{$item->remision->cliente->Nom_cliente}}</td>
-                  <td>{{$item->Producto}}</td>
-                  <td>{{$item->Cantidad}}</td>
-                  <td>{{$item->remision->Fecha_remision}}</td>
-                  <td>
-  
-                    <button type="submit" class="btn btn-primary" id="elim" name="elim" onclick="ver_datos({{$item->Id}});" data-toggle="modal" data-target="#modalremisionedicion"><i class="fas fa-arrow-right" ></i></button>
-                    <button type="submit" hidden="" id="submit" name="submit" onclick="antistockinventario('{{$item->Id_envase}}');stockinventario('{{$item->Id_envase}}');">Prueba</button>
-                  </td>
-                </tr>
-              
-                
-                @endforeach --}} -->
               </tbody>
             </table>
             @section('cuerpo_modal_remision_edicion')
@@ -76,6 +58,7 @@
                 "columns":[
                     
                     {data:'Id'},
+                    {data:'Empresa'},
                     {data:'Id_envase'},
                     {data:'Id_remision'},
                     {data:'remision.cliente.Id_cliente'},

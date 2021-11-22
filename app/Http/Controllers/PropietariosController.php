@@ -72,7 +72,6 @@ if ($request->ajax()) {
        
 
        Propietarios::insert($datosPropietario);
-       Propietarios::on('mysql2')->insert($datosPropietario);
   
        // Session::flash('flash_message','Guardado con exito');
         return redirect('propietarios')->with('alert', 'Registrado con exito');
@@ -117,9 +116,7 @@ if ($request->ajax()) {
 };
 
       $datosPropietario=request()->except(['_token','_method']);
-       Propietarios::where('Id_propietario','=',$Id_propietario)->update($datosPropietario);
-       Propietarios::on('mysql2')->where('Id_propietario','=',$Id_propietario)->update($datosPropietario);
-       
+       Propietarios::where('Id_propietario','=',$Id_propietario)->update($datosPropietario);       
         return redirect('propietarios')->with('alertedit', 'Modificado con exito');
     }
 
@@ -137,9 +134,7 @@ if ($request->ajax()) {
     }
     public function deleteDate(Request $request)
     {
-        $data=Propietarios::find($request->Id_propietario)->delete();
-        $data=Propietarios::on('mysql2')->find($request->Id_propietario)->delete();
-        
+        $data=Propietarios::find($request->Id_propietario)->delete();        
         return response()->json();
     }
     public function exportpdf()
