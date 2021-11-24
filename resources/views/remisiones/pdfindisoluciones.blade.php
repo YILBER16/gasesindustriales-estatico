@@ -110,6 +110,10 @@ h1 {
     font-size: 14;
     color: #00000;
 }
+.observacion label{
+    font-size: 12;
+    color: #00000;
+}
 #project span {
   color: #000000;
   position: relative;
@@ -316,16 +320,19 @@ BUCARAMANGA SANTANDER
         <div><label>E-mail:</label></div>
         <div style="position: absolute; top: 0em; left: 7em;"><label>{{$remision->cliente->Cor_cliente}}</label></div>
       </div>
-      
+      <div class="observacion"style="position: absolute; top: 24em;">
+        <div><label>Observaciones:</label></div>
+        <div style="position: absolute; top: 0em; left: 9em;"><label>{{$remision->Observaciones}}</label></div>
+      </div>
     </header>
     <main>
-        <div class="datos" style="position: relative;top: 7em;">
+        <div class="datos" style="position: relative;top: 10em;">
       <table>
         <thead>
           <tr >
             <th class="service" style="color: #FFFFFF;">ENVASE</th>
             <th class="desc" style="color: #FFFFFF;">PRODUCTO</th>
-            <th style="color: #FFFFFF;">CANTIDAD</th>
+            <th style="color: #FFFFFF;">CANTIDAD Mt3</th>
           </tr>
         </thead>
         <tbody>
@@ -342,11 +349,11 @@ BUCARAMANGA SANTANDER
        
       </table>
       </div>
-      <div id="notices"  style="position: relative; top: 6em;">
+      <div id="notices"  style="position: relative; top: 10em;">
         <div class="notice">Nota: Los cilindros aquí relacionados son propiedad de SOLUCIONES ALTERNATIVAS DE COLOMBIA S.A.S, en caso de extravió o perdida se cobrará el valor del cilindro en la actualidad.</div>
         <div class="notice"></div>
       </div>
-      <div class="firmas" style="position: relative; top: 7em;">
+      <div class="firmas" style="position: relative; top: 11em;">
           <div class="vendedor">
               <label style="font-size: 14;">Firma vendedor</label>
               <label>           _________________________________</label>

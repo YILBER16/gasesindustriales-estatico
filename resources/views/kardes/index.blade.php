@@ -100,27 +100,17 @@
               </tr>
             </thead>
             <tbody>
-              
               @foreach($envases as $item)
               <tr>
-
-                <td id="n_remision">
-            
-               {{$item->Id_envase}}
-              </td>
-
-                <td>
-                <form method="post" action="{{url('/remisiones/'.$item->Id_remision)}}">
-                    {{csrf_field() }}
-                    <a href="{{url('/kardes/'.$item->Id_envase)}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                     <a href="{{url('/kardes.pdfindi/'.$item->Id_envase)}} " type="button" class="btn btn-danger " ><i class="fas fa-file-pdf"></i> </a>
-                  </form>
-                  
-
-                </td>
+                    <td id="n_remision">{{$item->Id_envase}}</td>
+                    <td>
+                        <form method="post" action="{{url('/remisiones/'.$item->Id_remision)}}">
+                            {{csrf_field() }}
+                            <a href="{{url('/kardes/'.$item->Id_envase)}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                            <a href="{{url('/kardes.pdfindi/'.$item->Id_envase)}} " type="button" class="btn btn-danger " ><i class="fas fa-file-pdf"></i> </a>
+                        </form>
+                    </td>
               </tr>
-           
-              
               @endforeach
             </tbody>
           </table>

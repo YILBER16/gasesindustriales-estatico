@@ -3,7 +3,8 @@
         <input type="" hidden="" name="id" id="id">
            
            <input type="text" name="Id_remision1" id="Id_remision1" class="form-control input-sm" value="{{isset($remisiones->Id_remision)?$remisiones->Id_remision:old('Id_remision')}}" hidden="">
-                       
+           <input type="text" name="Id_certificado1" id="Id_certificado1" class="form-control input-sm" value="" hidden="">                  
+           
 
                           <label>Envase</label>
                      <div class="form-group">

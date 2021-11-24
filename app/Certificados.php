@@ -5,6 +5,7 @@ use App\Empleados;
 use App\Ordenes;
 use App\Envases;
 use App\Productos;
+use App\CertifiEnvases;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,14 +32,15 @@ public function orden()
     {
         return $this->belongsToMany(Envases::class, 'certificado_envase','Id_certificado','Id_envase');
    }
+
    
    public function producto()
     {
       return $this->belongsTo('App\Productos','Id_producto','Id_producto');
    }
-   public function certificados_remisiones()
+   public function certificados_envases()
 {
-  return $this->hasMany(CertifiEnvases::class, 'Id_certificado','Id');
+  return $this->hasMany(CertifiEnvases::class, 'Id_certificado','Id_certificado');
 }
 
 

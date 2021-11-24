@@ -84,10 +84,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script >
   $(document).ready(function(){
-  $('.form-control-chosen').chosen();
-  fun2();
-  $('#Id_envase').trigger("chosen:updated");
-    });
+      $('.form-control-chosen').chosen();
+      fun2();
+      $('#Id_envase').trigger("chosen:updated");
+      ver_tabla();
+  });
+  function ver_tabla(){
+  $.get('tblremisionesedit',function(data){
+    $('#tablaedit').empty().html(data);
+    // console.log("si hay tabla");  
+  });
+}
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -101,7 +108,6 @@ $.ajaxSetup({
       var Dir_cliente=$(this).val();
       var Tel_cliente=$(this).val();
       var Cor_cliente=$(this).val();
-
       $.ajax({
         type:'get',
         url:'{!!URL::to('datosclientes')!!}',
@@ -118,10 +124,10 @@ $.ajaxSetup({
           $('#Nom_cliente').val(data.Id_cliente);
           $('#Dir_cliente').val(data.Dir_cliente);
           $('#Tel_cliente').val(data.Tel_cliente);
-        $('#Cor_cliente').val(data.Cor_cliente);
+          $('#Cor_cliente').val(data.Cor_cliente);
         },
         error:function(){
-          console.log('error');
+          // console.log('error');
         }
       });
 }).change(); 
@@ -140,37 +146,23 @@ $.ajaxSetup({
         },
         dataType:'json',
         success:function(data){
-          console.log('success');
+          // console.log('success');
           //a.find('#lote').val(data.N_lote);
           $('#cc_empleado').val(data.Id_empleado);
         },
         error:function(){
-          console.log('error');
+          // console.log('error');
         }
       });
     }).change(); 
 
   });
-  $(document).ready(function(){
-  $.get('tblremisionesedit',function(data){
-    $('#tablaedit').empty().html(data);
-   
-  });
-});
 
-function ver_tabla(){
-  $.get('tblremisionesedit',function(data){
-    $('#tablaedit').empty().html(data);
-    console.log("si hay tabla");
-   
-  });
-}
 function eliminar(Id){
 
 var ruta="{!!URL::to('eliminar')!!}/"+Id;
 var token=$('input[name="_token"]').val();
 var Id_envase=$(this).find("td").eq(2).html(); 
-
 swal({
   title:"Esta seguro?",
   text:"Recuerde que se eliminara permanentemente el registro",
@@ -179,8 +171,6 @@ swal({
   dangerMode:true,
 
 })
-
-
 .then((willDelete)=>{
 
   if(willDelete){
@@ -189,17 +179,15 @@ $.ajax({
   data:{
     _token:token
   },
-
   type:"DELETE",
   success: function(data){
-
   if(data=='ok'){
     $('#submit').click();
+    fun2();
     swal('Eliminado con exito','','success')
     ver_tabla();
-    fun2();
-
-  }
+    
+    }
   }
 });
 }
@@ -216,24 +204,20 @@ $(document).ready(function(){
     dataType:'json',
     data:$('#addform').serialize(),
     success:function(response){
-      console.log(response);
+      // console.log(response);
       stock();
       fun2();
-      
       ver_tabla();
       $('#modalNuevo').modal('hide');
       alertify.success('Guardado con exito');
   },
   error:function(error){
-        console.log(error);
+        // console.log(error);
         alertify.success('No Guardado');
 
         }
     });
   });
-
-
-
 });
 $(document).ready(function(){
     $('#Id_envase').on('change', function(){
@@ -249,26 +233,17 @@ $(document).ready(function(){
         },
         dataType:'json',
         success:function(data){
-          console.log(data.Id);
+          // console.log(data);
+          $('#Id_certificado1').val(data.Id_certificado);
           $('#Id_producto').val(data.Id_producto);
           $('#Clas_producto').val(data.Clas_producto);
           $('#Cantidad').val(data.Cantidad);
-          var valor =$('#Id_producto').val();
-          if(valor==1){
-           $('#Id_producto').val('Oxigeno');
-           }
-           if(valor==2)
-            $('#Id_producto').val('Nitrogeno'); 
-          
-     
-
         },
         error:function(){
-          console.log('error');
+          // console.log('error');
         }
       });
     });
-
   });
   var fun2= (function() {
     var $select = $('#Id_envase');
@@ -293,41 +268,34 @@ $(document).ready(function(){
     });
 });
       $(".btn_mostrar").click(function(e){
-        $('#Id_producto').val("");
-        $('#Clas_producto').val("");
-       $('#Cantidad').val("");
+      $('#Id_producto').val("");
+      $('#Clas_producto').val("");
+      $('#Cantidad').val("");
       fun2();
       $('#Id_envase').trigger("chosen:updated");
-      console.log('si,reseteado');
+      // console.log('si,reseteado');
       });
-      var stock= (function() {
-      
+  var stock= (function() {
     var token=$('input[name="_token"]').val();
-  var Id_envase = $("#Id_envase option:selected").val();
+    var Id_envase = $("#Id_envase option:selected").val();
  // console.log(Id_envase);
-
     $.ajax({
     type:'put',
     url:"{!!URL::to('stockremisiones')!!}",
     data:{Id_envase:Id_envase,_token:token},
     success:function(data){
-      console.log(data.Id_envase);
-     
-        console.log('SI');
-       
-        //alertify.success('Guardado con exito');
-        
-       
+      // console.log(data.Id_envase);   
+        // console.log('SI');  
   },
   
       
     });
 });
-      var finalizar= (function(Id_remision) {     
+var finalizar= (function(Id_remision) {     
 
   var token=$('input[name="_token"]').val();
   var Id_remision=$('#Id_remision').val(); 
-  console.log(Id_remision)
+  // console.log(Id_remision)
   swal({
   title:"Esta seguro?",
   text:"Recuerde que ya no podra modificar la remisión",
@@ -343,20 +311,20 @@ $(document).ready(function(){
     url:"{!!URL::to('finalizarremi')!!}/"+"'Id_remision'",
     data:{Id_remision:Id_remision,_token:token},
     success:function(json){
-      console.log(json.Id_envase);
-     console.log(token);
-        console.log('SI');
+    // console.log(json.Id_envase);
+    //  console.log(token);
+        // console.log('SI');
        swal('Remisión exitosa','','success')
         $(".swal-button--confirm").click(function(){
-          console.log("click");
-window.location.href = "/remisiones";
+        console.log("click");
+        window.location.href = "/remisiones";
 });
         //alertify.success('Guardado con exito');
     
        
   },
 error: function(e) {
-    console.log(e.message);
+    // console.log(e.message);
 }
   
       
@@ -364,8 +332,6 @@ error: function(e) {
 }else {
 swal("Cancelado", "No finalizado", "error");
 }
-  
-      
     }); 
 });
   $(".btn_finalizar").click(function(e){

@@ -301,43 +301,15 @@
 
  </div>
  </div>
-<div class="invoice">
-<table width=100% style="top: 4em; position: relative; float:right; font-size: 12;"> 
-  <tr> 
-    <td valign="top">
-        <table class="tablaproducto"  width="100%">
-             <thead  >
+    <div class="invoice">
+        <table width=100% style="top: 4em; position: relative; float:right; font-size: 12;"> 
+
+             <thead >
                 <tr class="">
                      <td align="center" class="fondo"><strong>FECHA</strong></td>
                      <td align="center" class="fondo"><strong>Nº CERTIFICADO</strong></td>
                      <td align="center" class="fondo"><strong>LOTE</strong></td>
-                        <td align="center" class="fondo"><strong>FECHA VENCIMIENTO</strong></td>
-                    
-                </tr>  
-            </thead>
-
-             @foreach($datos as $item)
-            <tbody>
-                <tr>
-                   
-                             <td  class="fondodato"><span class="text"> {{$item->created_at}}</span></td>
-                             <td  class="fondodato"><span class="text"> {{$item->Id_certificado}}</span></td>
-                             <td  class="fondodato"><span class="text"> {{$item->N_lote}}</span></td>
-                             <td  class="fondodato"><span class="text"> {{$item->Fecha_vencimiento}}</span></td>
-                              
-                               
-
-                               
-                        
-                </tr>
-             </tbody>
-             @endforeach
-              </table>
-    </td>
-    <td valign="top">
-        <table  class="tablaproducto" width="100%" style="margin-left: -5px;"> 
-             <thead>
-                <tr class="">
+                     <td align="center" class="fondo"><strong>FECHA VENCIMIENTO</strong></td>
                      <td align="center" class="fondo"><strong>CANTIDAD</strong></td>
                      <td align="center" class="fondo"><strong>PRODUCTO</strong></td>
                      <td align="center" class="fondo"><strong>CLIENTE</strong></td>
@@ -346,29 +318,27 @@
                     
                 </tr>  
             </thead>
-             @foreach($datos2 as $item)
-             <tbody>
+            @foreach($datos as $index => $item)  
+            <tbody>
                 <tr>
-           <td  class="fondodato"><span class="text"> {{$item->Cantidad}}</span></td>
-           <td  class="fondodato"><span class="text"> {{$item->Producto}}</span></td>
-           <td  class="fondodato"><span class="text"> {{$item->remision->cliente->Nom_cliente}}</span></td>
-           <td  class="fondodato"><span class="text"> {{$item->created_at}}</span></td>
-           <td  class="fondodato"><span class="text"> {{$item->Fecha_ingreso}}</span></td>
-           </tr>
-             </tbody>
-             @endforeach
-          </table>
-      </td>
-             
+                                
+                             <td  class="fondodato"><span class="text"> {{$item->certificado->created_at}}</span></td>
+                             <td  class="fondodato"><span class="text"> {{$item->Id_certificado}}</span></td>
+                             <td  class="fondodato"><span class="text"> {{$item->certificado->orden->N_lote}}</span></td>
+                             <td  class="fondodato"><span class="text"> {{$item->certificado->orden->Fecha_vencimiento}}</span></td>
 
-
-
-
-
-
-
-</tr>
-   </table>
+                             <td  class="fondodato"><span class="text">{{isset($datos2[$index]->Cantidad)?$datos2[$index]->Cantidad :''}}</span></td>
+                             <td  class="fondodato"><span class="text">{{isset($datos2[$index]->Producto)?$datos2[$index]->Producto :''}}</span></td>
+                             <td  class="fondodato"><span class="text">{{isset($datos2[$index]->remision->cliente->Nom_cliente)?$datos2[$index]->remision->cliente->Nom_cliente :''}}</span></td>
+                             <td  class="fondodato"><span class="text">{{isset($datos2[$index]->created_at)?$datos2[$index]->created_at :''}}</span></td>
+                             <td  class="fondodato"><span class="text">{{isset($datos2[$index]->Fecha_ingreso)?$datos2[$index]->Fecha_ingreso :''}}</span></td>
+               
+                </tr>
+                @endforeach
+            </tbody>
+            
+        </table>
+    </td>
 </div>
          
 

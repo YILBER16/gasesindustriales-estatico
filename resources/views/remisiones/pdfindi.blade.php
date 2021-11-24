@@ -293,9 +293,9 @@ BUCARAMANGA SANTANDER
       <div id="project">
         <div><h4 style="font-size: 14;">REMISIÓN Nº {{$remision->Id_remision}}</h4></div>
 
-        <div style="position: absolute; left: 50em; top:0.5em "><span>Fecha:</span></div>
+       <div style="position: absolute; left: 50em; top:0.5em "><span>Fecha:</span>
+      </div>
         <div style="position: absolute; left: 55em; top: 0.5em;"><span >{{$remision->Fecha_remision}}</span></div>
-       
       </div>
 
       <div class="personas" style="position: absolute; top: 16em;">
@@ -316,10 +316,13 @@ BUCARAMANGA SANTANDER
         <div><label>E-mail:</label></div>
         <div style="position: absolute; top: 0em; left: 7em;"><label>{{$remision->cliente->Cor_cliente}}</label></div>
       </div>
-      
+      <div class="correo"style="position: absolute; top: 24em;">
+        <div><label>Observaciones:</label></div>
+        <div style="position: absolute; top: 0em; left: 9em;"><label>{{$remision->Observaciones}}</label></div>
+      </div>
     </header>
     <main>
-        <div class="datos" style="position: relative;top: 6em;">
+        <div class="datos" style="position: relative;top: 10em;">
       <table>
         <thead>
           <tr >
@@ -342,11 +345,11 @@ BUCARAMANGA SANTANDER
        
       </table>
       </div>
-      <div id="notices"  style="position: relative; top: 5em;">
+      <div id="notices"  style="position: relative; top: 10em;">
         <div class="notice">Nota: Los cilindros aquí relacionados son propiedad de GASES INDUSTRIALES DE LOS SANTANDERES S.A.S, en caso de extravió o perdida se cobrará el valor del cilindro en la actualidad.</div>
         <div class="notice"></div>
       </div>
-      <div class="firmas" style="position: relative; top: 6em;">
+      <div class="firmas" style="position: relative; top: 11em;">
           <div class="vendedor">
               <label style="font-size: 14;">Firma vendedor</label>
               <label>           _________________________________</label>

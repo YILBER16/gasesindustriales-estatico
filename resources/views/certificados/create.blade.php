@@ -30,29 +30,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link rel="stylesheet" type="text/css" href="{{ asset('dist/css/alertify.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dist/css/themes/default.css')}}">
 
-<script type="text/javascript">
-function mostrarPassword(){
-    var cambio = document.getElementById("contrasena");
-    if(cambio.type == "password"){
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    }else{
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  } 
-  
-  $(document).ready(function () {
-  //CheckBox mostrar contraseña
-  $('#ShowPassword').click(function () {
-    $('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
-  });
-});
-</script>
-
 </head>
 @section('contenido')
-
               @include('certificados.formorden')
               
               @section('cuerpo_modal')
@@ -108,20 +87,12 @@ function mostrarPassword(){
 <!-- ./wrapper -->
 
 
-<script >
-
-  
-
-
-function ver_tabla(){
-  $.get('tblcertificados',function(data){
-    $('#tabla').empty().html(data);
-   
-  });
-}
-
-
-
+<script>
+  function ver_tabla(){
+    $.get('tblcertificados',function(data){
+      $('#tabla').empty().html(data);
+    });
+  }
 function eliminar(Id){
 
 var ruta=''+ Id;
@@ -136,8 +107,6 @@ swal({
   dangerMode:true,
 
 })
-
-
 .then((willDelete)=>{
 
   if(willDelete){
@@ -151,10 +120,11 @@ $.ajax({
   success: function(data){
 
   if(data=='ok'){
-       $('#submit').click();
+    $('#submit').click();
+    fun2();
     swal('Eliminado con exito','','success')
     ver_tabla();
-    fun2();
+    
 
   }
   }
@@ -166,12 +136,9 @@ $.ajax({
 
 $(document).ready(function(){
   $('.form-control-chosen').chosen();
-  fun2();
   $('#Id_envase').trigger("chosen:updated");
     });
 
-</script>
-<script>
   $(document).ready(function(){
     
     $('#Id_produccion').on('change', function(){
@@ -183,6 +150,7 @@ $(document).ready(function(){
       var f_inicial=$(this).val();
       var f_final=$(this).val();
       var f_vencimiento=$(this).val();
+      var cant_envases=$(this).val();
       //console.log(Id_produccion);
       $.ajax({
         type:'get',
@@ -193,13 +161,14 @@ $(document).ready(function(){
           'Cantidad_m3':cantidad,
           'Fecha_inicial':f_inicial,
           'Fecha_final':f_final,
-          'Fecha_vencimiento':f_vencimiento
+          'Fecha_vencimiento':f_vencimiento,
+          'N_envases':cant_envases
         },
         dataType:'json',
         success:function(data){
-          console.log('success');
-          console.log(data.N_lote);
-          console.log(data.Fecha_solicitud);
+          // console.log('success');
+          // console.log(data.N_lote);
+          // console.log(data.Fecha_solicitud);
           //a.find('#lote').val(data.N_lote);
           $('#lote').val(data.N_lote);
           $('#f_solicitud').val(data.Fecha_solicitud);
@@ -207,6 +176,7 @@ $(document).ready(function(){
           $('#f_inicial').val(data.Fecha_solicitud);
           $('#f_final').val(data.updated_at);
           $('#f_vencimiento').val(data.Fecha_vencimiento);
+          $('#cant_envases').val(data.N_envases);
         },
         error:function(){
 
@@ -216,13 +186,6 @@ $(document).ready(function(){
 
   });
 
-
-
-
-</script>
-
-
-<script type="text/javascript">
     $.ajaxSetup({
     headers:{
       'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
@@ -240,7 +203,7 @@ $(document).ready(function(){
   var Presion= $("input[name=Presion]").val();
   var Observaciones= $("input[name=Observaciones]").val();
   var token=$('input[name="_token"]').val();
-  console.log(Id_produccion);
+  // console.log(Id_produccion);
   $.ajax({
     type:'POST',
     url:"{!!URL::to('savecerti')!!}",
@@ -249,20 +212,24 @@ $(document).ready(function(){
       if(data=="ok"){
         fun1();
         fun2();
+        $('#Id_envase').trigger("chosen:updated");
         certiestado();
-        
-        //alertify.success('Guardado con exito');
+      //alertify.success('Guardado con exito');
         swal(
     "Buen trabajo!",
     "Registrado con exito!",
     "success"
    );
+      $('#Id_produccion').prop('disabled', true).trigger("chosen:updated");
+      $('#Id_producto').prop('disabled', true).trigger("chosen:updated");
+      $("#Capacidad").prop('disabled', true);
+      $("#Pureza").prop('disabled', true);
+      $("#Presion").prop('disabled', true);
+      $("#Observaciones").prop('disabled', true);
       $('.tabla').toggle("slide");
       $('.btn_mostrar').toggle("slide");
       $('.btnenviar').toggle("slide");
-      $('.btn_finalizar').toggle("slide");
-    
-      
+      $('.btn_finalizar').toggle("slide");     
     }    
   },
   error:function(){
@@ -297,7 +264,7 @@ var fun1= (function() {
     data:{},
     success:function(data){
         //alertify.success('Guardado con exito');
-          console.log(data.Id_certificado);
+          // console.log(data.Id_certificado);
           $('#Id_certificado').val(data.Id_certificado);
           $('#Id_envase').val(data.Id_envase);
       
@@ -305,11 +272,6 @@ var fun1= (function() {
     });
 });
 
-
-</script>
-
-
-<script type="text/javascript">
 $.ajaxSetup({
     headers:{
       'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
@@ -317,7 +279,6 @@ $.ajaxSetup({
   });
 
 $(document).ready(function(){
-
   $("#addform").on('submit',function(e){
 
   e.preventDefault();
@@ -333,13 +294,13 @@ $(document).ready(function(){
 
       stock();
       fun2();
-      console.log(response);
+      // console.log(response);
       ver_tabla();
       $('#modalNuevo').modal('hide');
       alertify.success('Guardado con exito');
   },
   error:function(error){
-        console.log(error);
+        // console.log(error);
         alertify.error('No guardado');
 
         }
@@ -365,9 +326,9 @@ $(document).ready(function(){
     url:"{!!URL::to('stock')!!}",
     data:{Id_envase:Id_envase,_token:token},
     success:function(data){
-      console.log(data.Id_envase);
+      // console.log(data.Id_envase);
      
-        console.log('SI');
+      //   console.log('SI');
        
         //alertify.success('Guardado con exito');
         
@@ -383,19 +344,35 @@ $(document).ready(function(){
       $('input[name=Cantidad').val('');
       $('input[name=Capacidad_max').val('');
       $('#Clas_producto').val('');
-      console.log('si');
+      // console.log('si');
       });
 
   var fun2= (function() {
     var $select = $('#Id_envase');
+    var producto = $('#Id_producto').val();
     var $texto= 'Seleccione';
+    if(producto==1){
+      producto="Oxigeno";
+    }
+    if(producto==1)producto="Oxigeno";
+    if(producto==2)producto="Helio";
+    if(producto==3)producto="Nitrogeno";
+    if(producto==4)producto="Argon";
+    if(producto==5)producto="Acetileno";
+    if(producto==6)producto="CO2";
+    if(producto==7)producto="Mezclas";
+    if(producto==8)producto="Oxigeno medicinal";
+    if(producto==9)producto="Oxigeno industrial";
+    // console.log(producto);
     $.ajax({
     type:'get',
     url:"{!!URL::to('consultaenvase')!!}",
     dataType : 'JSON',
-    data:{},
+    data:{
+      producto,
+    },
     success : function(data) {
-
+      // console.log(data)
      $select.html('');
      $("#Id_envase").append('<option>Seleccione el envase</option>');
      $.each(data,function(key, val) {
@@ -420,9 +397,9 @@ $(document).ready(function(){
     url:"{!!URL::to('listordenes')!!}",
     data:{Id_produccion:Id_produccion,_token:token},
     success:function(data){
-      console.log(data.certi_estado);
+      // console.log(data.certi_estado);
      
-        console.log('SI');
+      //   console.log('SI');
        
         //alertify.success('Guardado con exito');
   
@@ -433,7 +410,7 @@ $(document).ready(function(){
 
   var token=$('input[name="_token"]').val();
   var Id_certificado=$('#Id_certificado').val();
-  console.log(Id_certificado)
+  // console.log(Id_certificado)
     swal({
   title:"Esta seguro?",
   text:"Recuerde que ya no podra modificar el certificado",
@@ -449,12 +426,12 @@ $(document).ready(function(){
     url:"{!!URL::to('finalizarcerti')!!}/"+"'Id_certificado'",
     data:{Id_certificado:Id_certificado,_token:token},
     success:function(json){
-      console.log(json.Id_envase);
-     console.log(token);
-        console.log('SI');
+    //   console.log(json.Id_envase);
+    //  console.log(token);
+    //     console.log('SI');
        swal('Certificado exitoso','','success')
         $(".swal-button--confirm").click(function(){
-          console.log("click");
+          // console.log("click");
 window.location.href = "/certificados";
 });
         //alertify.success('Guardado con exito');
@@ -462,7 +439,7 @@ window.location.href = "/certificados";
        
   },
 error: function(e) {
-    console.log(e.message);
+    // console.log(e.message);
 }
   
       
@@ -477,9 +454,8 @@ swal("Cancelado", "No finalizado", "error");
         finalizar();
       
       });
-</script>
-<script>
   $(document).ready(function(){
+    fun2();
     $('#Id_envase').on('change', function(){
       //console.log("Si");
       var Id_envase=$(this).val();
@@ -496,8 +472,8 @@ swal("Cancelado", "No finalizado", "error");
         },
         dataType:'json',
         success:function(data){
-          console.log(data.Clas_producto);
-          console.log(data.Id_envase);
+          // console.log(data.Clas_producto);
+          // console.log(data.Id_envase);
           // $('#lote').val(data.N_lote);
           $('#Clas_producto').val(data.Clas_producto);
           $('#Capacidad_max').val(data.Capacidad);

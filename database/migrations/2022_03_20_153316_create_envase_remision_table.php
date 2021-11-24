@@ -17,6 +17,7 @@ class CreateEnvaseRemisionTable extends Migration
             $table->id('Id');
             $table->string('Id_envase',25);
             $table->string('Id_remision',25);
+            $table->bigInteger('Id_certificado')->unsigned();
             $table->string('Producto',80);
             $table->string('Cantidad',11);
             $table->dateTime('Fecha_ingreso')->nullable();
@@ -24,6 +25,7 @@ class CreateEnvaseRemisionTable extends Migration
             $table->timestamps();
             $table->foreign('Id_envase')->references('Id_envase')->on('envases');
             $table->foreign('Id_remision')->references('Id_remision')->on('remisiones');
+            $table->foreign('Id_certificado')->references('Id_certificado')->on('certificados_produccion');
 
         });
     }

@@ -16,35 +16,32 @@
 
                 <th>Fecha</th>
                 <th>Nº certificado</th>
-                <th>Nº cilindro</th>
-                <th>Propietario</th>
-                <th>Cantidad</th>
-                <th>Producto</th>
                 <th>Lote</th>
                 <th>Fecha vencimiento</th>
-                <th>Fecha salida</th>
+                <th>Cantidad</th>
+                <th>Producto</th>
                 <th>Cliente</th>
+                <th>Fecha salida</th>
                 <th>Fecha ingreso</th>
                 
               </tr>
             </thead>
             <tbody>
-
-              @foreach($datos as $index => $item)
+            
+            @foreach($datos as $index => $item)
               <tr>
-              <td>{{$item->created_at}}</td>
+              <td>{{$item->certificado->created_at}}</td>
               <td>{{$item->Id_certificado}}</td>
-              <td>{{$item->Id_envase}}</td>
-              <td>{{$item->Id_propietario}}</td>
-              <td>{{$datos2[$index]->Cantidad}}</td>
-              <td>{{$datos2[$index]->Producto}}</td>
-              <td>{{$item->N_lote}}</td>
-              <td>{{$item->Fecha_vencimiento}}</td>
-              <td>{{$datos2[$index]->created_at}}</td>
-              <td>{{$datos2[$index]->Nom_cliente}}</td>
-              <td>{{$datos2[$index]->Fecha_ingreso}}</td>  
+              <td>{{$item->certificado->orden->N_lote}}</td>
+              <td>{{$item->certificado->orden->Fecha_vencimiento}}</td>
+              <td>{{isset($datos2[$index]->Cantidad)?$datos2[$index]->Cantidad :''}}</td>
+              <td>{{isset($datos2[$index]->Producto)?$datos2[$index]->Producto :''}}</td>
+              <td>{{isset($datos2[$index]->remision->cliente->Nom_cliente)?$datos2[$index]->remision->cliente->Nom_cliente :''}}</td>
+              <td>{{isset($datos2[$index]->created_at)?$datos2[$index]->created_at :''}}</td>
+              <td>{{isset($datos2[$index]->Fecha_ingreso)?$datos2[$index]->Fecha_ingreso :''}}</td>
                </tr>
                @endforeach
+               
             </tbody>
 
           </table>

@@ -58,7 +58,7 @@
                 "columns":[
                     
                     {data:'Id'},
-                    {data:'Empresa'},
+                    {data:'remision.empresa'},
                     {data:'Id_envase'},
                     {data:'Id_remision'},
                     {data:'remision.cliente.Id_cliente'},
@@ -77,7 +77,7 @@
                 "searchable": false
              },
              {
-                  "targets": [ 10 ],
+                  "targets": [ 11 ],
                 "visible": false,
                 "searchable": false
              }],

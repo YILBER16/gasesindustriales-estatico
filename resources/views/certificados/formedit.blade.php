@@ -13,12 +13,6 @@
                              </div>
                             
                                 <select id="Id_envase" name="Id_envase" class="form-control form-control-chosen">
-                                  <option value="">Seleccione el envase</option>
-                                  @foreach($envase as $item)
-                                  <option value="{{$item['Id_envase']}}">{{$item['Id_envase']}}</option>
-                                  @endforeach
-                                    
-                              
                                    </select>
 
                                 

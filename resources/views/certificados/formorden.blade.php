@@ -68,21 +68,24 @@
                              </div>
                                  <div class="form-group col-md-3">
                                   <label>Fecha final</label>
-                                <input id="f_final" name="f_final" type="text" value=""class="form-control lote" disabled="disabled" >
+                                  <input id="f_final" name="f_final" type="text" value=""class="form-control lote" disabled="disabled" >
                                  </div>
                                  <div class="form-group col-md-3">
                                   <label>Fecha de vencimiento</label>
-                                <input id="f_vencimiento" name="f_vencimiento" type="text" value=""class="form-control" disabled="disabled" >
+                                  <input id="f_vencimiento" name="f_vencimiento" type="text" value=""class="form-control" disabled="disabled" >
                                  </div>
                         </div>
                        
                         <div class="row justify-content-center">
-                          
-                          <div class="form-group col-md-9">     
-                            <label>Empleado</label>               
+                          <div class="form-group col-md-4">     
+                              <label>Cantidad de envases</label>               
+                              <input id="cant_envases" name="cant_envases" type="text" class="form-control" value="" disabled="disabled">                         
+                          </div>
+                          <div class="form-group col-md-5">     
+                              <label>Empleado</label>               
                              <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{Auth::user()->name}}" readonly>                         
                                 {!! $errors->first('Nom_empleado','<div class="invalid-feedback">:message</div>') !!}
-                            </div>
+                          </div>
                         </div>
                         <div class="row justify-content-center">
                               <div class="form-group col-md-3">

@@ -4,6 +4,7 @@ namespace App;
 use App\Propietarios;
 use App\Envases;
 use App\Productos;
+use App\Certificados;
 use Illuminate\Database\Eloquent\Model;
 
 class CertifiEnvases extends Model
@@ -19,11 +20,11 @@ class CertifiEnvases extends Model
 
     public function certificado()
 {
-  return $this->belongsToMany('App\Certificados');
+  return $this->belongsTo(Certificados::class, 'Id_certificado','Id_certificado');
 }
 public function envase()
 {
-  return $this->belongsTo('App\Envases','Id_envase');
+  return $this->belongsTo(Envases::class, 'Id_envase', 'Id_envase');
 }
 
 public function propietarios()

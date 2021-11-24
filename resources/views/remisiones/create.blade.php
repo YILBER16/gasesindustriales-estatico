@@ -35,54 +35,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   
 @section('contenido')
-
-              @include('remisiones.formremision')
-              @section('cuerpo_modal')
-              <form id="addform"  action="" method="post"> 
-                @csrf
-                 @include('remisiones.form')
-                 @section('pie_modal')
-                 <button type="submit" class="btn btn-primary btn_guardar" id="btn_guardar" name="btn_guardar" >GUARDAR</button> 
-                 </form> 
-                 @endsection
-               
-               @endsection
-             <div class="container ">
-      <div class="row justify-content-center">
-        <div class="col-md-10">
-
-             <div class="tabla" id="tabla" style="display:none;"></div> 
-
-             <div class="">
-              <div class="col-md-12">
-        <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar"style="display:none;"><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
-             </div>
-                         </div>
-             <div class="row justify-content-center ">
+    @include('remisiones.formremision')
+      @section('cuerpo_modal')
+        <form id="addform"  action="" method="post"> 
+            @csrf
+            @include('remisiones.form')
+            @section('pie_modal')
+          <button type="submit" class="btn btn-primary btn_guardar" id="btn_guardar" name="btn_guardar" >GUARDAR</button> 
+        </form> 
+      @endsection           
+    @endsection
+<div class="container ">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="tabla" id="tabla" style="display:none;"></div> 
+          <div class="">
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar"style="display:none;"><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
+            </div>
+          </div>
+          
+          <div class="row justify-content-center ">
               <div class="form-group col-md-12 ">
-               <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" style="display:none;" >
-                <i class="fas fa-plus"></i> Agregar</button> 
-               
-               </div>
-                        </div>
-
-                          </div>
-                           </div>
-                            </div>
+                <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" style="display:none;" >
+                <i class="fas fa-plus"></i> Agregar</button>    
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 <script>
 $(document).ready(function(){
   $('.form-control-chosen').chosen();
-  fun2();
-  $('#Id_envase').trigger("chosen:updated");
 });
-
-
   function ver_tabla(){
-  $.get('tblremisiones',function(data){
-    $('#tabla').empty().html(data);
-   console.log('ver tabla');
-  });
-}
+    $.get('tblremisiones',function(data){
+      $('#tabla').empty().html(data);
+    // console.log('ver tabla');
+    });
+  }
   $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -93,7 +84,7 @@ $(document).ready(function(){
     $('#empresa').on('change', function(empresa){
         var empresa= $('#empresa').val();
         var valor=$(this).val();
-        console.log(empresa);
+        // console.log(empresa);
         $.ajax({
           type:'get',
           url:'{!!URL::to('consecutivo')!!}',
@@ -102,7 +93,7 @@ $(document).ready(function(){
           },
           dataType:'json',
           success:function(data){
-            console.log(data);
+            // console.log(data);
             if(empresa=='Gases'){
               $('#Id_remision').val('Gases-'+zfill(data,5));
             }
@@ -111,7 +102,7 @@ $(document).ready(function(){
            }
           },
           error:function(){
-            console.log('error');
+            // console.log('error');
           }
         });
 });
@@ -136,27 +127,25 @@ $(document).ready(function(){
         },
         dataType:'json',
         success:function(data){
-          console.log('success');
+          // console.log('success');
           $('#Nom_cliente').val(data.Id_cliente);
           $('#Dir_cliente').val(data.Dir_cliente);
           $('#Tel_cliente').val(data.Tel_cliente);
         $('#Cor_cliente').val(data.Cor_cliente);
         },
         error:function(){
-          console.log('error');
+          // console.log('error');
         }
       });
     });
     
 
   });
-    $(document).ready(function(){
+  $(document).ready(function(){
     $('#Id_envase').on('change', function(){
 
       var Id_envase=$(this).val();
       var Id=$(this).val();
-
-
       $.ajax({
         type:'get',
         url:'{!!URL::to('datosenvasecerti')!!}',
@@ -166,22 +155,14 @@ $(document).ready(function(){
         },
         dataType:'json',
         success:function(data){
-          console.log(data.Id);
+          // console.log(data);
+          $('#Id_certificado1').val(data.Id_certificado);
           $('#Id_producto').val(data.Id_producto);
           $('#Clas_producto').val(data.Clas_producto);
           $('#Cantidad').val(data.Cantidad);
-          var valor =$('#Id_producto').val();
-          if(valor==1){
-           $('#Id_producto').val('Oxigeno');
-           }
-           if(valor==2)
-            $('#Id_producto').val('Nitrogeno'); 
-          
-     
-
         },
         error:function(){
-          console.log('error');
+          // console.log('error');
         }
       });
     });
@@ -189,9 +170,7 @@ $(document).ready(function(){
   });
 
 $(document).ready(function(){
-
   $("#addform").on('submit',function(e){
-
   e.preventDefault();
   $.ajax({
     type:'POST',
@@ -199,7 +178,7 @@ $(document).ready(function(){
     dataType:'json',
     data:$('#addform').serialize(),
     success:function(response){
-      console.log(response);
+      // console.log(response);
       stock();
 
       fun2();
@@ -208,24 +187,19 @@ $(document).ready(function(){
       alertify.success('Guardado con exito');
   },
   error:function(error){
-        console.log(error);
-        alertify.success('No Guardado');
+        // console.log(error);
+        alertify.error('No Guardado');
 
         }
     });
   });
-
-
-
 });
-</script>
 
-<script>
   var finalizar= (function(Id_remision) {     
 
   var token=$('input[name="_token"]').val();
   var Id_remision=$('#Id_remision').val(); 
-  console.log(Id_remision)
+  // console.log(Id_remision)
   swal({
   title:"Esta seguro?",
   text:"Recuerde que ya no podra modificar la remisión",
@@ -241,12 +215,12 @@ $(document).ready(function(){
     url:"{!!URL::to('finalizarremi')!!}/"+"'Id_remision'",
     data:{Id_remision:Id_remision,_token:token},
     success:function(json){
-      console.log(json.Id_envase);
-     console.log(token);
-        console.log('SI');
+    //   console.log(json.Id_envase);
+    //  console.log(token);
+        // console.log('SI');
        swal('Remisión exitosa','','success')
         $(".swal-button--confirm").click(function(){
-          console.log("click");
+        // console.log("click");
         window.location.href = "/remisiones";
 });
         //alertify.success('Guardado con exito');
@@ -254,7 +228,7 @@ $(document).ready(function(){
        
   },
 error: function(e) {
-    console.log(e.message);
+    // console.log(e.message);
 }
   
       
@@ -288,8 +262,6 @@ error: function(e) {
     }
 }
 $(document).ready(function(){
- 
-    
   });
   $(".btnenviar").click(function(e){
 
@@ -300,17 +272,18 @@ $(document).ready(function(){
   var Id_cliente = $("#Id_cliente option:selected").val();
   var Nom_empleado = $("input[name=Nom_empleado]").val();
   var Id_empleado = $("input[name=Id_empleado]").val();
+  var Observaciones = $("input[name=Observaciones]").val();
   var token=$('input[name="_token"]').val();
-    console.log(empresa);
+    // console.log(empresa);
   $.ajax({
     type:'POST',
     url:"{!!URL::to('saveremi')!!}",
-    data:{Id_remision:Id_remision,empresa:empresa,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Nom_empleado:Nom_empleado,Id_empleado:Id_empleado,_token:token},
+    data:{Id_remision:Id_remision,empresa:empresa,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Nom_empleado:Nom_empleado,Id_empleado:Id_empleado,Observaciones:Observaciones,_token:token},
     success:function(data){
       if(data=="ok"){
         fun1();
         fun2();
-        console.log("ok,guardada");
+        // console.log("ok,guardada");
         //alertify.success('Guardado con exito');
         swal(
     "Buen trabajo!",
@@ -343,12 +316,10 @@ var fun1= (function() {
     data:{},
     success:function(data){
         //alertify.success('Guardado con exito');
-          console.log(data.Id_remision);
-          $('#Id_remision1').val(data.Id_remision);
-          $('#Id_remision1').val(data.Id_remision);
-      
-  },
-    });
+          // console.log(data.Id_remision, "Este es");
+        $('#Id_remision1').val(data.Id_remision);    
+    },
+  });
 });
   var fun2= (function() {
     var $select = $('#Id_envase');
@@ -376,10 +347,9 @@ var fun1= (function() {
       $('#Id_producto').val("");
       $('#Clas_producto').val("");
       $('#Cantidad').val("");
-     
       fun2();
       $('#Id_envase').trigger("chosen:updated");
-      console.log('si,reseteado');
+      // console.log('si,reseteado');
       });
 
 var stock= (function() {
@@ -393,8 +363,8 @@ var stock= (function() {
     url:"{!!URL::to('stockremisiones')!!}",
     data:{Id_envase:Id_envase,_token:token},
     success:function(data){
-      console.log(data.Id_envase);
-      console.log('SI');
+      // console.log(data.Id_envase);
+      // console.log('SI');
        
         //alertify.success('Guardado con exito');
         
@@ -435,9 +405,11 @@ $.ajax({
 
   if(data=='ok'){
     $('#submit').click();
+    fun2();
+    $('#Id_envase').trigger("chosen:updated");
     swal('Eliminado con exito','','success')
     ver_tabla();
-    fun2();
+    
 
               }
   }

@@ -163,20 +163,15 @@ class CertificadosController extends Controller
     //Codigo Personal
     public function tabla()
     {
+
         $last = Certificados::select('Id_certificado')->latest()->first();
-        //dd($last);
-        $datos= CertifiEnvases::whereIn('Id_certificado', $last)->with('producto')->get();
-   
-        return view('certificados.tabla',compact('datos'));
+        $datoscilindros= CertifiEnvases::whereIn('Id_certificado', $last)->with('producto')->get();
+        return view('certificados.tabla',compact('datoscilindros'));
     }
-    public function tablaedit(Request $request,$Id_certificado)
+    public function tablaedit(Request $request)
     {
-        $last = Certificados::findOrFail($Id_certificado);
-        
-        $datos= CertifiEnvases::all()->where('Id_certificado', $request->Id_certificado);
-     
-        
-        return view('certificados.tablaedit',compact('datos'));
+        $datoscilindros= CertifiEnvases::where('Id_certificado', $request->Id_certificado)->get();
+        return view('certificados.tablaedit',compact('datoscilindros'));
     }
 
     public function ordenfunt(Request $request){
@@ -190,7 +185,10 @@ class CertificadosController extends Controller
 
     }
     public function consultaenvase(Request $request){
-         $envase= Envases::where('Estado_actual','0')->where('Inventario','1')->get();
+        $producto=$request->producto;
+
+        // echo($producto);
+         $envase= Envases::where('Estado_actual','0')->where('Inventario','1')->where('Clas_producto',$producto)->get();
          
         return response()->json($envase);
 
@@ -225,8 +223,7 @@ class CertificadosController extends Controller
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-        $stock2 = Envases::on('mysql2')->findOrFail($id);
-        if ($stock->update(['Estado_actual'=>'1']) && $stock2->update(['Estado_actual'=>'1'])) {
+        if ($stock->update(['Estado_actual'=>'1'])) {
         return response()->json($stock);
           
         }
@@ -236,12 +233,9 @@ class CertificadosController extends Controller
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-        $stock2 = Envases::on('mysql2')->findOrFail($id);
-        if ($stock->update(['Estado_actual'=>'0']) && $stock2->update(['Estado_actual'=>'0'])) {
-        return response()->json($stock);
-          
-        }
-         
+        if ($stock->update(['Estado_actual'=>'0'])) {
+        return response()->json($stock); 
+        }     
       }
        public function reabrir(Request $request)
       {

@@ -113,6 +113,7 @@ class RemisionesController extends Controller
         $nuevo=new Envase_remision();
 
         $nuevo->Id_remision = $request->Id_remision1;
+        $nuevo->Id_certificado = $request->Id_certificado1;
         $nuevo->Id_envase = $request->Id_envase;
         $nuevo->Producto = $request->Clas_producto;
         $nuevo->Cantidad = $request->Cantidad;
@@ -185,21 +186,18 @@ class RemisionesController extends Controller
     {
         $last = Remisiones::select('Id_remision')->latest()->first();
         //dd($last);
-        $datos= Envase_remision::all()->whereIn('Id_remision', $last);
+        $datoscilindros= Envase_remision::all()->whereIn('Id_remision', $last);
         
-        return view('remisiones.tabla',compact('datos'));
+        return view('remisiones.tabla',compact('datoscilindros'));
     }
 
 
 
     public function tablaedit(Request $request,$Id_remision)
     {
-        $last = Remisiones::findOrFail($Id_remision);
-        
-        $datos= Envase_remision::all()->where('Id_remision', $request->Id_remision);
-
-        
-        return view('remisiones.tablaedit',compact('datos'));
+        // $last = Remisiones::findOrFail($Id_remision);
+        $datoscilindros= Envase_remision::all()->where('Id_remision', $request->Id_remision);
+        return view('remisiones.tablaedit',compact('datoscilindros'));
     }
 
     public function datosclientes(Request $request)
@@ -222,6 +220,7 @@ public function saveremi(Request $request){
         $datosremision->Id_cliente = $request->Id_cliente;
         $datosremision->Nom_empleado = $request->Nom_empleado;
         $datosremision->Id_empleado = $request->Id_empleado;
+        $datosremision->Observaciones = $request->Observaciones;
         $datosremision->Estado_remision = '0';
         $datosremision->save();
         return response()->json('ok');
@@ -243,8 +242,7 @@ public function consultaremi(Request $request){
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-        $stock2 = Envases::on('mysql2')->findOrFail($id);
-        if ($stock->update(['Inventario'=>'0']) && $stock2->update(['Inventario'=>'0'])) {
+        if ($stock->update(['Inventario'=>'0'])) {
         return response()->json($stock);
           
         }
@@ -261,8 +259,7 @@ public function consultaremi(Request $request){
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-        $stock2 = Envases::on('mysql2')->findOrFail($id);
-        if ($stock->update(['Inventario'=>'1'])&& $stock2->update(['Inventario'=>'1'])) {
+        if ($stock->update(['Inventario'=>'1'])) {
         return response()->json($stock);
           
         }
@@ -305,8 +302,7 @@ public function consultaremi(Request $request){
       {
         $id = $request->Id_envase;
         $stock=Envases::findOrFail($id);
-        $stock2 = Envases::on('mysql2')->findOrFail($id);
-        if ($stock->update(['Inventario'=>'1','Estado_actual'=>'0']) && $stock2->update(['Inventario'=>'1','Estado_actual'=>'0'])) {
+        if ($stock->update(['Inventario'=>'1','Estado_actual'=>'0'])) {
         return response()->json($stock);
           
         }
@@ -415,8 +411,7 @@ public function consultaremi(Request $request){
       {
         // $Id_envase = $request->Id_envase;
         $stockenvase=Envases::find($request->Id_envase);
-        $stockenvase2 = Envases::on('mysql2')->find($request->Id_envase);
-        if ($stockenvase->update(['Inventario'=>'1']) && $stockenvase2->update(['Inventario'=>'1'])) {
+        if ($stockenvase->update(['Inventario'=>'1'])) {
         return response()->json($stockenvase);
           
         }

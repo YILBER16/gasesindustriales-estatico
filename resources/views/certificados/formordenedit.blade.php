@@ -66,11 +66,15 @@
                         </div>
                         <div class="row justify-content-center">
                           
-                          <div class="form-group col-md-9">     
-                            <label>Empleado</label>               
-                             <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{$certificados->Nom_empleado}}" disabled="">                         
+                        <div class="form-group col-md-4">     
+                              <label>Cantidad de envases</label>               
+                              <input id="cant_envases" name="cant_envases" type="text" class="form-control" value="" disabled="disabled">                         
+                          </div>
+                          <div class="form-group col-md-5">     
+                              <label>Empleado</label>               
+                             <input id="Nom_empleado" name="Nom_empleado" type="text" class="form-control" value="{{Auth::user()->name}}" readonly>                         
                                 {!! $errors->first('Nom_empleado','<div class="invalid-feedback">:message</div>') !!}
-                            </div>
+                          </div>
                         </div>
                         
                         <div class="row justify-content-center">

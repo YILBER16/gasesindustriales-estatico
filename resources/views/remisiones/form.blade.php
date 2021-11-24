@@ -3,9 +3,9 @@
         <input type="" hidden="" name="id" id="id">
            
            <input type="text" name="Id_remision1" id="Id_remision1" class="form-control input-sm" value="" hidden="">
-                       
+           <input type="text" name="Id_certificado1" id="Id_certificado1" class="form-control input-sm" value="" hidden="">                  
 
-                          <label>Envase</label>
+                  <label>Envase</label>
                      <div class="form-group">
                             <div class=" input-group">
                               <div class="input-group-append">

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Propietarios;
 use App\Certificados;
+use App\CertifiEnvases;
 use App\Remisiones;
 
 class Envases extends Model
@@ -39,9 +40,9 @@ class Envases extends Model
         return $this->belongsToMany(Certificados::class, 'certificado_envase', 'Id_envase','Id_certificado');
    }
 
-   public function certiEnvase() 
+   public function certifiEnvase() 
     {
-        return $this->belongsToMany(CertiEnvase::class, 'certificado_envase');
+      return $this->hasMany(CertifiEnvases::class, 'Id_envase','Id_envase');
    }
    public function remisiones() 
     {

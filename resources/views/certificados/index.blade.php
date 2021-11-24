@@ -130,7 +130,6 @@
              {
                  targets: 7,
                  render: function ( data, type, row ) {
-                 console.log(row['Estado_certificado']);
                      if (row['Estado_certificado'] == 1) {
                          return "Cerrada";
                      }
@@ -142,7 +141,6 @@
              {
                  targets: 8,
                  render: function ( data, type, row ) {
-                 console.log(row['Estado_certificado']);
                      if (row['Estado_certificado'] == 1) {
                          return data;
                      }

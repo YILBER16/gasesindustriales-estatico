@@ -17,9 +17,9 @@
     </div>
         @endif
           
-         <div class="container ">
+<div class="container ">
 
-<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalinforme"><i class="fas fa-file-pdf"></i> Informe</button>
+        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalinforme"><i class="fas fa-file-pdf"></i> Informe</button>
            <h4 class="titulo center" ><b>DEVOLUCIONES REALIZADAS</b> </h4>
 
           <table class="table table-striped  table-hover table-curved text-center nowrap display responsive no-wrap" width="100%" id="devolucionestabla">
@@ -65,7 +65,7 @@
                  @endsection
                
                @endsection  
-          </div>
+</div>
 <script>
 $(document).ready(function() {
   $('#devolucionestabla').DataTable({

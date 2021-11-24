@@ -13,7 +13,7 @@ class Remisiones extends Model
 
      protected $table = "remisiones";
      protected $fillable = [
-    	'Id_remision','empresa','Fecha_remision', 'Id_cliente','Id_empleado', 'Estado_remision',
+    	'Id_remision','empresa','Fecha_remision', 'Id_cliente','Id_empleado','Observaciones', 'Estado_remision',
     ];
     protected $primaryKey='Id_remision';
     protected $keyType = 'string';
