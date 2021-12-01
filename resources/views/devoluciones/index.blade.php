@@ -74,7 +74,7 @@ $(document).ready(function() {
             "processing":true,
             "responsive":true,
           
-            "ajax": "{!!URL::to('devoluciones')!!}",
+            "ajax": "{!!URL::to('recepciones')!!}",
                 "columns":[
                     
                     {data:'id'},

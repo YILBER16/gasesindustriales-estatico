@@ -1,33 +1,26 @@
 
-
-
-<div class="container">
-  <div class="card">
      <legend class="card-header text-center bg-dark">REMISIÓN</legend>
-            @csrf
-            <form action="">
-                    <input type="text" hidden="" id="id2" name="id2">
                     <div class="row justify-content-center">
                         <div class="col-xs-4 col-sm-4 col-md-4">
                             <div class="form-group">
                                 <label class="">Empresa</label>
                                   <select id="empresa" name="empresa" class="form-control form-control-chosen">
                                     <option value="">Seleccione la empresa</option>
-                                    <option value="Gases">Gases industriales de los santanderes</option>
-                                    <option value="Soluciones">Soluciones alternativas de colombia</option>
+                                    <option value="Gases" @if(old('empresa') == "Gases") selected="selected" @endif>Gases industriales de los santanderes</option>
+                                    <option value="Soluciones" @if(old('empresa') == "Soluciones") selected="selected" @endif>Soluciones alternativas de colombia</option>
                                   </select>
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3">
                               <div class="form-group">
                                   <label class="">Nº remisión</label>
-                                <input id="Id_remision" name="Id_remision" type="text" value=""class="form-control" readonly>
+                                <input id="Id_remision" name="Id_remision" type="text" value="{{old('Id_remision')}}" class="form-control" readonly>
                                 </div>
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3">
                               <div class="form-group">
                                         <label>Fecha</label>
-                                        <input id="Fecha_remision" name="Fecha_remision" type="date" value=""class="form-control lote" >
+                                        <input id="Fecha_remision" name="Fecha_remision" type="date" value="{{old('Fecha_remision')}}" class="form-control lote" >
                               </div>
                         </div>
                     </div>
@@ -39,7 +32,7 @@
                                     <select id="Id_cliente" name="Id_cliente" class="form-control form-control-chosen Id_cliente">
                                     <option value="">Seleccione el cliente</option>
                                     @foreach($clientes as $item)
-                                    <option value="{{$item['Id_cliente']}}">{{$item['Nom_cliente']}}</option>
+                                    <option value="{{$item['Id_cliente']}}"@if(old('Id_cliente') == $item->Id_cliente) selected="selected" @endif>{{$item['Nom_cliente']}}</option>
                                     @endforeach
                                   </select>
                                   {!! $errors->first('Id_cliente','<div class="invalid-feedback">:message</div>') !!}
@@ -48,7 +41,7 @@
                           <div class="col-xs-5 col-sm-5 col-md-5">
                               <div class="form-group">
                                     <label class="">Nit o CC</label>
-                                    <input id="Nom_cliente" name="Nom_cliente" type="text" value=""class="form-control" disabled="">
+                                    <input id="Nom_cliente" name="Nom_cliente" type="text" value="{{old('Nom_cliente')}}"class="form-control" disabled="">
                               </div>
                           </div>
                       </div>
@@ -56,7 +49,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4">
                             <div class="form-group">
                                 <label class="">Direccion</label>
-                                <input id="Dir_cliente" name="Dir_cliente" type="text" value=""class="form-control"  disabled="">
+                                <input id="Dir_cliente" name="Dir_cliente" type="text" value="{{old('Dir_cliente')}}"class="form-control"  disabled="">
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3">
@@ -68,7 +61,7 @@
                           <div class="col-xs-3 col-sm-3 col-md-3">
                             <div class="form-group">
                                   <label>E-mail</label>
-                                  <input id="Cor_cliente" name="Cor_cliente" type="text" value=""class="form-control" disabled="" >
+                                  <input id="Cor_cliente" name="Cor_cliente" type="text" value="" class="form-control" disabled="" >
                             </div>
                           </div>
                       </div>
@@ -97,16 +90,6 @@
                               </div>
                             </div>
                       </div>
-                    
-                <div class="row justify-content-center">
-                    <div class="col-xs-10 col-sm-10 col-md-10">
-                        <div class="form-group">
-                            <button type="submit"  class="btn btn-primary btn-lg btnenviar "><i class="fas fa-plus"></i> Crear</button>
-                        </div>
-                    </div>
-                </div>
-                </form>
-   </div>             
-</div>                     
+                  
 
 

@@ -13,9 +13,21 @@ class CreateremisionesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
+    public function messages()
+    {
+        return [
 
+            'Id_remision.required' => 'El Nº de remision es obligatorio',
+            'Id_remision.unique' => 'Este Nº de remision ya existe',
+            'empresa.required' => 'La empresa es obligatoria',
+            'Fecha_remision.required' => 'La fecha de remision es obligatoria',
+            'Id_cliente.required' => 'El cliente es obligatorio',
+            'Nom_empleado.required' => 'El nombre del empleado es obligatorio',
+            'Id_empleado.required' => 'La identificadion del empleado es obligatoriq',
+        ];
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +36,13 @@ class CreateremisionesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'Id_remision'=>'required|unique:remisiones',
+            'empresa'=>'required',
+            'Fecha_remision'=>'required',
+            'Id_cliente'=>'required',
+            'Nom_empleado'=>'required',
+            'Id_empleado'=>'required',
+            'prueba'=>'required',
         ];
     }
 }

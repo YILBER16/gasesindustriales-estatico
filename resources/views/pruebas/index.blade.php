@@ -1,57 +1,132 @@
-<div class="container">
-<table class="table text-center tablaa" id="tablaa">
+@extends('welcome')
+@extends('layouts.layout')
+@section('titulo')
+<title>Certificados</title>
+@endsection
+
+@section('contenido')
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+          
+         <div class="container ">
+         
+         <a href="{{url('pruebas/create')}} " type="button" class="btn btn-success float-right" style="margin-left: 20px !important;"> <i class="fas fa-file-contract"></i> Crear</a>
+         
+         <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalinforme"><i class="fas fa-file-pdf"></i> Informe</button>
+        
+         <h4 class="titulo center" ><b>CERTIFICADOS DE PRODUCCIÓN</b> </h4>
+
+          <table class=" table table-striped  table-hover table-curved text-center table2 display responsive no-wrap" width="100%" id="tablacertificados">
             <thead >
               <tr class="">
-                <td hidden="">Id</td>
-                <td>Id envase</td>
-                <td>Nº remision</td>
-                <td>Producto</td>
-                <td>Cantidad</td>
-                <td>Fecha remision</td>
-                <td>Acciones</td>
+                <th>Id certificado</th>
+                <th>Producto</th>
+                <th>Empleado</th>
+                <th>Capacidad</th>
+                <th>Pureza</th>
+                <th>Presion</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+                <th>Exportar</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($envasesafuera as $item)
-              <tr>
-                <td hidden="">{{$item->Id}}</td>
-                <td>{{$item->Id_envase}}</td>
-                <td>{{$item->Id_remision}}</td>
-                <td>{{$item->Producto}}</td>
-                <td>{{$item->Cantidad}}</td>
-                <td>{{$item->Fecha_remision}}</td>
-                <td>
-
-                  <button type="submit" class="btn btn-primary" id="elim" name="elim" onclick="ver_datos({{$item->Id}});"data-toggle="modal" data-target="#modalremisionedicion"><i class="fas fa-arrow-right" ></i></button>
-                  <button type="submit" hidden="" id="submit" name="submit" onclick="antistockinventario('{{$item->Id_envase}}');stockinventario('{{$item->Id_envase}}');">Prueba</button>
-                </td>
-              </tr>
             
-              
-              @endforeach
             </tbody>
           </table>
+          <!-- @section('cuerpo-modal-informe')
+              <form action="{{route('informecertificados')}}" method="post"> 
+                @csrf
+                <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha inicial</label>
+                  <input id="fechainicial" name="fechainicial" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+         <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label>Fecha final</label>
+                  <input id="fechafinal" name="fechafinal" type="datetime-local"  class="form-control">
+              </div>
+         </div>
+        </div>
+                 @section('pie-modal-informe')
+                 <button type="submit" class="btn btn-primary btn-cunsultar" id="btn-consultar" name="btn-consultar">Consultar</button>
+                 </form> 
+                 @endsection
+               
+               @endsection   -->
 
-          <input type="text" hidden="" name="txtNombre" id="txtNombre" value=""> 
-          <input type="text" hidden="" name="txtNombreid" id="txtNombreid" value=""> 
 </div>
-  
-
-<script >
-  $(document).ready(function(){
- $('#tablaa tr').on('click', function(){
- var dato=$(this).find("td").eq(1).html(); 
-  var dato2=$(this).find("td").eq(0).html(); 
-  $('#txtNombre').val(dato);
-  $('#txtNombreid').val(dato2);
-});
-  });
-  $(document).ready(function() {
-        $('#tablaa').DataTable({
+<script type="text/javascript">
+ $(document).ready(function() {
+        $('#tablacertificados').DataTable({
             
+            "serverSide":true,
             "processing":true,
             "responsive":true,
           
+            "ajax": "{!!URL::to('certificados')!!}",
+                "columns":[
+                    
+                    {data:'Id_certificado'},
+                    {data:'producto.Nom_producto'},
+                    {data:'Nom_empleado'},
+                    {data:'Capacidad'},
+                    {data:'Pureza'},
+                    {data:'Presion'},
+                    {data:'Estado_certificado'},
+                    {data:'action'},
+                    {data:'action2'},
+                    
+                   
+                ],
+                columnDefs: [ {
+                 targets: 6,
+                 render: function ( data, type, row ) {
+                
+                     if (data == 0) {
+                         return "Abierta";
+                     }
+                     else
+                     
+                         return "Cerrada";
+                 }
+             },
+             {
+                 targets: 7,
+                 render: function ( data, type, row ) {
+                     if (row['Estado_certificado'] == 1) {
+                         return "Cerrada";
+                     }
+                     else
+                     
+                         return data;
+                 }
+             },
+             {
+                 targets: 8,
+                 render: function ( data, type, row ) {
+                     if (row['Estado_certificado'] == 1) {
+                         return data;
+                     }
+                     else
+                     
+                         return "No exportable";
+                 }
+             }
+             ],
+                'fnCreatedRow':function(nRow,aData,iDataIndex){
+                        $(nRow).attr('class','item'+aData.Id_certificado);
+                    },
           "language":{
         "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
@@ -193,5 +268,5 @@
     }
 });
 });
-
 </script>
+@endsection

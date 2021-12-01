@@ -15,234 +15,178 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="csrf-token" content="{{csrf_token()}}"/>
 
   <title>REMISIONES</title>
+<style>
+table
+{
+    counter-reset: rowNumber;
+}
 
-  <!-- Font Awesome Icons -->
+table tr > td:first-child
+{
+    counter-increment: rowNumber;
+}
 
-  <link rel="stylesheet"  href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-<link rel="stylesheet" type="text/css" href="{{ asset('dist/css/alertify.css')}}">
-<link rel="stylesheet" type="text/css" href="{{ asset('dist/css/themes/default.css')}}">
-
-
+table tr td:first-child::before
+{
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+</style>
 </head>
-
-  
 @section('contenido')
-    @include('remisiones.formremision')
-      @section('cuerpo_modal')
+            @if(count($errors)>0)
+                <div class="alert alert-danger content"role="alert">
+                  <h4>Corrija los siguientes errores:</h4>
+                  <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                    @endforeach
+                    </ul>
+                </div>
+            @endif
+<div class="container">
+  <div class="card">
         <form id="addform"  action="" method="post"> 
             @csrf
-            @include('remisiones.form')
-            @section('pie_modal')
-          <button type="submit" class="btn btn-primary btn_guardar" id="btn_guardar" name="btn_guardar" >GUARDAR</button> 
-        </form> 
-      @endsection           
-    @endsection
-<div class="container ">
-  <div class="row justify-content-center">
-    <div class="col-md-10">
-      <div class="tabla" id="tabla" style="display:none;"></div> 
-          <div class="">
-            <div class="col-md-12">
-              <button type="submit" class="btn btn-primary btn_finalizar float-right" id="btn_finalizar" name="btn_finalizar"style="display:none;"><i class="fas fa-sign-out-alt"></i> Finalizar</button> 
+            @include('remisiones.formremision')
+            @section('cuerpo_modal')
+                @include('remisiones.form')
+                @section('pie_modal')
+                <button type="button" href="javascript:;" id="agregar" class="btn btn-success" disabled> Agregar a tabla</button>
+                @endsection           
+            @endsection
+            <div class="row d-flex justify-content-center">
+                    <div class="form-group col-md-10">
+                        <button type="button" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" disabled>
+                        <i class="fas fa-plus"></i> Agregar cilindro</button>    
+                    </div>
             </div>
-          </div>
-          
-          <div class="row justify-content-center ">
-              <div class="form-group col-md-12 ">
-                <button type="submit" class="btn btn-primary btn_mostrar" id="btn_mostrar" name="btn_mostrar" data-toggle="modal" data-target="#modalNuevo" style="display:none;" >
-                <i class="fas fa-plus"></i> Agregar</button>    
-              </div>
-          </div>
-      </div>
-  </div>
+            @include('remisiones.tabla')         
+        </form>
+    </div>
 </div>
-<script>
-$(document).ready(function(){
-  $('.form-control-chosen').chosen();
-});
-  function ver_tabla(){
-    $.get('tblremisiones',function(data){
-      $('#tabla').empty().html(data);
-    // console.log('ver tabla');
-    });
-  }
-  $.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
-  $(document).ready(function(){
-
-    $('#empresa').on('change', function(empresa){
-        var empresa= $('#empresa').val();
-        var valor=$(this).val();
-        // console.log(empresa);
-        $.ajax({
-          type:'get',
-          url:'{!!URL::to('consecutivo')!!}',
-          data:{
-           empresa:empresa,
-          },
-          dataType:'json',
-          success:function(data){
-            // console.log(data);
-            if(empresa=='Gases'){
-              $('#Id_remision').val('Gases-'+zfill(data,5));
-            }
-           else{
-            $('#Id_remision').val('Soluciones-'+zfill(data,5));
-           }
-          },
-          error:function(){
-            // console.log('error');
-          }
+    
+<script type="text/javascript">
+    var table = $('#tabla');
+    var i = 0;
+    var envase = "0";
+    var envasehabilitar="";
+    $(document).ready(function(){
+        $('.form-control-chosen').chosen();
+        //Dar click al boton agregar
+        $('#agregar').click(function(){
+        var Id_remision=$('#Id_remision_cilindro').val();
+        var Id_envase=$('#Id_envase').val();
+        var Id_certificado=$('#Id_certificado_cilindro').val();
+        var Producto=$('#Producto_cilindro').val();
+        var Cantidad=$('#Cantidad_cilindro').val();
+        if(Id_remision!="" && Id_envase!="" && Id_certificado!="" && Producto!="" && Cantidad!=""){
+        agregar();
+        $("#Id_envase option[value='"+envase+"']").attr('disabled',true).trigger("chosen:updated");
+        $('#modalNuevo').modal('hide');
+        }else{
+            alertify.error("Error, verifique los datos");
+        }
+        
         });
-});
+        //Dar click al boton mostrar cilindros
+        $('#btn_mostrar').click(function(){
+            $("#agregar").prop('disabled', true);
+           var Id_remision=$('#Id_remision').val();
+           var Id_envase = $('#Id_envase');
+            Id_envase.val(Id_envase.children('option:first').val());
+            $('#Id_certificado_cilindro').val("");
+            $('#Producto_cilindro').val("");
+            $('#Cantidad_cilindro').val("");
+            $('#Id_remision_cilindro').val(Id_remision);
 
-    $('#Id_cliente').on('change', function(){
+            });
+        //Mostrar datos del cilindro llenado en el certificado
+        $('#Id_envase').on('change', function(){
+            var Id_envase=$(this).val();
+            var Id=$(this).val();
+            $.ajax({
+            type:'get',
+            url:'{!!URL::to('remisionesdatosenvasecerti')!!}',
+            data:{
+                'Id':Id,
+                'Id_envase':Id_envase,
+            },
+            dataType:'json',
+            success:function(data){
+                // console.log(data);
+                $('#Id_certificado_cilindro').val(data.Id_certificado);
+                $('#Producto_cilindro').val(data.Clas_producto);
+                $('#Cantidad_cilindro').val(data.Cantidad);
+                $("#agregar").prop('disabled', false);
+            },
+            error:function(){
+                // console.log('error');
+            }
+            });
+        });
+        //Mostrar consecutivo de factura
+        $('#empresa').on('change', function(empresa){
+            var empresa= $('#empresa').val();
+            var valor=$(this).val();
+            // console.log(empresa);
+        $.ajax({
+            type:'get',
+            url:'{!!URL::to('remisionesconsecutivo')!!}',
+            data:{
+                empresa:empresa,
+            },
+                dataType:'json',
+            success:function(data){
+                // console.log(data);
+            if(empresa=='Gases'){
+            $('#Id_remision').val('Gases-'+zfill(data,5));
+            }
+            else{
+            $('#Id_remision').val('Soluciones-'+zfill(data,5));
+            }
+            $("#btn_mostrar").prop('disabled', false);
+            },
+            error:function(){
+                // console.log('error');
+            }
+            });
+        });
+        //Mostrar datos del cliente
+        $('#Id_cliente').on('change', function(){
+        var Id_cliente=$(this).val();
+        var cc_cliente=$(this).val();
+        var Dir_cliente=$(this).val();
+        var Tel_cliente=$(this).val();
+        var Cor_cliente=$(this).val();
 
-      var Id_cliente=$(this).val();
-      var cc_cliente=$(this).val();
-      var Dir_cliente=$(this).val();
-      var Tel_cliente=$(this).val();
-      var Cor_cliente=$(this).val();
-
-      $.ajax({
+       $.ajax({
         type:'get',
-        url:'{!!URL::to('datosclientes')!!}',
+        url:'{!!URL::to('remisionesdatoscliente')!!}',
         data:{
-          'Id_cliente':Id_cliente,
-          'Nom_cliente':cc_cliente,
-          'Dir_cliente':Dir_cliente,
-          'Tel_cliente':Tel_cliente,
-          'Cor_cliente':Cor_cliente
+            'Id_cliente':Id_cliente,
+            'Nom_cliente':cc_cliente,
+            'Dir_cliente':Dir_cliente,
+            'Tel_cliente':Tel_cliente,
+            'Cor_cliente':Cor_cliente
         },
         dataType:'json',
         success:function(data){
-          // console.log('success');
-          $('#Nom_cliente').val(data.Id_cliente);
-          $('#Dir_cliente').val(data.Dir_cliente);
-          $('#Tel_cliente').val(data.Tel_cliente);
-        $('#Cor_cliente').val(data.Cor_cliente);
+            // console.log('success');
+            $('#Nom_cliente').val(data.Id_cliente);
+            $('#Dir_cliente').val(data.Dir_cliente);
+            $('#Tel_cliente').val(data.Tel_cliente);
+            $('#Cor_cliente').val(data.Cor_cliente);
         },
         error:function(){
-          // console.log('error');
+            // console.log('error');
         }
-      });
+        });
+        });
     });
     
-
-  });
-  $(document).ready(function(){
-    $('#Id_envase').on('change', function(){
-
-      var Id_envase=$(this).val();
-      var Id=$(this).val();
-      $.ajax({
-        type:'get',
-        url:'{!!URL::to('datosenvasecerti')!!}',
-        data:{
-          'Id':Id,
-          'Id_envase':Id_envase,
-        },
-        dataType:'json',
-        success:function(data){
-          // console.log(data);
-          $('#Id_certificado1').val(data.Id_certificado);
-          $('#Id_producto').val(data.Id_producto);
-          $('#Clas_producto').val(data.Clas_producto);
-          $('#Cantidad').val(data.Cantidad);
-        },
-        error:function(){
-          // console.log('error');
-        }
-      });
-    });
-
-  });
-
-$(document).ready(function(){
-  $("#addform").on('submit',function(e){
-  e.preventDefault();
-  $.ajax({
-    type:'POST',
-    url:"/saveremienvases",
-    dataType:'json',
-    data:$('#addform').serialize(),
-    success:function(response){
-      // console.log(response);
-      stock();
-
-      fun2();
-      ver_tabla();
-      $('#modalNuevo').modal('hide');
-      alertify.success('Guardado con exito');
-  },
-  error:function(error){
-        // console.log(error);
-        alertify.error('No Guardado');
-
-        }
-    });
-  });
-});
-
-  var finalizar= (function(Id_remision) {     
-
-  var token=$('input[name="_token"]').val();
-  var Id_remision=$('#Id_remision').val(); 
-  // console.log(Id_remision)
-  swal({
-  title:"Esta seguro?",
-  text:"Recuerde que ya no podra modificar la remisión",
-  icon:"warning",
-  buttons:true,
-  dangerMode:true,
-})
-  .then((willDelete)=>{
-  if(willDelete){
-      $.ajax({
-    dataType: 'json',
-    type:'put',
-    url:"{!!URL::to('finalizarremi')!!}/"+"'Id_remision'",
-    data:{Id_remision:Id_remision,_token:token},
-    success:function(json){
-    //   console.log(json.Id_envase);
-    //  console.log(token);
-        // console.log('SI');
-       swal('Remisión exitosa','','success')
-        $(".swal-button--confirm").click(function(){
-        // console.log("click");
-        window.location.href = "/remisiones";
-});
-        //alertify.success('Guardado con exito');
-    
-       
-  },
-error: function(e) {
-    // console.log(e.message);
-}
-  
-      
-    }); 
-      }
-    }); 
-
-});
-  $(".btn_finalizar").click(function(e){
-        finalizar();
-      
-      });
-
-  function zfill(number, width) {
+    function zfill(number, width) {
     var numberOutput = Math.abs(number); /* Valor absoluto del número */
     var length = number.toString().length; /* Largo del número */ 
     var zero = "0"; /* String de cero */  
@@ -259,166 +203,65 @@ error: function(e) {
         } else {
             return ((zero.repeat(width - length)) + numberOutput.toString()); 
         }
+     }
     }
-}
-$(document).ready(function(){
-  });
-  $(".btnenviar").click(function(e){
-
-  e.preventDefault();
-  var Id_remision = $("input[name=Id_remision]").val();
-  var empresa = $('#empresa').val();
-  var Fecha_remision= $("input[name=Fecha_remision]").val();
-  var Id_cliente = $("#Id_cliente option:selected").val();
-  var Nom_empleado = $("input[name=Nom_empleado]").val();
-  var Id_empleado = $("input[name=Id_empleado]").val();
-  var Observaciones = $("input[name=Observaciones]").val();
-  var token=$('input[name="_token"]').val();
-    // console.log(empresa);
-  $.ajax({
-    type:'POST',
-    url:"{!!URL::to('saveremi')!!}",
-    data:{Id_remision:Id_remision,empresa:empresa,Fecha_remision:Fecha_remision,Id_cliente:Id_cliente,Nom_empleado:Nom_empleado,Id_empleado:Id_empleado,Observaciones:Observaciones,_token:token},
-    success:function(data){
-      if(data=="ok"){
-        fun1();
-        fun2();
-        // console.log("ok,guardada");
-        //alertify.success('Guardado con exito');
-        swal(
-    "Buen trabajo!",
-    "Registrado con exito!",
-    "success"
-   );
-      $('#tabla').toggle("slide");
-      $('.btn_mostrar').toggle("slide");
-      $('.btnenviar').toggle("slide");
-      $('.btn_finalizar').toggle("slide");
-    
-      
-    }    
-  },
-  error:function(){
-    swal({
-  icon: 'error',
-  title: 'Oops...',
-  text: 'Verifica los datos',
-  footer: '<a href>Why do I have this issue?</a>'
-});
+   //Boton eliminar fila
+    $(document).on('click', '#borrar', function (event) {;
+        event.preventDefault();
+        //Obtener id_envasde de fila eliminada
+        var envasehabilitar = $(event.target).closest('tr').find(".id")[0].childNodes[0].value;
+        $("#Id_envase option[value='"+envasehabilitar+"']").attr('disabled',false).trigger("chosen:updated");
+        //Eliminar fila
+        if(envasehabilitar!=""){
+            $(this).closest('tr').remove();
+            alertify.success("eliminado con exito");
         }
-      
-    });
-  });
-var fun1= (function() {
-    $.ajax({
-    type:'get',
-    url:"{!!URL::to('consultaremi')!!}",
-    data:{},
-    success:function(data){
-        //alertify.success('Guardado con exito');
-          // console.log(data.Id_remision, "Este es");
-        $('#Id_remision1').val(data.Id_remision);    
-    },
-  });
-});
-  var fun2= (function() {
-    var $select = $('#Id_envase');
-    var $texto= 'Seleccione';
-    $.ajax({
-    type:'get',
-    url:"{!!URL::to('consultaenvaseremisiones')!!}",
-    dataType : 'JSON',
-    data:{},
-    success : function(data) {
-
-     $select.html('');
-     $("#Id_envase").append('<option>Seleccione el envase</option>');
-     $.each(data,function(key, val) {
-      
-     $select.append('<option value="' + val.Id_envase + '">'+ val.Id_envase+'</option>');})
-
-    },
-    error : function() {
-   $select.html('<option id="-1">Cargando...</option>');
-  }
-    });
-});
-      $(".btn_mostrar").click(function(e){
-      $('#Id_producto').val("");
-      $('#Clas_producto').val("");
-      $('#Cantidad').val("");
-      fun2();
-      $('#Id_envase').trigger("chosen:updated");
-      // console.log('si,reseteado');
-      });
-
-var stock= (function() {
-      
-    var token=$('input[name="_token"]').val();
-  var Id_envase = $("#Id_envase option:selected").val();
- // console.log(Id_envase);
-
-    $.ajax({
-    type:'put',
-    url:"{!!URL::to('stockremisiones')!!}",
-    data:{Id_envase:Id_envase,_token:token},
-    success:function(data){
-      // console.log(data.Id_envase);
-      // console.log('SI');
-       
-        //alertify.success('Guardado con exito');
         
-       
-  },
-  
-      
     });
-});
+    //Funcion agregar fila
+    function agregar(){
+        var Id_remision=$('#Id_remision_cilindro').val();
+        var Id_envase=$('#Id_envase').val();
+        var Id_certificado=$('#Id_certificado_cilindro').val();
+        var Producto=$('#Producto_cilindro').val();
+        var Cantidad=$('#Cantidad_cilindro').val();
+        var fila='<tr>'+
+        '<td></td>'+ 
+        '<td hidden><input class="form-control" type="text" name="remisiones['+i+'][Id_remision_cilindro]" value="'+Id_remision+'"></td>'+ 
+        '<td class="id"><input class="form-control" type="text" name="remisiones['+i+'][Id_envase_cilindro]" value="'+Id_envase+'" readonly></td>'+ 
+        '<td hidden><input class="form-control" type="text" name="remisiones['+i+'][Id_certificado_cilindro]" value="'+Id_certificado+'"></td>'+ 
+        '<td><input class="form-control" type="text" name="remisiones['+i+'][Producto_cilindro]" value="'+Producto+'" readonly></td>'+ 
+        '<td><input class="form-control" type="text" name="remisiones['+i+'][Cantidad_cilindro]" value="'+Cantidad+'" readonly></td>'+ 
+        '<td><input class="btn btn-danger" type="button" name="borrar" id="borrar" value="Borrar"></td>'+ 
+        '</tr>';
+        i=i+1;
+        $('#tabla').append(fila);
+        envase=Id_envase;
+        alertify.success('Agregado con exito');
+    }
+    $(document).ready(function(){
+        $("#addform").on('submit',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:"/remisiones",
+            dataType:'json',
+            data:$('#addform').serialize(),
+            success:function(response){
 
-function eliminar(Id){
+        swal('Remisión exitosa','','success');
+        $(".swal-button--confirm").click(function(){
+        // console.log("click");
+        window.location.href = "/remisiones";
+    });
+        },
+        error:function(error){
+                // console.log(error);
+                swal('Verifique que los datos esten completos','','error');
 
-var ruta="{!!URL::to('eliminar')!!}/"+Id;
-var token=$('input[name="_token"]').val();
-var Id_envase=$(this).find("td").eq(2).html(); 
-
-swal({
-  title:"Esta seguro?",
-  text:"Recuerde que se eliminara permanentemente el registro",
-  icon:"warning",
-  buttons:true,
-  dangerMode:true,
-
-})
-
-
-.then((willDelete)=>{
-
-  if(willDelete){
-$.ajax({
-  url:ruta,
-  data:{
-    _token:token
-  },
-
-  type:"DELETE",
-  success: function(data){
-
-  if(data=='ok'){
-    $('#submit').click();
-    fun2();
-    $('#Id_envase').trigger("chosen:updated");
-    swal('Eliminado con exito','','success')
-    ver_tabla();
-    
-
-              }
-  }
-});
-}else {
-swal("Cancelado", "No finalizado", "error");
-}
-});
-}
+                }
+            });
+        });
+    });
 </script>
-
 @endsection

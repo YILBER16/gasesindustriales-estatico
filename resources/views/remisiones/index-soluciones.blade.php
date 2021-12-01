@@ -170,10 +170,7 @@
                 <th>Fecha</th>
                 <th>Cliente</th>
                 <th>Empleado</th>
-                <th>Estado</th>
-                <th>Editar</th>
                 <th>Exportar</th>
-                <th>Eliminar</th>
 
               </tr>
             </thead>
@@ -182,7 +179,7 @@
             </tbody>
           </table>
                 @section('cuerpo-modal-informe')
-              <form action="{{route('informeremisiones')}}" method="post"> 
+              <form action="{{route('informetotalremisiones')}}" method="post"> 
                 @csrf
                 <div class="row">
                 <input id="empresa" name="empresa"  value="Soluciones"  class="form-control" hidden>
@@ -222,63 +219,9 @@ $(document).ready(function() {
                     {data:'Fecha_remision'},
                     {data:'cliente.Nom_cliente'},
                     {data:'Nom_empleado'},
-                    {data:'Estado_remision'},
                     {data:'action'},
-                    {data:'action2'},
-                    {data:'action3'},
                    
                 ],
-                columnDefs: [{
-                 targets: 4,
-                 render: function ( data, type, row ) {
-                    
-                     if (data == 0) {
-                         return "Abierta";
-                     }
-                     else
-                     
-                         return "Cerrada";
-                 }
-             },
-             {
-                 targets: 5,
-                 render: function ( data, type, row ) {
-                   
-                     if (row['Estado_remision'] == 0) {
-
-                        return data;
-                     }
-                     else
-                     
-                         return "Imposible";
-                 }
-             },
-             {
-                 targets: 6,
-                 render: function ( data, type, row ) {
-                   
-                     if (row['Estado_remision'] == 1) {
-                      return data;
-                        
-                     }
-                     else
-                     
-                     return "Imposible";
-                 }
-             },
-             {
-                 targets: 7,
-                 render: function ( data, type, row ) {
-                   
-                     if (row['Estado_remision'] == 0) {
-                      return data;
-                        
-                     }
-                     else
-                     
-                     return "Imposible";
-                 }
-             }],
                 'fnCreatedRow':function(nRow,aData,iDataIndex){
                         $(nRow).attr('class','item'+aData.Id_remision);
                     },

@@ -351,9 +351,6 @@ $(document).ready(function(){
     var $select = $('#Id_envase');
     var producto = $('#Id_producto').val();
     var $texto= 'Seleccione';
-    if(producto==1){
-      producto="Oxigeno";
-    }
     if(producto==1)producto="Oxigeno";
     if(producto==2)producto="Helio";
     if(producto==3)producto="Nitrogeno";

@@ -186,10 +186,8 @@ class CertificadosController extends Controller
     }
     public function consultaenvase(Request $request){
         $producto=$request->producto;
-
         // echo($producto);
          $envase= Envases::where('Estado_actual','0')->where('Inventario','1')->where('Clas_producto',$producto)->get();
-         
         return response()->json($envase);
 
     }

@@ -22,7 +22,6 @@ class CreateRemisionesTable extends Migration
             $table->string('Nom_empleado',120);
             $table->bigInteger('Id_empleado');
             $table->string('Observaciones',300);
-            $table->string('Estado_remision',12);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('Id_cliente')->references('Id_cliente')->on('clientes');

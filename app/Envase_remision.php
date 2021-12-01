@@ -11,6 +11,7 @@ class Envase_remision extends Model
      protected $fillable = [
     	'Id', 'Id_envase', 'Id_remision', 'Producto','Cantidad','Fecha_ingreso','Estado'
     ];
+    
     protected $primaryKey='Id';
     protected $keyType = 'string';
 
